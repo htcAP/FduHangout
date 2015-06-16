@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://172.17.0.1:3306/fdu_hangout</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+      <mapping class="edu.fudan.hangout.bean.ActivityBean"/>
+      <mapping class="edu.fudan.hangout.bean.ActivityResponseBean"/>
+      <mapping class="edu.fudan.hangout.bean.ActivityTipBean"/>
+      <mapping class="edu.fudan.hangout.bean.FriendshipBean"/>
+      <mapping class="edu.fudan.hangout.bean.ResourceBean"/>
+      <mapping class="edu.fudan.hangout.bean.UserBean"/>
+      <mapping class="edu.fudan.hangout.bean.UserLogBean"/>
+      <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>

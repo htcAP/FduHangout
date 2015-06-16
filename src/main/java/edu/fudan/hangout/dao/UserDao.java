@@ -1,16 +1,16 @@
 package edu.fudan.hangout.dao;
 
-import edu.fudan.hangout.bean.User;
+import edu.fudan.hangout.bean.UserBean;
 
 /**
  * Created by Tong on 06.15.
  */
 public interface UserDao {
-    boolean createUser(User user);
+    boolean createUser(UserBean user);
 
-    boolean deleteUser(User user);
+    boolean deleteUser(UserBean user);
 
-    boolean updateUser(User user);
+    boolean updateUser(UserBean user);
 
-    User getUserById(String id);
+    UserBean getUserById(String id);
 }
