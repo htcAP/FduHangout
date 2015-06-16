@@ -1,11 +1,9 @@
 package edu.fdu.hangout.controller;
 
+import edu.fdu.hangout.view.Token;
 import edu.fdu.hangout.view.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
@@ -14,16 +12,23 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Controller
 //@EnableWebMvc
-@RequestMapping("/login")
+@RequestMapping("/user/login")
 public class LoginController {
 
-    @RequestMapping(value = "{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/common", method = RequestMethod.POST)
     public @ResponseBody
-    Object login(@PathVariable String name) {
+    User commonLogin(@RequestBody User in) {
         User user = new User();
-        user.setPhone(name);
+
+        user.setPhone(in.getPhone());
         user.setPassword("123321");
         return user;
+    }
+
+    @RequestMapping(value = "/token", method = RequestMethod.POST)
+    public @ResponseBody
+    Token tokenLogin(@RequestBody Token token) {
+        return token;
     }
 
 
