@@ -1,6 +1,6 @@
 import edu.fudan.hangout.bean.UserBean;
-import edu.fudan.hangout.session.SessionBean;
-import org.hibernate.Session;
+import edu.fudan.hangout.dao.UserDao;
+import edu.fudan.hangout.dao.impl.UserDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,9 +15,8 @@ import java.io.IOException;
 public class Servlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Session session = new SessionBean().openSession();
-        Object obj = session.get("user", 1);
-        UserBean user = (UserBean) obj;
-        response.getWriter().write(user.getPhone());
+        UserDao userDao = new UserDaoImpl();
+        UserBean userBean = userDao.getUserById(1);
+        response.getWriter().write(userBean.getPhone());
     }
 }

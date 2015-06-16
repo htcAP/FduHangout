@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="edu.fudan.hangout.bean.ActivityBean" table="activity" schema="" catalog="fdu_hangout">
+        <id name="id" column="id"/>
+        <property name="title" column="title"/>
+        <property name="detail" column="detail"/>
+        <property name="joinDeadline" column="join_deadline"/>
+        <property name="organizer" column="organizer"/>
+    </class>
+    <class name="edu.fudan.hangout.bean.ActivityResponseBean" table="activity_response" schema=""
+           catalog="fdu_hangout">
+        <id name="id" column="id"/>
+        <property name="userId" column="user_id"/>
+        <property name="activityId" column="activity_id"/>
+        <property name="status" column="status"/>
+        <property name="activityTip" column="activity_tip"/>
+    </class>
+    <class name="edu.fudan.hangout.bean.ActivityTipBean" table="activity_tip" schema="" catalog="fdu_hangout">
+        <id name="id" column="id"/>
+        <property name="datetime" column="datetime"/>
+        <property name="latitude" column="latitude"/>
+        <property name="longitude" column="longitude"/>
+    </class>
+    <class name="edu.fudan.hangout.bean.FriendshipBean" table="friendship" schema="" catalog="fdu_hangout">
+        <id name="id" column="id"/>
+        <property name="userId" column="user_id"/>
+        <property name="friendId" column="friend_id"/>
+    </class>
+    <class name="edu.fudan.hangout.bean.ResourceBean" table="resource" schema="" catalog="fdu_hangout">
+        <id name="id" column="id"/>
+        <property name="resType" column="res_type"/>
+        <property name="resId" column="res_id"/>
+        <property name="url" column="url"/>
+    </class>
+    <class name="edu.fudan.hangout.bean.UserBean" table="user" schema="" catalog="fdu_hangout">
+        <id name="id" column="id"/>
+        <property name="username" column="username"/>
+        <property name="password" column="password"/>
+        <property name="phone" column="phone"/>
+    </class>
+    <class name="edu.fudan.hangout.bean.UserLogBean" table="user_log" schema="" catalog="fdu_hangout">
+        <id name="id" column="id"/>
+        <property name="userId" column="user_id"/>
+        <property name="token" column="token"/>
+    </class>
+</hibernate-mapping>
