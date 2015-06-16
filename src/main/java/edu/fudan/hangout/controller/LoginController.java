@@ -1,7 +1,8 @@
 package edu.fudan.hangout.controller;
 
-import edu.fudan.hangout.view.login.LoginUser;
-import edu.fudan.hangout.view.login.TokenValidation;
+import edu.fudan.hangout.view.user.LoginUser;
+import edu.fudan.hangout.view.user.RegisterUser;
+import edu.fudan.hangout.view.user.TokenValidation;
 import edu.fudan.hangout.view.response.JSONResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +12,20 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @Controller
-@RequestMapping("/user/login")
+@RequestMapping("/user")
 public class LoginController extends BaseController {
 
-    @RequestMapping(value = "/common", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/common", method = RequestMethod.POST)
     public @ResponseBody
     JSONResponse commonLogin(@RequestBody LoginUser user) {
         JSONResponse response = new JSONResponse();
         if (validate(user, response)){
-            //TODO: tzy 登录验证，0|无错误（返回token）
+            //TODO: tzy 登录验证，0|无错误（返回token）,1|用户名或密码错误
         }
         return response;
     }
 
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/token", method = RequestMethod.POST)
     public @ResponseBody
     JSONResponse tokenLogin(@RequestBody TokenValidation token) {
         JSONResponse response = new JSONResponse();
@@ -34,5 +35,14 @@ public class LoginController extends BaseController {
         return response;
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public @ResponseBody
+    JSONResponse register(@RequestBody RegisterUser user) {
+        JSONResponse response = new JSONResponse();
+        if (validate(user, response)){
+            //TODO: tzy 登录验证，0|无错误（返回token）,1|手机号已被注册
+        }
+        return response;
+    }
 
 }
