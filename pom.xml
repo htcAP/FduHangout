@@ -7,6 +7,7 @@
     <groupId>FudanHangout</groupId>
     <artifactId>FudanHangout</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
 
 
     <dependencies>
@@ -70,7 +71,37 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.8</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat8x</containerId>
+                        <home>${env.CATALINA_HOME}</home>
+                    </container>
+                    <configuration>
+                        <type>existing</type>
+                        <home>${env.CATALINA_HOME}</home>
+                    </configuration>
+                    <deployables>
+                        <deployable>
+                            <groupId>FudanHangout</groupId>
+                            <artifactId>FudanHangout</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>${project.build.finalName}</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                    <deployer>
+                        <type>installed</type>
+                    </deployer>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
 </project>
