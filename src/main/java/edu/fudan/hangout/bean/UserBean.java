@@ -1,6 +1,7 @@
 package edu.fudan.hangout.bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tong on 06.16.
@@ -15,6 +16,7 @@ public class UserBean {
 
     @Id
     @Column(name = "id")
+    @NotNull
     public int getId() {
         return id;
     }
