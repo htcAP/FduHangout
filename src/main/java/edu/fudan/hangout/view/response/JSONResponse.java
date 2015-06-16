@@ -5,7 +5,7 @@ package edu.fudan.hangout.view.response;
  */
 public class JSONResponse {
     private int ErrNo = 999;
-    private String message = "后端忘记修改message";
+    private String message = "仅校验通过";
 
     public int getErrNo() {
         return ErrNo;

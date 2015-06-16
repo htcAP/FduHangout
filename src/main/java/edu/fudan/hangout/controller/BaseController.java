@@ -18,7 +18,6 @@ public class BaseController {
     protected boolean validate(Object object, JSONResponse response) {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
         if (constraintViolations.size() == 0) {
-            response.setErrNo(0);
             return true;
         }
         else {

@@ -14,40 +14,56 @@ test
 <!--</div>-->
 </body>
 <script>
-    window.user = {
-        phone: "150150150",
-        password: "bbbb"
-    };
-    window.token = {
-        token: "fdsf"
-    };
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: '/api/user/login/common',
-        data: JSON.stringify(user),
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
-        },
-        error: function () {
-            console.log("error")
-        }
-    });
-    window.ajax = function (url, data) {
+    window.ajax = function (url, data, info) {
         $.ajax({
             type: 'POST',
             contentType: 'application/json',
             url: url,
             data: data,
             dataType: 'json',
-            success: function (data) {
-                console.log(data);
+            success: function (d) {
+                console.log(info + ": ");
+                console.log(d);
             },
             error: function () {
                 console.log("error")
             }
         });
-    }
+    };
+
+
+
+    window.userLogin = {
+        phone: "15012341234",
+        password: "bbbbfe321"
+    };
+    window.loginURL = '/api/user/login/common';
+    ajax(loginURL, JSON.stringify(userLogin), 'login');
+
+
+
+
+    window.userRegister = {
+        phone: "15012341234",
+        password: "bbbbfe321",
+        username: "lfs"
+    };
+    window.registerURL = '/api/user/register';
+    ajax(registerURL, JSON.stringify(userRegister), 'register');
+
+
+
+
+    window.friend = {
+        token: "fdsf",
+        user_to_add: 233
+    };
+    window.addFriendURL = '/api/user/friend/add';
+    ajax(addFriendURL, JSON.stringify(friend), 'add friend');
+
+
+
+
+
 </script>
 </html>

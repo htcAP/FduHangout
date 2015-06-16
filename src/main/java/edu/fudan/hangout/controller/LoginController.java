@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/login")
 public class LoginController extends BaseController {
 
-    @RequestMapping(value = "/login/common", method = RequestMethod.POST)
+    @RequestMapping(value = "/common", method = RequestMethod.POST)
     public @ResponseBody
     JSONResponse commonLogin(@RequestBody LoginUser user) {
         JSONResponse response = new JSONResponse();
@@ -25,24 +25,14 @@ public class LoginController extends BaseController {
         return response;
     }
 
-    @RequestMapping(value = "/login/token", method = RequestMethod.POST)
-    public @ResponseBody
-    JSONResponse tokenLogin(@RequestBody TokenValidation token) {
-        JSONResponse response = new JSONResponse();
-        if (validate(token, response)) {
-            //TODO: tzy 验证token： 0|无错误，1|token错误，请重新登录
-        }
-        return response;
-    }
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public @ResponseBody
-    JSONResponse register(@RequestBody RegisterUser user) {
-        JSONResponse response = new JSONResponse();
-        if (validate(user, response)){
-            //TODO: tzy 登录验证，0|无错误（返回token）,1|手机号已被注册
-        }
-        return response;
-    }
+//    @RequestMapping(value = "/token", method = RequestMethod.POST)
+//    public @ResponseBody
+//    JSONResponse tokenLogin(@RequestBody TokenValidation token) {
+//        JSONResponse response = new JSONResponse();
+//        if (validate(token, response)) {
+//            //TODO: tzy 验证token： 0|无错误，1|token错误，请重新登录
+//        }
+//        return response;
+//    }
 
 }

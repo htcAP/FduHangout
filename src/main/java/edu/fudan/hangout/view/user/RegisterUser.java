@@ -17,7 +17,7 @@ public class RegisterUser {
     private String username;
 
     @NotNull(message = "102|缺少password字段")
-    @Size(min = 6, max = 6, message = "202|密码长度为6-30位")
+    @Size(min = 6, max = 30, message = "202|密码长度为6-30位")
     private String password;
 
     public String getPhone() {
