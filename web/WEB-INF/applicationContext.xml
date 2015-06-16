@@ -9,4 +9,5 @@
     <bean id="loginService" class="edu.fudan.hangout.service.impl.LoginServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
+
 </beans>
