@@ -1,9 +1,13 @@
-package edu.fdu.hangout.view;
+package edu.fudan.hangout.view.login;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by lifengshuang on 6/16/15.
  */
-public class Token {
+public class TokenValidation {
+
+    @NotNull(message = "100|缺少token字段")
     private String token;
 
     public String getToken() {
