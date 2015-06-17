@@ -4,8 +4,8 @@ package edu.fudan.hangout.view.response;
  * Created by lifengshuang on 6/16/15.
  */
 public class JSONResponse {
-    private int ErrNo;
-    private String message;
+    private int ErrNo = 999;
+    private String message = "仅校验通过";
 
     public int getErrNo() {
         return ErrNo;
