@@ -2,17 +2,17 @@ package edu.fudan.hangout.dao.impl;
 
 import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.dao.UserDao;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.util.List;
+
 
 /**
  * Created by Tong on 06.15.
  */
 public class UserDaoImpl extends CustomHibernateDaoSupport implements UserDao {
 
-    @Autowired
-    @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
 
     @Override
@@ -31,7 +31,24 @@ public class UserDaoImpl extends CustomHibernateDaoSupport implements UserDao {
     }
 
     @Override
-    public UserBean getUserById(int id) {
-        return (UserBean) session().get("user", id);
+    public UserBean getUser(int id) {
+        Session session = session();
+        session.beginTransaction();
+        return session.get(UserBean.class, id);
+    }
+
+    @Override
+    public UserBean findUser(String key, String value) {
+        Session session = sessionFactory.openSession();
+        List results = session.createSQLQuery("SELECT * FROM user u WHERE  u." + key + "=" + value).addEntity(UserBean.class).list();
+        return (UserBean)results.get(0);
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 }

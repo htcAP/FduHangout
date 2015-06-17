@@ -16,7 +16,7 @@ public class Servlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDao userDao = new UserDaoImpl();
-        UserBean userBean = userDao.getUserById(1);
+        UserBean userBean = userDao.getUser(1);
         response.getWriter().write(userBean.getPhone());
     }
 }

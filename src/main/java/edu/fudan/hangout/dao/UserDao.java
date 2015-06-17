@@ -12,5 +12,7 @@ public interface UserDao {
 
     boolean updateUser(UserBean user);
 
-    UserBean getUserById(int id);
+    UserBean getUser(int id);
+
+    UserBean findUser(String key, String value);
 }
