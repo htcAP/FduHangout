@@ -1,7 +1,6 @@
 package edu.fudan.hangout.bean;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tong on 06.16.
@@ -9,14 +8,16 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "user", schema = "", catalog = "fdu_hangout")
 public class UserBean {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String username;
     private String password;
     private String phone;
 
-    @Id
     @Column(name = "id")
-    @NotNull
     public int getId() {
         return id;
     }

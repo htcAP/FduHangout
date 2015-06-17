@@ -9,31 +9,46 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="edu.fudan.hangout.controller" />
+    <context:component-scan base-package="edu.fudan.hangout.controller"/>
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
+    <!--daos-->
     <bean id="userDao" class="edu.fudan.hangout.dao.impl.UserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <bean id="userLogDao" class="edu.fudan.hangout.dao.impl.UserLogDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="friendshipDao" class="edu.fudan.hangout.dao.impl.FriendshipDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
+    <!--services-->
     <bean id="loginService" class="edu.fudan.hangout.service.impl.LoginServiceImpl">
         <property name="userDao" ref="userDao"/>
+        <property name="userLogDao" ref="userLogDao"/>
+    </bean>
+    <bean id="signupService" class="edu.fudan.hangout.service.impl.SignupServiceImpl1">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="tokenService" class="edu.fudan.hangout.service.impl.TokenServiceImpl">
         <property name="userLogDao" ref="userLogDao"/>
     </bean>
     <bean id="userService" class="edu.fudan.hangout.service.impl.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
+    <bean id="friendshipService" class="edu.fudan.hangout.service.impl.FriendshipServiceImpl">
+        <property name="friendshipDao" ref="friendshipDao"/>
+    </bean>
 
+    <!--data source-->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://172.17.0.1:3306/fdu_hangout" />
-        <property name="username" value="mw" />
-        <property name="password" value="mw" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://172.17.0.1:3306/fdu_hangout"/>
+        <property name="username" value="mw"/>
+        <property name="password" value="mw"/>
     </bean>
 
     <!-- session factory -->
@@ -54,7 +69,6 @@
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
-
 
 
     </bean>

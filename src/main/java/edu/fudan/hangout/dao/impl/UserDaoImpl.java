@@ -5,6 +5,7 @@ import edu.fudan.hangout.dao.UserDao;
 import edu.fudan.hangout.util.DaoResultWrapper;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -17,8 +18,12 @@ public class UserDaoImpl implements UserDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public boolean createUser(UserBean user) {
-        return false;
+    public int createUser(UserBean user) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        Object o  = session.save(user);
+        tx.commit();
+        return (Integer) o;
     }
 
     @Override
@@ -28,7 +33,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean updateUser(UserBean user) {
-        return false;
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(user);
+        tx.commit();
+        return true;
     }
 
     @Override
@@ -50,7 +59,4 @@ public class UserDaoImpl implements UserDao {
         this.sessionFactory = sessionFactory;
     }
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
 }

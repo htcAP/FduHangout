@@ -3,9 +3,9 @@ package edu.fudan.hangout.controller;
 import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.service.impl.LoginServiceImpl;
 import edu.fudan.hangout.service.impl.UserServiceImpl;
-import edu.fudan.hangout.view.login.LoginUser;
-import edu.fudan.hangout.view.login.TokenValidation;
+import edu.fudan.hangout.util.SHA1Hasher;
 import edu.fudan.hangout.view.response.JSONResponse;
+import edu.fudan.hangout.view.user.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,13 +36,19 @@ public class LoginController extends BaseController {
             //TODO: tzy 登录验证，0|无错误（返回token）
             UserBean userBean = userService.getUserByPhone(user.getPhone());
             if (userBean == null) {
-            /* User does not exist.*/
+                /* User does not exist.*/
                 response.setErrNo(1);
-                response.setMessage("User does not exist.");
                 return response;
+            } else {
+                String passwordString = userBean.getId() + "." + user.getPassword();
+                if (!(SHA1Hasher.makeSHA1Hash(passwordString).equals(userBean.getPassword()))) {
+                   /* Wrong phone number.*/
+                    response.setErrNo(1);
+                    return response;
+                }
             }
 
-        /* Do login.*/
+            /* User identification checked. Do login.*/
             String token = loginService.login(userBean);
             if (token != null) {
             /* Login succeeded.*/
@@ -56,17 +62,6 @@ public class LoginController extends BaseController {
 
         return response;
     }
-
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
-    @ResponseBody
-    public JSONResponse tokenLogin(@RequestBody TokenValidation token) {
-        JSONResponse response = new JSONResponse();
-        if (validate(token, response)) {
-            //TODO: tzy 验证token： 0|无错误，1|token错误，请重新登录
-        }
-        return response;
-    }
-
 
     public void setUserService(UserServiceImpl userService) {
         this.userService = userService;

@@ -15,4 +15,6 @@ public interface UserLogDao {
     boolean updateUserLog(UserLogBean userBean);
 
     UserLogBean getUserLog(int id);
+
+    UserLogBean findUserLogByToken(String token);
 }
