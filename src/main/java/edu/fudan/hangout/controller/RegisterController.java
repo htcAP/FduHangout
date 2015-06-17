@@ -43,6 +43,7 @@ public class RegisterController extends BaseController {
             if (userService.getUserByPhone(user.getPhone()) != null) {
                 /* user already existed.*/
                 response.setErrNo(1);
+                response.setMessage("用户已被注册");
                 return response;
             }
 
@@ -59,6 +60,7 @@ public class RegisterController extends BaseController {
             signupService.update(userBean);
 
             response.setErrNo(0);
+            response.setMessage("注册成功");
             return response;
         }
         /* Validation error*/

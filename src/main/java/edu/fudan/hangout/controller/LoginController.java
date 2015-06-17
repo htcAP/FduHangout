@@ -33,17 +33,18 @@ public class LoginController extends BaseController {
     JSONResponse commonLogin(@RequestBody LoginUser user) {
         JSONResponse response = new JSONResponse();
         if (validate(user, response)) {
-            //TODO: tzy 登录验证，0|无错误（返回token）
             UserBean userBean = userService.getUserByPhone(user.getPhone());
             if (userBean == null) {
                 /* User does not exist.*/
                 response.setErrNo(1);
+                response.setMessage("用户不存在");
                 return response;
             } else {
                 String passwordString = userBean.getId() + "." + user.getPassword();
                 if (!(SHA1Hasher.makeSHA1Hash(passwordString).equals(userBean.getPassword()))) {
                    /* Wrong phone number.*/
-                    response.setErrNo(1);
+                    response.setErrNo(2);
+                    response.setMessage("用户名或密码错误");
                     return response;
                 }
             }
@@ -51,12 +52,13 @@ public class LoginController extends BaseController {
             /* User identification checked. Do login.*/
             String token = loginService.login(userBean);
             if (token != null) {
-            /* Login succeeded.*/
+                /* Login succeeded.*/
                 response.setErrNo(0);
                 response.setMessage(token);
             } else {
-            /* Login failed*/
-                response.setErrNo(1);
+                /* Login failed*/
+                response.setErrNo(3);
+                response.setMessage("登录失败");
             }
         }
 
