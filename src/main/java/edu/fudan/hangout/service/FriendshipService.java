@@ -10,7 +10,9 @@ public interface FriendshipService {
 
     boolean cancelFriendRequest(UserBean user, UserBean friend);
 
-    boolean confirmFriendRequest(UserBean user, UserBean friend);
+    boolean acceptFriendRequest(UserBean user, UserBean friend);
 
     boolean rejectFriendRequest(UserBean user, UserBean friend);
+
+    boolean deleteFriendship(UserBean user, UserBean friend);
 }
