@@ -29,8 +29,9 @@ public class FriendshipDaoImpl implements FriendshipDao {
     @Override
     public void deleteFriendship(int id, int friendId) {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Transaction tx = session.beginTransaction();
         session.createSQLQuery("DELETE FROM friendship WHERE user_id=" + id + " AND friend_id=" + friendId).executeUpdate();
+        tx.commit();
     }
 
     @Override

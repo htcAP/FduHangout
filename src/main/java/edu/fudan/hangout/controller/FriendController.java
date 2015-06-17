@@ -48,37 +48,35 @@ public class FriendController extends BaseController {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
             //TODO: tzy 添加好友： 0|申请成功，1|token错误，2|目标用户不存在，3|对方已经是你的好友
-        }
-
-        friendRequest.setToken("98f18b455298667ab4e40af1f49ce444aabde050");
-        friendRequest.setTarget_user(21);
-        /* Check user token.*/
-        int userId = tokenService.getUserId(friendRequest.getToken());
-        if (userId == -1) {
+            /* Check user token.*/
+            int userId = tokenService.getUserId(friendRequest.getToken());
+            if (userId == -1) {
             /* Token error.*/
-            response.setErrNo(1);
-            return response;
-        }
-        UserBean user = userService.getUserById(userId);
+                response.setErrNo(1);
+                return response;
+            }
+            UserBean user = userService.getUserById(userId);
 
-        /* User token checked. Check friend id.*/
-        UserBean friend = userService.getUserById(friendRequest.getTarget_user());
-        if (friend == null || friendRequest.getTarget_user() == userId) {
-            /* Friend id does not exist.*/
-            response.setErrNo(2);
-            return response;
-        }
+            /* User token checked. Check friend id.*/
+            UserBean friend = userService.getUserById(friendRequest.getTarget_user());
+            if (friend == null || friendRequest.getTarget_user() == userId) {
+            /* Friend id does not exist or your id duplicates with friend's id.*/
+                response.setErrNo(2);
+                return response;
+            }
 
-        /* Friend checked. Do create friend request.*/
-        boolean succeeded = friendshipService.createFriendRequest(user, friend);
-        if (!succeeded) {
-            response.setErrNo(3);
-            return response;
-        } else {
-            response.setErrNo(0);
-            return response;
+            /* Friend checked. Do create friend request.*/
+            boolean succeeded = friendshipService.createFriendRequest(user, friend);
+            if (!succeeded) {
+                response.setErrNo(3);
+                return response;
+            } else {
+                response.setErrNo(0);
+                return response;
+            }
         }
-//        return response;
+        /* Validation failed.*/
+        return response;
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
@@ -88,7 +86,34 @@ public class FriendController extends BaseController {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
             //TODO: tzy 删除好友： 0|删除成功，1|token错误，2|目标用户不存在，3|对方不是你的好友
+            /* Check user token.*/
+            int userId = tokenService.getUserId(friendRequest.getToken());
+            if (userId == -1) {
+            /* Token error.*/
+                response.setErrNo(1);
+                return response;
+            }
+            UserBean user = userService.getUserById(userId);
+
+            /* User token checked. Check friend id.*/
+            UserBean friend = userService.getUserById(friendRequest.getTarget_user());
+            if (friend == null || friendRequest.getTarget_user() == userId) {
+                /* Friend id does not exist or your id duplicates with friend's id.*/
+                response.setErrNo(2);
+                return response;
+            }
+
+            /* Friend checked. Do create friend request.*/
+            boolean succeeded = friendshipService.deleteFriendship(user, friend);
+            if (!succeeded) {
+                response.setErrNo(3);
+                return response;
+            } else {
+                response.setErrNo(0);
+                return response;
+            }
         }
+        /* Validation failed.*/
         return response;
     }
 
@@ -99,7 +124,34 @@ public class FriendController extends BaseController {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
             //TODO: tzy 接受好友请求： 0|删除成功，1|token错误，2|目标用户不存在，3|对方不曾发出好友申请
+            /* Check user token.*/
+            int userId = tokenService.getUserId(friendRequest.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                response.setErrNo(1);
+                return response;
+            }
+            UserBean user = userService.getUserById(userId);
+
+            /* User token checked. Check friend id.*/
+            UserBean friend = userService.getUserById(friendRequest.getTarget_user());
+            if (friend == null || friendRequest.getTarget_user() == userId) {
+                /* Friend id does not exist or your id duplicates with friend's id.*/
+                response.setErrNo(2);
+                return response;
+            }
+
+            /* Friend checked. Do create friend request.*/
+            boolean succeeded = friendshipService.acceptFriendRequest(user, friend);
+            if (!succeeded) {
+                response.setErrNo(3);
+                return response;
+            } else {
+                response.setErrNo(0);
+                return response;
+            }
         }
+        /* Validation failed.*/
         return response;
     }
 
@@ -110,9 +162,34 @@ public class FriendController extends BaseController {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
             //TODO: tzy 拒绝好友请求： 0|删除成功，1|token错误，2|目标用户不存在，3|对方不曾发出好友申请
+            /* Check user token.*/
+            int userId = tokenService.getUserId(friendRequest.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                response.setErrNo(1);
+                return response;
+            }
+            UserBean user = userService.getUserById(userId);
+
+            /* User token checked. Check friend id.*/
+            UserBean friend = userService.getUserById(friendRequest.getTarget_user());
+            if (friend == null || friendRequest.getTarget_user() == userId) {
+                /* Friend id does not exist or your id duplicates with friend's id.*/
+                response.setErrNo(2);
+                return response;
+            }
+
+            /* Friend checked. Do create friend request.*/
+            boolean succeeded = friendshipService.rejectFriendRequest(user, friend);
+            if (!succeeded) {
+                response.setErrNo(3);
+                return response;
+            } else {
+                response.setErrNo(0);
+                return response;
+            }
         }
+            /* Validation failed.*/
         return response;
     }
-
-
 }
