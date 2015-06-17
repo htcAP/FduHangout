@@ -61,7 +61,7 @@ public class UserLogDaoImpl implements UserLogDao {
     public UserLogBean findUserLogByToken(String token) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.token=" + token).addEntity(UserLogBean.class);
+        SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.token=\'" + token+"\'").addEntity(UserLogBean.class);
         List result = query.list();
         return (UserLogBean) DaoResultWrapper.get(result);
     }

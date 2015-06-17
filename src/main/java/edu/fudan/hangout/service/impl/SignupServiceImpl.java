@@ -1,6 +1,7 @@
-package edu.fudan.hangout.dao.impl;
+package edu.fudan.hangout.service.impl;
 
 import edu.fudan.hangout.bean.UserBean;
+import edu.fudan.hangout.dao.impl.UserDaoImpl;
 import edu.fudan.hangout.service.SignupService;
 
 /**

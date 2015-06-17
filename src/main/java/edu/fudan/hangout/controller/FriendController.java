@@ -50,7 +50,8 @@ public class FriendController extends BaseController {
             //TODO: tzy 添加好友： 0|申请成功，1|token错误，2|目标用户不存在，3|对方已经是你的好友
         }
 
-
+        friendRequest.setToken("98f18b455298667ab4e40af1f49ce444aabde050");
+        friendRequest.setTarget_user(21);
         /* Check user token.*/
         int userId = tokenService.getUserId(friendRequest.getToken());
         if (userId == -1) {
@@ -62,7 +63,7 @@ public class FriendController extends BaseController {
 
         /* User token checked. Check friend id.*/
         UserBean friend = userService.getUserById(friendRequest.getTarget_user());
-        if (friend == null) {
+        if (friend == null || friendRequest.getTarget_user() == userId) {
             /* Friend id does not exist.*/
             response.setErrNo(2);
             return response;

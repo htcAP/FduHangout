@@ -18,7 +18,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
     public void createFriendship(int id, int friendId) {
         FriendshipBean friendshipBean = new FriendshipBean();
         friendshipBean.setUserId(id);
-        friendshipBean.setFriendId(id);
+        friendshipBean.setFriendId(friendId);
 
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
@@ -44,7 +44,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT * FROM friendship f WHERE f.user_id=" + id
                 + " AND f.friend_id=" + friendId).addEntity(FriendshipBean.class).list();
-        return result.isEmpty();
+        return !result.isEmpty();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
