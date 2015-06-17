@@ -29,7 +29,7 @@
         <property name="userDao" ref="userDao"/>
         <property name="userLogDao" ref="userLogDao"/>
     </bean>
-    <bean id="signupService" class="edu.fudan.hangout.service.impl.SignupServiceImpl1">
+    <bean id="signupService" class="edu.fudan.hangout.service.impl.SignupServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
     <bean id="tokenService" class="edu.fudan.hangout.service.impl.TokenServiceImpl">

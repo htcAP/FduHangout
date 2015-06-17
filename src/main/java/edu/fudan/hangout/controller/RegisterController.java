@@ -1,7 +1,7 @@
 package edu.fudan.hangout.controller;
 
 import edu.fudan.hangout.bean.UserBean;
-import edu.fudan.hangout.service.impl.SignupServiceImpl1;
+import edu.fudan.hangout.service.impl.SignupServiceImpl;
 import edu.fudan.hangout.service.impl.UserServiceImpl;
 import edu.fudan.hangout.util.SHA1Hasher;
 import edu.fudan.hangout.view.response.JSONResponse;
@@ -23,13 +23,13 @@ public class RegisterController extends BaseController {
     @Autowired
     private UserServiceImpl userService;
     @Autowired
-    private SignupServiceImpl1 signupService;
+    private SignupServiceImpl signupService;
 
     public void setUserService(UserServiceImpl userService) {
         this.userService = userService;
     }
 
-    public void setSignupService(SignupServiceImpl1 signupService) {
+    public void setSignupService(SignupServiceImpl signupService) {
         this.signupService = signupService;
     }
 
