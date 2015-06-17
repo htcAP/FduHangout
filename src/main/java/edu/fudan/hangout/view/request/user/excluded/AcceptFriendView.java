@@ -1,4 +1,4 @@
-package edu.fudan.hangout.view.user.excluded;
+package edu.fudan.hangout.view.request.user.excluded;
 
 import javax.validation.constraints.NotNull;
 

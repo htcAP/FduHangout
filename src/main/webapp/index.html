@@ -8,9 +8,9 @@
 <body>
 test
 <!--<div>-->
-    <!--url: <input type="text" id="url">-->
-    <!--<br/>-->
-    <!--data: <input type="text" id="data"> <input type="button" value="POST">-->
+<!--url: <input type="text" id="url">-->
+<!--<br/>-->
+<!--data: <input type="text" id="data"> <input type="button" value="POST">-->
 <!--</div>-->
 </body>
 <script>
@@ -24,6 +24,8 @@ test
             success: function (d) {
                 console.log(info + ": ");
                 console.log(d);
+                console.log(JSON.stringify(d));
+                console.log('');
             },
             error: function () {
                 console.log("error")
@@ -31,7 +33,7 @@ test
         });
     };
 
-
+    //===============================login
 
     window.userLogin = {
         phone: "15012341234",
@@ -41,7 +43,7 @@ test
     ajax(loginURL, JSON.stringify(userLogin), 'login');
 
 
-
+    //===============================register
 
     window.userRegister = {
         phone: "15012341234",
@@ -52,7 +54,7 @@ test
     ajax(registerURL, JSON.stringify(userRegister), 'register');
 
 
-
+    //===============================friend
 
     window.friend = {
         token: "fdsf",
@@ -61,9 +63,68 @@ test
     window.addFriendURL = '/api/user/friend/add';
     ajax(addFriendURL, JSON.stringify(friend), 'add friend');
 
+    //===============================image
 
+    window.image = {
+        type: "png",
+        data: "c7zwebr32BDSAxV67THGyguB6t5YgF36erDfgC2GH......."
+    };
+    window.imageURL = 'api/image/upload';
+    ajax(imageURL, JSON.stringify(image), 'upload image');
 
+    //===============================activity
 
+    //=============add activity
+
+    window.add_activity = {
+        token: "Hfyd7Nxcn",//token
+        title: "My Activity",
+        description: "起来嗨!",
+        deadline: "2011-10-05T14:48:00.000Z"//ISOString
+    };
+    window.addActivityURL = '/api/activity/post/new';
+    ajax(addActivityURL, JSON.stringify(add_activity), 'add activity');
+
+    //=============invite
+
+    var user_ids = [23, 4234, 5342, 52, 234, 3];
+
+    window.invite_user = {
+        token: "Hfyd7Nxcn",//token
+        activity_id: 123,
+        invites: user_ids//list of user_id
+    };
+    window.inviteUserURL = '/api/activity/post/invite';
+    ajax(inviteUserURL, JSON.stringify(invite_user), 'invite user');
+
+    //=============add time location
+
+    window.time_location = {
+        token: "Hfyd7Nxcn",//token
+        time: "2011-10-05T14:48:00.000Z",
+        location: {
+            latitude: 123123.4324,
+            longitude: 313213.4324,
+            place: "Shanghai"
+        },
+        activity_id: 233
+    };
+
+    window.timeLocationURL = '/api/activity/post/time_location';
+    ajax(timeLocationURL, JSON.stringify(time_location), "time location");
+    //    window
+
+    //=============add activity photo
+
+    window.add_activity_photos = {
+        token: "Hfyd7Nxcn",//token
+        url: 'hahahaha.png',
+        activity_id: 233
+    };
+    window.activityPhotoURL = '/api/activity/post/photo';
+    ajax(activityPhotoURL, JSON.stringify(add_activity_photos), "add activity photo");
+    //    console.log(JSON.stringify(add_activity));
+    //===============================
 
 </script>
 </html>

@@ -1,8 +1,6 @@
 package edu.fudan.hangout.controller;
 
-import edu.fudan.hangout.view.user.LoginUser;
-import edu.fudan.hangout.view.user.RegisterUser;
-import edu.fudan.hangout.view.user.TokenValidation;
+import edu.fudan.hangout.view.request.user.LoginUser;
 import edu.fudan.hangout.view.response.JSONResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
