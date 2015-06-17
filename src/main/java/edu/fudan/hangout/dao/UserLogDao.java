@@ -8,11 +8,11 @@ import edu.fudan.hangout.bean.UserLogBean;
  */
 public interface UserLogDao {
 
-    boolean createUserLog(UserBean userBean);
+    boolean createUserLog(UserLogBean userLogBean);
 
     boolean deleteUserLog(UserBean userBean);
 
-    boolean updateUserLog(UserBean userBean);
+    boolean updateUserLog(UserLogBean userBean);
 
     UserLogBean getUserLog(int id);
 }

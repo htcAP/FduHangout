@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserBean getUserByPhone(String phone) {
 
-        return null;
+        return userDao.findUser("phone", phone);
     }
 
     public void setUserDao(UserDaoImpl userDao) {

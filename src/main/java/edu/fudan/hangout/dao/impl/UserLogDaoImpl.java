@@ -3,9 +3,11 @@ package edu.fudan.hangout.dao.impl;
 import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.bean.UserLogBean;
 import edu.fudan.hangout.dao.UserLogDao;
+import edu.fudan.hangout.util.DaoResultWrapper;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  */
 
 
-public class UserLogDaoImpl extends CustomHibernateDaoSupport implements UserLogDao {
+public class UserLogDaoImpl implements UserLogDao {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -25,9 +27,14 @@ public class UserLogDaoImpl extends CustomHibernateDaoSupport implements UserLog
 
     }
 
+
     @Override
-    public boolean createUserLog(UserBean userBean) {
-        return false;
+    public boolean createUserLog(UserLogBean userLogBean) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.save(userLogBean);
+        tx.commit();
+        return true;
     }
 
     @Override
@@ -36,9 +43,10 @@ public class UserLogDaoImpl extends CustomHibernateDaoSupport implements UserLog
     }
 
     @Override
-    public boolean updateUserLog(UserBean userBean) {
+    public boolean updateUserLog(UserLogBean userBean) {
         return false;
     }
+
 
     @Override
     public UserLogBean getUserLog(int id) {
@@ -46,6 +54,6 @@ public class UserLogDaoImpl extends CustomHibernateDaoSupport implements UserLog
         session.beginTransaction();
         SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.user_id=" + id).addEntity(UserLogBean.class);
         List result = query.list();
-        return (UserLogBean) result.get(0);
+        return (UserLogBean) DaoResultWrapper.get(result);
     }
 }
