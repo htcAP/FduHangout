@@ -1,7 +1,10 @@
 package edu.fudan.hangout.service;
 
 import edu.fudan.hangout.bean.ActivityBean;
+import edu.fudan.hangout.bean.ActivityResponseBean;
 import edu.fudan.hangout.bean.ActivityTipBean;
+
+import java.util.List;
 
 /**
  * Created by Tong on 06.18.
@@ -20,4 +23,10 @@ public interface ActivityService {
     public boolean voteForActivityTip(ActivityTipBean activityTipBean);
 
     public boolean setFinalActivityTip(ActivityBean activityBean,int tipId);
+
+    public ActivityResponseBean getActionResponse(int userId, int activityId);
+
+    public boolean updateActionResponse(ActivityResponseBean activityResponseBean);
+
+    public List<Integer> getActivityTipIds(int activityId);
 }

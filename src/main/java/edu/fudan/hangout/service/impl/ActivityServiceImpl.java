@@ -1,11 +1,14 @@
 package edu.fudan.hangout.service.impl;
 
 import edu.fudan.hangout.bean.ActivityBean;
+import edu.fudan.hangout.bean.ActivityResponseBean;
 import edu.fudan.hangout.bean.ActivityTipBean;
 import edu.fudan.hangout.dao.impl.ActivityDaoImpl;
 import edu.fudan.hangout.dao.impl.ActivityResponseDaoImpl;
 import edu.fudan.hangout.dao.impl.ActivityTipDaoImpl;
 import edu.fudan.hangout.service.ActivityService;
+
+import java.util.List;
 
 /**
  * Created by Tong on 06.18.
@@ -48,6 +51,21 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public boolean setFinalActivityTip(ActivityBean activityBean, int tipId) {
         return false;
+    }
+
+    @Override
+    public ActivityResponseBean getActionResponse(int userId, int activityId) {
+        return null;
+    }
+
+    @Override
+    public boolean updateActionResponse(ActivityResponseBean activityResponseBean) {
+        return false;
+    }
+
+    @Override
+    public List<Integer> getActivityTipIds(int activityId) {
+        return null;
     }
 
     ActivityBean getActivityById(int id) {

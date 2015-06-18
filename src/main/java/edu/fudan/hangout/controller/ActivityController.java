@@ -1,9 +1,7 @@
 package edu.fudan.hangout.controller;
 
-import edu.fudan.hangout.bean.ActivityBean;
-import edu.fudan.hangout.bean.ActivityTipBean;
-import edu.fudan.hangout.bean.ResourceBean;
-import edu.fudan.hangout.bean.UserBean;
+import edu.fudan.hangout.bean.*;
+import edu.fudan.hangout.service.ResourceService;
 import edu.fudan.hangout.service.impl.ActivityServiceImpl;
 import edu.fudan.hangout.service.impl.ResourceServiceImpl;
 import edu.fudan.hangout.service.impl.TokenServiceImpl;
@@ -18,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by lifengshuang on 6/17/15.
@@ -200,7 +200,7 @@ public class ActivityController extends BaseController {
             /* Activity checked. Do create resource.*/
             ResourceBean resourceBean = new ResourceBean();
             resourceBean.setResId(activityId);
-            resourceBean.setResType(0);
+            resourceBean.setResType(ResourceServiceImpl.ACTIVITY_IMAGE);
             resourceBean.setUrl(activityPhotoView.getUrl());
 
             int resId = resourceService.createResource(resourceBean);
@@ -302,10 +302,26 @@ public class ActivityController extends BaseController {
                 error.setMessage("用户Token错误");
                 return error;
             }
+            int activityId = replyInviteView.getActivity_id();
 
+            /* Check response.*/
+            ActivityResponseBean activityResponseBean = activityService.getActionResponse(userId, activityId);
+            if (activityResponseBean == null) {
+                error.setErrNo(2);
+                error.setMessage("活动请求不存在");
+                return error;
+            }
 
-
-            /* Do decide.*/
+            /* Do reply.*/
+            activityResponseBean.setStatus((replyInviteView.isAttend()) ? 1 : -1);
+            boolean succeeded = activityService.updateActionResponse(activityResponseBean);
+            if (succeeded) {
+                error.setErrNo(0);
+                error.setMessage("活动回复成功");
+            } else {
+                error.setErrNo(3);
+                error.setMessage("活动回复失败");
+            }
         }
         return error;
     }
@@ -319,7 +335,65 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityView, error)) {
-            //TODO: tzy
+            /* Check user token.*/
+            int userId = tokenService.getUserId(getActivityView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return response;
+            }
+
+            /* User checked. Now check activity.*/
+            int activityId = getActivityView.getActivity_id();
+            ActivityBean activityBean = activityService.getActivity(activityId);
+            if (activityBean == null) {
+                /* Activity does not exist.*/
+                error.setErrNo(2);
+                error.setMessage("活动不存在");
+                return response;
+            }
+
+            response.setActivity_id(activityId);
+            response.setDeadline(activityBean.getJoinDeadline().toString());
+            response.setDescription(activityBean.getDetail());
+            response.setTitle(activityBean.getTitle());
+            response.setStatus((activityBean.getFinalTip() != 0) ? 1 : 0);
+
+            /* Activity got. Keep getting action tip.*/
+            List<Integer> tipIds = activityService.getActivityTipIds(activityId);
+            List<TimeLocationView> timeLocationViewList = new LinkedList<>();
+            for (int tipId : tipIds) {
+                ActivityTipBean activityTipBean = activityService.getActionTip(tipId);
+                TimeLocationView timeLocationView = new TimeLocationView();
+                timeLocationView.setActivity_id(activityId);
+                timeLocationView.getLocation().setPlace(activityTipBean.getLocation());
+                timeLocationView.getLocation().setLatitude(activityTipBean.getLatitude());
+                timeLocationView.getLocation().setLongitude(activityTipBean.getLongitude());
+                timeLocationView.getTime().setStart_time(activityTipBean.getStartDatetime().toString());
+                timeLocationView.getTime().setStart_time(activityTipBean.getEndDatetime().toString());
+                timeLocationView.setActivity_id(activityId);
+                timeLocationView.setVotes(activityTipBean.getVotes());
+                timeLocationView.setTime_location_id(tipId);
+                timeLocationViewList.add(timeLocationView);
+            }
+            TimeLocationView[] timeLocationViews = new TimeLocationView[0];
+            timeLocationViews = timeLocationViewList.toArray(timeLocationViews);
+            response.setTimeLocations(timeLocationViews);
+
+            /* Action tips got. Keep getting resources.*/
+            List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
+            List<String> photoUrlList = new LinkedList<>();
+            for (ResourceBean resourceBean : resourceBeanList) {
+                photoUrlList.add(resourceBean.getUrl());
+            }
+            String[] photoUrls = new String[0];
+            photoUrls = photoUrlList.toArray(photoUrls);
+            response.setPhoto_urls(photoUrls);
+
+
+            /* Action tips got. Keep getting invitations.*/
+            /*TODO*/
         }
         return response;
     }
