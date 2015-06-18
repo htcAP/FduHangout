@@ -3,11 +3,11 @@ package edu.fudan.hangout.view.response;
 /**
  * Created by lifengshuang on 6/18/15.
  */
-public class FriendListResponse {
+public class SearchContactResponse {
 
     private JSONResponse error;
 
-    private UserResponse[] friend_list;
+    private UserResponse[] users;
 
     public JSONResponse getError() {
         return error;
@@ -17,11 +17,11 @@ public class FriendListResponse {
         this.error = error;
     }
 
-    public UserResponse[] getFriend_list() {
-        return friend_list;
+    public UserResponse[] getUsers() {
+        return users;
     }
 
-    public void setFriend_list(UserResponse[] friend_list) {
-        this.friend_list = friend_list;
+    public void setUsers(UserResponse[] users) {
+        this.users = users;
     }
 }

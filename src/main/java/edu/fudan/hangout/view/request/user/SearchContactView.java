@@ -3,11 +3,11 @@ package edu.fudan.hangout.view.request.user;
 /**
  * Created by lifengshuang on 6/18/15.
  */
-public class SignatureRequest {
+public class SearchContactView {
 
     private String token;
 
-    private String signature;
+    private String[] phones;
 
     public String getToken() {
         return token;
@@ -17,11 +17,11 @@ public class SignatureRequest {
         this.token = token;
     }
 
-    public String getSignature() {
-        return signature;
+    public String[] getPhones() {
+        return phones;
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setPhones(String[] phones) {
+        this.phones = phones;
     }
 }
