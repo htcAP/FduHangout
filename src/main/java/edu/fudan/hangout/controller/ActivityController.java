@@ -203,7 +203,7 @@ public class ActivityController extends BaseController {
             resourceBean.setResType(0);
             resourceBean.setUrl(activityPhotoView.getUrl());
 
-            int resId=resourceService.createResource(resourceBean);
+            int resId = resourceService.createResource(resourceBean);
             if (resId == -1) {
                 /* Failed*/
                 error.setErrNo(3);
@@ -221,34 +221,93 @@ public class ActivityController extends BaseController {
     public
     @ResponseBody
     JSONResponse vote(@RequestBody VoteView voteView) {
-        JSONResponse response = new JSONResponse();
-        if (validate(voteView, response)) {
-            //TODO: tzy 给时间地点投票，0|无错误 1|token错误 2|time_location_id错误 3|没有权限
+        JSONResponse error = new JSONResponse();
+        if (validate(voteView, error)) {
+            /* Check user token.*/
+            int userId = tokenService.getUserId(voteView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return error;
+            }
 
+            /* User checked. Now check activity.*/
+            int tipId = voteView.getTime_location_id();
+            ActivityTipBean activityTipBean = activityService.getActionTip(tipId);
+            if (activityTipBean == null) {
+                /* Tip does not exist.*/
+                error.setErrNo(2);
+                error.setMessage("活动建议不存在");
+            } else {
+                activityService.voteForActivityTip(activityTipBean);
+                error.setErrNo(0);
+                error.setMessage("活动建议投票成功");
+            }
         }
-        return response;
+        return error;
     }
 
     @RequestMapping(value = "/post/decide", method = RequestMethod.POST)
     public
     @ResponseBody
     JSONResponse decide(@RequestBody DecideView decideView) {
-        JSONResponse response = new JSONResponse();
-        if (validate(decideView, response)) {
-            //TODO: tzy
+        JSONResponse error = new JSONResponse();
+        if (validate(decideView, error)) {
+            /* Check user token.*/
+            int userId = tokenService.getUserId(decideView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return error;
+            }
+
+            /* User checked. Check activity tip.*/
+            int tipId = decideView.getTime_location_id();
+            ActivityTipBean activityTipBean = activityService.getActionTip(tipId);
+            if (activityTipBean == null) {
+                /* Tip does not exist.*/
+                error.setErrNo(2);
+                error.setMessage("活动建议不存在");
+                return error;
+            }
+            int activityId = activityTipBean.getActivityId();
+
+            /* Do decide.*/
+            ActivityBean activityBean = activityService.getActivity(activityId);
+            boolean succeed = activityService.setFinalActivityTip(activityBean, tipId);
+            if (succeed) {
+                error.setErrNo(0);
+                error.setMessage("活动时间地点设置成功");
+            } else {
+                error.setErrNo(3);
+                error.setMessage("活动时间地点设置失败");
+            }
         }
-        return response;
+        return error;
     }
 
     @RequestMapping(value = "/post/reply_invite", method = RequestMethod.POST)
     public
     @ResponseBody
     JSONResponse reply(@RequestBody ReplyInviteView replyInviteView) {
-        JSONResponse response = new JSONResponse();
-        if (validate(replyInviteView, response)) {
-            //TODO: tzy
+        JSONResponse error = new JSONResponse();
+        if (validate(replyInviteView, error)) {
+            /* Check user token.*/
+            int userId = tokenService.getUserId(replyInviteView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return error;
+            }
+
+
+
+            /* Do decide.*/
         }
-        return response;
+        return error;
     }
 
 

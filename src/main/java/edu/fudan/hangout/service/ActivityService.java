@@ -14,4 +14,10 @@ public interface ActivityService {
     public boolean inviteFriend(int userId);
 
     public int createActivityTip(ActivityTipBean activityTipBean);
+
+    public ActivityTipBean getActionTip(int id);
+
+    public boolean voteForActivityTip(ActivityTipBean activityTipBean);
+
+    public boolean setFinalActivityTip(ActivityBean activityBean,int tipId);
 }

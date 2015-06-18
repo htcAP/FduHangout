@@ -35,6 +35,21 @@ public class ActivityServiceImpl implements ActivityService {
         return 0;
     }
 
+    @Override
+    public ActivityTipBean getActionTip(int id) {
+        return null;
+    }
+
+    @Override
+    public boolean voteForActivityTip(ActivityTipBean activityTipBean) {
+        return false;
+    }
+
+    @Override
+    public boolean setFinalActivityTip(ActivityBean activityBean, int tipId) {
+        return false;
+    }
+
     ActivityBean getActivityById(int id) {
 
         return null;

@@ -35,7 +35,7 @@ public class LoginController extends BaseController {
             UserBean userBean = userService.getUserByPhone(user.getPhone());
             if (userBean == null) {
                 /* User does not exist.*/
-                errResponse.setErrNo(1);
+                errResponse.setErrNo(4);
                 errResponse.setMessage("用户不存在");
                 response.setError(errResponse);
                 return response;

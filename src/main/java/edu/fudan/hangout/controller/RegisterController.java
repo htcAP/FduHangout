@@ -42,7 +42,7 @@ public class RegisterController extends BaseController {
             //TODO: tzy 登录验证，0|无错误（返回token）,1|手机号已被注册
             if (userService.getUserByPhone(user.getPhone()) != null) {
                 /* user already existed.*/
-                response.setErrNo(1);
+                response.setErrNo(2);
                 response.setMessage("用户已被注册");
                 return response;
             }
