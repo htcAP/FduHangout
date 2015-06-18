@@ -119,23 +119,53 @@ test
 
     //=============add activity photo
 
-    window.add_activity_photos = {
+    window.add_activity_photo = {
         token: "Hfyd7Nxcn",//token
         url: 'hahahaha.png',
         activity_id: 233
     };
     window.activityPhotoURL = '/api/activity/post/photo';
-    ajax(activityPhotoURL, JSON.stringify(add_activity_photos), "add activity photo");
-    //    console.log(JSON.stringify(add_activity));
+    ajax(activityPhotoURL, JSON.stringify(add_activity_photo), "add activity photo");
+
+    //==============decide activity
 
     //===============================get activity
 
+    //=============get activity
     window.getActivity = {
         token: "Hfyd7Nxcn",
         activity_id: 233
     };
     window.getActivityURL = '/api/activity/get/activity';
     ajax(getActivityURL, JSON.stringify(getActivity), "get activity");
+
+    //=============get all activity
+
+    window.getAllActivity = {
+        token: "Hfyd7Nxcn",
+        activity_kind: 2
+    };
+    window.getAllActivityURL = '/api/activity/get/list/all';
+    ajax(getAllActivityURL, JSON.stringify(getAllActivity), "get all activity");
+
+    //=============get ongoing activity
+
+    window.getOngoingActivity = {
+        token: "Hfyd7Nxcn",
+        activity_kind: 2
+    };
+    window.getOngoingActivityURL = '/api/activity/get/list/ongoing';
+    ajax(getOngoingActivityURL, JSON.stringify(getOngoingActivity), "get Ongoing activity");
+
+    //=============get finished activity
+
+    window.getFinishedActivity = {
+        token: "Hfyd7Nxcn",
+        activity_kind: 2
+    };
+    window.getFinishedActivityURL = '/api/activity/get/list/finished';
+    ajax(getFinishedActivityURL, JSON.stringify(getFinishedActivity), "get Finished activity");
+
 
 </script>
 </html>

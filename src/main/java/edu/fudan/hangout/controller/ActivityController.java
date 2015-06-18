@@ -1,10 +1,7 @@
 package edu.fudan.hangout.controller;
 
 import edu.fudan.hangout.view.request.activity.*;
-import edu.fudan.hangout.view.response.ActivityListResponse;
-import edu.fudan.hangout.view.response.ActivityResponse;
-import edu.fudan.hangout.view.response.AddActivityResponse;
-import edu.fudan.hangout.view.response.JSONResponse;
+import edu.fudan.hangout.view.response.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,9 +43,11 @@ public class ActivityController extends BaseController {
     @RequestMapping(value = "/post/time_location", method = RequestMethod.POST)
     public
     @ResponseBody
-    JSONResponse addTimeLocation(@RequestBody TimeLocationView timeLocationView) {
-        JSONResponse response = new JSONResponse();
-        if (validate(timeLocationView, response)) {
+    TimeLocationResponse addTimeLocation(@RequestBody TimeLocationView timeLocationView) {
+        TimeLocationResponse response = new TimeLocationResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(timeLocationView, error)) {
             //TODO: tzy 添加时间地点，0|无错误 1|token错误 2|activity_id错误 3|time解析错误 4|没有权限
         }
         return response;
@@ -150,7 +149,6 @@ public class ActivityController extends BaseController {
         }
         return response;
     }
-
 
 
 
