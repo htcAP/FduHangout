@@ -97,6 +97,17 @@ test
     window.inviteUserURL = '/api/activity/post/invite';
     ajax(inviteUserURL, JSON.stringify(invite_user), 'invite user');
 
+    //=============reply invite
+
+    window.replyInvite = {
+        token:"Hfyd7Nxcn",//token
+        activity_id: 123,
+        attend: false
+    };
+    window.replyInviteURL = '/api/activity/post/reply_invite';
+    ajax(replyInviteURL, JSON.stringify(replyInvite), 'reply invite!!!');
+
+
     //=============add time location
 
     window.time_location = {
@@ -166,6 +177,18 @@ test
     window.getFinishedActivityURL = '/api/activity/get/list/finished';
     ajax(getFinishedActivityURL, JSON.stringify(getFinishedActivity), "get Finished activity");
 
+    //=================================get user information
+
+    window.getUser = {
+        token: "Hfyd7Nxcn",
+        activity_kind: 1
+    };
+    window.getUserURL = '/api/user/get/user';
+    ajax(getUserURL, JSON.stringify(getUser), "get user information");
+
+    //=================================get user friend list
+    //=================================get user signature
+    //=================================search user
 
 </script>
 </html>
