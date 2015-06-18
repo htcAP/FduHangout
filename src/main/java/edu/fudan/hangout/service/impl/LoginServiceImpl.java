@@ -36,6 +36,12 @@ public class LoginServiceImpl implements LoginService {
 
             /* Get user log.*/
             userLog = userLogDao.getUserLog(user.getId());
+        } else {
+            /* Generate a new token for the user.*/
+            String tokenString = user.getId() + "." + System.currentTimeMillis();
+
+            userLog.setToken(SHA1Hasher.makeSHA1Hash(tokenString));
+            userLogDao.updateUserLog(userLog);
         }
         /*The user has already in the log database, return the token.*/
         return userLog.getToken();

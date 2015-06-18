@@ -44,7 +44,11 @@ public class UserLogDaoImpl implements UserLogDao {
 
     @Override
     public boolean updateUserLog(UserLogBean userBean) {
-        return false;
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(userBean);
+        tx.commit();
+        return true;
     }
 
 

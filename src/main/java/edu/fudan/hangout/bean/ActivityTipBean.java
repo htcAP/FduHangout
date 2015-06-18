@@ -15,6 +15,9 @@ public class ActivityTipBean {
     private Double longitude;
     private Timestamp endDatetime;
     private Integer votes;
+    private double latitude;
+    private int userId;
+    private int activityId;
 
     @Id
     @Column(name = "id")
@@ -104,5 +107,35 @@ public class ActivityTipBean {
         result = 31 * result + (endDatetime != null ? endDatetime.hashCode() : 0);
         result = 31 * result + (votes != null ? votes.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "latitude")
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "activity_id")
+    public int getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 }

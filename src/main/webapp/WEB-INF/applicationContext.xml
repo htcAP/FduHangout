@@ -32,6 +32,9 @@
     <bean id="activityResponseDao" class="edu.fudan.hangout.dao.impl.ActivityResponseDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="resourceDao" class="edu.fudan.hangout.dao.impl.ResourceDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
     <!--services-->
     <bean id="loginService" class="edu.fudan.hangout.service.impl.LoginServiceImpl">
@@ -49,6 +52,14 @@
     </bean>
     <bean id="friendshipService" class="edu.fudan.hangout.service.impl.FriendshipServiceImpl">
         <property name="friendshipDao" ref="friendshipDao"/>
+    </bean>
+    <bean id="activityService" class="edu.fudan.hangout.service.impl.ActivityServiceImpl">
+        <property name="activityDao" ref="activityDao"/>
+        <property name="activityTipDao" ref="activityTipDao"/>
+        <property name="activityResponseDao" ref="activityResponseDao"/>
+    </bean>
+    <bean id="resourceService" class="edu.fudan.hangout.service.impl.ResourceServiceImpl">
+        <property name="resourceDao" ref="resourceDao"/>
     </bean>
 
     <!--data source-->
