@@ -14,6 +14,7 @@ import java.util.List;
  * Created by Tong on 06.18.
  */
 public class ActivityServiceImpl implements ActivityService {
+    public static int ACTIVITY_PENDING = 0, ACTIVITY_ACCEPTED = 1, ACTIVITY_REJECTED = -1;
     private ActivityDaoImpl activityDao;
     private ActivityTipDaoImpl activityTipDao;
     private ActivityResponseDaoImpl activityResponseDao;
@@ -39,7 +40,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public ActivityTipBean getActionTip(int id) {
+    public ActivityTipBean getActivityTip(int id) {
         return null;
     }
 
@@ -54,17 +55,37 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public ActivityResponseBean getActionResponse(int userId, int activityId) {
+    public ActivityResponseBean getActivityResponse(int userId, int activityId) {
         return null;
     }
 
     @Override
-    public boolean updateActionResponse(ActivityResponseBean activityResponseBean) {
+    public boolean updateActivityResponse(ActivityResponseBean activityResponseBean) {
         return false;
     }
 
     @Override
     public List<Integer> getActivityTipIds(int activityId) {
+        return null;
+    }
+
+    @Override
+    public List<ActivityResponseBean> getActivityResponses(int activityId) {
+        return null;
+    }
+
+    @Override
+    public List<Integer> getAllActivities(int userId) {
+        return null;
+    }
+
+    @Override
+    public List<Integer> getOngoingActivities(int userId) {
+        return null;
+    }
+
+    @Override
+    public List<Integer> getFinishedActivities(int userId) {
         return null;
     }
 

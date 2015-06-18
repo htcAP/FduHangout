@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by lifengshuang on 6/17/15.
@@ -234,7 +235,7 @@ public class ActivityController extends BaseController {
 
             /* User checked. Now check activity.*/
             int tipId = voteView.getTime_location_id();
-            ActivityTipBean activityTipBean = activityService.getActionTip(tipId);
+            ActivityTipBean activityTipBean = activityService.getActivityTip(tipId);
             if (activityTipBean == null) {
                 /* Tip does not exist.*/
                 error.setErrNo(2);
@@ -265,7 +266,7 @@ public class ActivityController extends BaseController {
 
             /* User checked. Check activity tip.*/
             int tipId = decideView.getTime_location_id();
-            ActivityTipBean activityTipBean = activityService.getActionTip(tipId);
+            ActivityTipBean activityTipBean = activityService.getActivityTip(tipId);
             if (activityTipBean == null) {
                 /* Tip does not exist.*/
                 error.setErrNo(2);
@@ -305,7 +306,7 @@ public class ActivityController extends BaseController {
             int activityId = replyInviteView.getActivity_id();
 
             /* Check response.*/
-            ActivityResponseBean activityResponseBean = activityService.getActionResponse(userId, activityId);
+            ActivityResponseBean activityResponseBean = activityService.getActivityResponse(userId, activityId);
             if (activityResponseBean == null) {
                 error.setErrNo(2);
                 error.setMessage("活动请求不存在");
@@ -314,7 +315,7 @@ public class ActivityController extends BaseController {
 
             /* Do reply.*/
             activityResponseBean.setStatus((replyInviteView.isAttend()) ? 1 : -1);
-            boolean succeeded = activityService.updateActionResponse(activityResponseBean);
+            boolean succeeded = activityService.updateActivityResponse(activityResponseBean);
             if (succeeded) {
                 error.setErrNo(0);
                 error.setMessage("活动回复成功");
@@ -364,7 +365,7 @@ public class ActivityController extends BaseController {
             List<Integer> tipIds = activityService.getActivityTipIds(activityId);
             List<TimeLocationView> timeLocationViewList = new LinkedList<>();
             for (int tipId : tipIds) {
-                ActivityTipBean activityTipBean = activityService.getActionTip(tipId);
+                ActivityTipBean activityTipBean = activityService.getActivityTip(tipId);
                 TimeLocationView timeLocationView = new TimeLocationView();
                 timeLocationView.setActivity_id(activityId);
                 timeLocationView.getLocation().setPlace(activityTipBean.getLocation());
@@ -383,18 +384,31 @@ public class ActivityController extends BaseController {
 
             /* Action tips got. Keep getting resources.*/
             List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
-            List<String> photoUrlList = new LinkedList<>();
-            for (ResourceBean resourceBean : resourceBeanList) {
-                photoUrlList.add(resourceBean.getUrl());
-            }
+            List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
             String[] photoUrls = new String[0];
             photoUrls = photoUrlList.toArray(photoUrls);
             response.setPhoto_urls(photoUrls);
 
 
             /* Action tips got. Keep getting invitations.*/
-            /*TODO:Done*/
+            List<ActivityResponseBean> activityResponseBeanList = activityService.getActivityResponses(activityId);
+            List<InviteResponse> inviteResponseList = new LinkedList<>();
+            for (ActivityResponseBean activityResponseBean : activityResponseBeanList) {
+                InviteResponse inviteResponse = new InviteResponse();
+                inviteResponse.setUser_id(activityResponseBean.getUserId());
+                inviteResponse.setInvite_status(activityResponseBean.getStatus());
+                inviteResponseList.add(inviteResponse);
+            }
+
+            InviteResponse[] inviteResponses = new InviteResponse[0];
+            inviteResponses = inviteResponseList.toArray(inviteResponses);
+            response.setInvites(inviteResponses);
+
+            /* Invitations got.*/
+            error.setErrNo(0);
+            error.setMessage("获取活动成功");
         }
+
         return response;
     }
 
@@ -407,7 +421,22 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
-            //TODO: tzy
+            /* Check user token.*/
+            int userId = tokenService.getUserId(getActivityListView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return response;
+            }
+
+            List<Integer> activityIdList = activityService.getAllActivities(userId);
+            Integer[] activityIds = new Integer[0];
+            activityIds = activityIdList.toArray(activityIds);
+
+            error.setErrNo(0);
+            error.setMessage("获取用户所有活动成功");
+            response.setActivity_ids(activityIds);
         }
         return response;
     }
@@ -421,7 +450,22 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
-            //TODO: tzy
+            /* Check user token.*/
+            int userId = tokenService.getUserId(getActivityListView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return response;
+            }
+
+            List<Integer> activityIdList = activityService.getOngoingActivities(userId);
+            Integer[] activityIds = new Integer[0];
+            activityIds = activityIdList.toArray(activityIds);
+
+            error.setErrNo(0);
+            error.setMessage("获取用户正在进行的活动成功");
+            response.setActivity_ids(activityIds);
         }
         return response;
     }
@@ -435,7 +479,22 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
-            //TODO: tzy
+           /* Check user token.*/
+            int userId = tokenService.getUserId(getActivityListView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return response;
+            }
+
+            List<Integer> activityIdList = activityService.getAllActivities(userId);
+            Integer[] activityIds = new Integer[0];
+            activityIds = activityIdList.toArray(activityIds);
+
+            error.setErrNo(0);
+            error.setMessage("获取用户已结束的活动成功");
+            response.setActivity_ids(activityIds);
         }
         return response;
     }

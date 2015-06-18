@@ -18,15 +18,23 @@ public interface ActivityService {
 
     public int createActivityTip(ActivityTipBean activityTipBean);
 
-    public ActivityTipBean getActionTip(int id);
+    public ActivityTipBean getActivityTip(int id);
 
     public boolean voteForActivityTip(ActivityTipBean activityTipBean);
 
-    public boolean setFinalActivityTip(ActivityBean activityBean,int tipId);
+    public boolean setFinalActivityTip(ActivityBean activityBean, int tipId);
 
-    public ActivityResponseBean getActionResponse(int userId, int activityId);
+    public ActivityResponseBean getActivityResponse(int userId, int activityId);
 
-    public boolean updateActionResponse(ActivityResponseBean activityResponseBean);
+    public boolean updateActivityResponse(ActivityResponseBean activityResponseBean);
 
     public List<Integer> getActivityTipIds(int activityId);
+
+    public List<ActivityResponseBean> getActivityResponses(int activityId);
+
+    public List<Integer> getAllActivities(int userId);
+
+    public List<Integer> getOngoingActivities(int userId);
+
+    public List<Integer> getFinishedActivities(int userId);
 }
