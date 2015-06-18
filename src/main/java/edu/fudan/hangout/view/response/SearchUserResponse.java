@@ -7,7 +7,7 @@ public class SearchUserResponse {
 
     private JSONResponse error;
 
-    private Integer[] user_ids;
+    private UserResponse[] users;
 
     public JSONResponse getError() {
         return error;
@@ -17,11 +17,11 @@ public class SearchUserResponse {
         this.error = error;
     }
 
-    public Integer[] getUser_ids() {
-        return user_ids;
+    public UserResponse[] getUsers() {
+        return users;
     }
 
-    public void setUser_ids(Integer[] user_ids) {
-        this.user_ids = user_ids;
+    public void setUsers(UserResponse[] users) {
+        this.users = users;
     }
 }
