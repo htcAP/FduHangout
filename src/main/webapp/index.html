@@ -105,7 +105,7 @@ test
         attend: false
     };
     window.replyInviteURL = '/api/activity/post/reply_invite';
-    ajax(replyInviteURL, JSON.stringify(replyInvite), 'reply invite!!!');
+    ajax(replyInviteURL, JSON.stringify(replyInvite), 'reply invite');
 
 
     //=============add time location
@@ -181,14 +181,38 @@ test
 
     window.getUser = {
         token: "Hfyd7Nxcn",
-        activity_kind: 1
+        user_id: 1
     };
     window.getUserURL = '/api/user/get/user';
     ajax(getUserURL, JSON.stringify(getUser), "get user information");
 
     //=================================get user friend list
+
+    window.getFriendList = {
+        token: "Hfyd7Nxcn"
+    };
+    window.getFriendListURL = '/api/user/get/friend_list';
+    ajax(getFriendListURL, JSON.stringify(getFriendList), "get user friend list");
+
     //=================================get user signature
+
+    window.signature = {
+        token: "Hfyd7Nxcn",
+        signature: "fsdfds"
+    };
+    window.signaturetURL = '/api/user/signature';
+    ajax(signaturetURL, JSON.stringify(signature), "set signature");
+
     //=================================search user
+
+    window.search = {
+        token: "Hfyd7Nxcn",
+        search_text: "fsdfds"
+    };
+    window.searchURL = '/api/user/search';
+    ajax(searchURL, JSON.stringify(search), "search");
+
+
 
 </script>
 </html>

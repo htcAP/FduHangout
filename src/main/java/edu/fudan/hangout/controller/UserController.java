@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     @RequestMapping(value = "/user/get/user", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     UserResponse getTargetUser(@RequestBody GetUserView user) {
         UserResponse response = new UserResponse();
         JSONResponse error = new JSONResponse();
@@ -29,7 +30,8 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping(value = "/user/get/friend_list", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     FriendListResponse getFriendList(@RequestBody GetFriendListView getFriendListView) {
         FriendListResponse response = new FriendListResponse();
         JSONResponse error = new JSONResponse();
@@ -59,6 +61,19 @@ public class UserController extends BaseController{
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(searchUserView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/user/search_contact", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    SearchUserResponse searchContact(@RequestBody SearchContactView searchContactView) {
+        SearchUserResponse response = new SearchUserResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(searchContactView, error)) {
             //TODO: tzy
         }
         return response;
