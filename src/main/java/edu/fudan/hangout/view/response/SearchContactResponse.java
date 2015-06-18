@@ -7,6 +7,21 @@ public class SearchContactResponse {
 
     private JSONResponse error;
 
+    private UserResponse[] users;
 
+    public JSONResponse getError() {
+        return error;
+    }
 
+    public void setError(JSONResponse error) {
+        this.error = error;
+    }
+
+    public UserResponse[] getUsers() {
+        return users;
+    }
+
+    public void setUsers(UserResponse[] users) {
+        this.users = users;
+    }
 }

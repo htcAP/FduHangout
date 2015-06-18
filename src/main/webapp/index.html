@@ -213,6 +213,14 @@ test
     ajax(searchURL, JSON.stringify(search), "search");
 
 
+    //=================================search contact
+
+    window.search_contact = {
+        token: "Hfyd7Nxcn",
+        phones: ["15012341234", "27495729301", "13636663666"]
+    };
+    window.search_contactURL = '/api/user/search_contact';
+    ajax(search_contactURL, JSON.stringify(search_contact), "search contact");
 
 </script>
 </html>

@@ -7,7 +7,7 @@ public class FriendListResponse {
 
     private JSONResponse error;
 
-    private Integer[] friend_list;
+    private UserResponse[] friend_list;
 
     public JSONResponse getError() {
         return error;
@@ -17,11 +17,11 @@ public class FriendListResponse {
         this.error = error;
     }
 
-    public Integer[] getFriend_list() {
+    public UserResponse[] getFriend_list() {
         return friend_list;
     }
 
-    public void setFriend_list(Integer[] friend_list) {
+    public void setFriend_list(UserResponse[] friend_list) {
         this.friend_list = friend_list;
     }
 }

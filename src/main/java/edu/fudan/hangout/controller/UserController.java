@@ -69,8 +69,8 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/user/search_contact", method = RequestMethod.POST)
     public
     @ResponseBody
-    SearchUserResponse searchContact(@RequestBody SearchContactView searchContactView) {
-        SearchUserResponse response = new SearchUserResponse();
+    SearchContactResponse searchContact(@RequestBody SearchContactView searchContactView) {
+        SearchContactResponse response = new SearchContactResponse();
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(searchContactView, error)) {
