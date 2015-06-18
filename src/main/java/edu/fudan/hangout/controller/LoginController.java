@@ -4,14 +4,11 @@ import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.service.impl.LoginServiceImpl;
 import edu.fudan.hangout.service.impl.UserServiceImpl;
 import edu.fudan.hangout.util.SHA1Hasher;
+import edu.fudan.hangout.view.request.user.LoginUser;
 import edu.fudan.hangout.view.response.JSONResponse;
-import edu.fudan.hangout.view.user.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by lifengshuang on 6/16/15.
@@ -61,7 +58,6 @@ public class LoginController extends BaseController {
                 response.setMessage("登录失败");
             }
         }
-
         return response;
     }
 

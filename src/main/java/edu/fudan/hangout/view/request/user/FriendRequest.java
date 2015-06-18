@@ -1,17 +1,17 @@
-package edu.fudan.hangout.view.user.excluded;
+package edu.fudan.hangout.view.request.user;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * Created by lifengshuang on 6/17/15.
  */
-public class AddFriendView {
+public class FriendRequest {
 
     @NotNull(message = "100|缺少token字段")
     private String token;
 
-    @NotNull(message = "101|缺少user_to_add字段")
-    private int user_to_add;
+    @NotNull(message = "101|缺少target_user字段")
+    private int target_user;
 
     public String getToken() {
         return token;
@@ -21,11 +21,11 @@ public class AddFriendView {
         this.token = token;
     }
 
-    public int getUser_to_add() {
-        return user_to_add;
+    public int getTarget_user() {
+        return target_user;
     }
 
-    public void setUser_to_add(int user_to_add) {
-        this.user_to_add = user_to_add;
+    public void setTarget_user(int target_user) {
+        this.target_user = target_user;
     }
 }
