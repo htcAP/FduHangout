@@ -242,6 +242,17 @@ public class ActivityController extends BaseController {
         return response;
     }
 
+    @RequestMapping(value = "/post/reply_invite", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JSONResponse reply(@RequestBody ReplyInviteView replyInviteView) {
+        JSONResponse response = new JSONResponse();
+        if (validate(replyInviteView, response)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
 
     @RequestMapping(value = "/get/activity", method = RequestMethod.POST)
     public
