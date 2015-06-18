@@ -82,7 +82,6 @@ public class ActivityController extends BaseController {
     JSONResponse inviteUser(@RequestBody InviteUserView inviteUserView) {
         JSONResponse error = new JSONResponse();
         if (validate(inviteUserView, error)) {
-            //TODO: tzy 邀请好友，0|无错误 1|token错误 2|activity_id错误 3|user_id有误 4|没有权限
             /* Check user token.*/
             int userId = tokenService.getUserId(inviteUserView.getToken());
             if (userId == -1) {
@@ -131,7 +130,6 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(timeLocationView, error)) {
-            //TODO: tzy 添加时间地点，0|无错误 1|token错误 2|activity_id错误 3|time解析错误 4|没有权限
             /* Check user token.*/
             int userId = tokenService.getUserId(timeLocationView.getToken());
             if (userId == -1) {
@@ -181,7 +179,6 @@ public class ActivityController extends BaseController {
     JSONResponse addPhoto(@RequestBody ActivityPhotoView activityPhotoView) {
         JSONResponse error = new JSONResponse();
         if (validate(activityPhotoView, error)) {
-            //TODO: tzy 添加照片，0|无错误 1|token错误 2|activity_id错误 3|url不存在 4|没有权限
             /* Check user token.*/
             int userId = tokenService.getUserId(activityPhotoView.getToken());
             if (userId == -1) {
@@ -227,6 +224,7 @@ public class ActivityController extends BaseController {
         JSONResponse response = new JSONResponse();
         if (validate(voteView, response)) {
             //TODO: tzy 给时间地点投票，0|无错误 1|token错误 2|time_location_id错误 3|没有权限
+
         }
         return response;
     }
