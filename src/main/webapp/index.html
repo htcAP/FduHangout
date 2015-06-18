@@ -143,7 +143,7 @@ test
 
     window.getAllActivity = {
         token: "Hfyd7Nxcn",
-        activity_kind: 2
+        activity_kind: 0
     };
     window.getAllActivityURL = '/api/activity/get/list/all';
     ajax(getAllActivityURL, JSON.stringify(getAllActivity), "get all activity");
@@ -152,7 +152,7 @@ test
 
     window.getOngoingActivity = {
         token: "Hfyd7Nxcn",
-        activity_kind: 2
+        activity_kind: 1
     };
     window.getOngoingActivityURL = '/api/activity/get/list/ongoing';
     ajax(getOngoingActivityURL, JSON.stringify(getOngoingActivity), "get Ongoing activity");

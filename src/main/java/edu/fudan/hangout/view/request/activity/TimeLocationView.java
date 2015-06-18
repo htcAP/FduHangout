@@ -22,6 +22,16 @@ public class TimeLocationView {
 
     private Integer time_location_id;
 
+    private Integer votes;
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
     public String getToken() {
         return token;
     }
