@@ -15,7 +15,7 @@ public class ActivityResponse {
 
     private JSONResponse error;
 
-    private Integer[] invites;
+    private InviteResponse[] invites;
 
     private Integer activity_id;
 
@@ -57,14 +57,6 @@ public class ActivityResponse {
         this.error = error;
     }
 
-    public Integer[] getInvites() {
-        return invites;
-    }
-
-    public void setInvites(Integer[] invites) {
-        this.invites = invites;
-    }
-
     public Integer getActivity_id() {
         return activity_id;
     }
@@ -95,5 +87,13 @@ public class ActivityResponse {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    public InviteResponse[] getInvites() {
+        return invites;
+    }
+
+    public void setInvites(InviteResponse[] invites) {
+        this.invites = invites;
     }
 }
