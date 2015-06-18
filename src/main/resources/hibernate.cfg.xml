@@ -5,8 +5,6 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.url">jdbc:mysql://172.17.0.1:3306/fdu_hangout</property>
-        <property name="connection.username">mw</property>
-        <property name="connection.password">mw</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.current_session_context_class">thread</property>
 

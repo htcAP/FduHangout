@@ -47,7 +47,6 @@ public class FriendController extends BaseController {
     JSONResponse addFriend(@RequestBody FriendRequest friendRequest) {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
-            //TODO: tzy 添加好友： 0|申请成功，1|token错误，2|目标用户不存在，3|对方已经是你的好友
             /* Check user token.*/
             int userId = tokenService.getUserId(friendRequest.getToken());
             if (userId == -1) {
@@ -89,7 +88,6 @@ public class FriendController extends BaseController {
     JSONResponse removeFriend(@RequestBody FriendRequest friendRequest) {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
-            //TODO: tzy 删除好友： 0|删除成功，1|token错误，2|目标用户不存在，3|对方不是你的好友
             /* Check user token.*/
             int userId = tokenService.getUserId(friendRequest.getToken());
             if (userId == -1) {
@@ -131,7 +129,6 @@ public class FriendController extends BaseController {
     JSONResponse acceptFriend(@RequestBody FriendRequest friendRequest) {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
-            //TODO: tzy 接受好友请求： 0|删除成功，1|token错误，2|目标用户不存在，3|对方不曾发出好友申请
             /* Check user token.*/
             int userId = tokenService.getUserId(friendRequest.getToken());
             if (userId == -1) {
@@ -173,7 +170,6 @@ public class FriendController extends BaseController {
     JSONResponse rejectFriend(@RequestBody FriendRequest friendRequest) {
         JSONResponse response = new JSONResponse();
         if (validate(friendRequest, response)) {
-            //TODO: tzy 拒绝好友请求： 0|删除成功，1|token错误，2|目标用户不存在，3|对方不曾发出好友申请
             /* Check user token.*/
             int userId = tokenService.getUserId(friendRequest.getToken());
             if (userId == -1) {

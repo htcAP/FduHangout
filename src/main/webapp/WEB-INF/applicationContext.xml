@@ -23,6 +23,15 @@
     <bean id="friendshipDao" class="edu.fudan.hangout.dao.impl.FriendshipDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="activityDao" class="edu.fudan.hangout.dao.impl.ActivityDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="activityTipDao" class="edu.fudan.hangout.dao.impl.ActivityTipDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="activityResponseDao" class="edu.fudan.hangout.dao.impl.ActivityResponseDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
     <!--services-->
     <bean id="loginService" class="edu.fudan.hangout.service.impl.LoginServiceImpl">

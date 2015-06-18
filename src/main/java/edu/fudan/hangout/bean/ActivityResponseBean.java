@@ -3,7 +3,7 @@ package edu.fudan.hangout.bean;
 import javax.persistence.*;
 
 /**
- * Created by Tong on 06.16.
+ * Created by Tong on 06.18.
  */
 @Entity
 @Table(name = "activity_response", schema = "", catalog = "fdu_hangout")
@@ -16,6 +16,7 @@ public class ActivityResponseBean {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
