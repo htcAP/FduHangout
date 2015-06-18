@@ -1,6 +1,8 @@
 package edu.fudan.hangout.controller;
 
 import edu.fudan.hangout.view.request.activity.*;
+import edu.fudan.hangout.view.response.ActivityListResponse;
+import edu.fudan.hangout.view.response.ActivityResponse;
 import edu.fudan.hangout.view.response.AddActivityResponse;
 import edu.fudan.hangout.view.response.JSONResponse;
 import org.springframework.stereotype.Controller;
@@ -73,5 +75,83 @@ public class ActivityController extends BaseController {
         }
         return response;
     }
+
+    @RequestMapping(value = "/post/decide", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JSONResponse decide(@RequestBody DecideView decideView) {
+        JSONResponse response = new JSONResponse();
+        if (validate(decideView, response)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/activity", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityResponse getActivity(@RequestBody GetActivityView getActivityView) {
+        ActivityResponse response = new ActivityResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/list/all", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityListResponse getAllActivityList(@RequestBody GetActivityListView getActivityListView) {
+        ActivityListResponse response = new ActivityListResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityListView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/list/ongoing", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityListResponse getOngoingActivityList(@RequestBody GetActivityListView getActivityListView) {
+        ActivityListResponse response = new ActivityListResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityListView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/list/finished", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityListResponse getFinishedActivityList(@RequestBody GetActivityListView getActivityListView) {
+        ActivityListResponse response = new ActivityListResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityListView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
 
 }

@@ -101,7 +101,10 @@ test
 
     window.time_location = {
         token: "Hfyd7Nxcn",//token
-        time: "2011-10-05T14:48:00.000Z",
+        time: {
+            start_time: "2011-10-05T14:48:00.000Z",
+            end_time: "2011-10-05T14:48:00.000Z"
+        },
         location: {
             latitude: 123123.4324,
             longitude: 313213.4324,
@@ -124,7 +127,15 @@ test
     window.activityPhotoURL = '/api/activity/post/photo';
     ajax(activityPhotoURL, JSON.stringify(add_activity_photos), "add activity photo");
     //    console.log(JSON.stringify(add_activity));
-    //===============================
+
+    //===============================get activity
+
+    window.getActivity = {
+        token: "Hfyd7Nxcn",
+        activity_id: 233
+    };
+    window.getActivityURL = '/api/activity/get/activity';
+    ajax(getActivityURL, JSON.stringify(getActivity), "get activity");
 
 </script>
 </html>

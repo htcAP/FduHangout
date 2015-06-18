@@ -7,13 +7,13 @@ import javax.validation.constraints.NotNull;
  */
 public class LocationView {
 
-    @NotNull(message = "102|缺少location.place字段")
+    @NotNull(message = "110|缺少location.place字段")
     private String place;
 
-    @NotNull(message = "103|缺少location.latitude字段")
+    @NotNull(message = "111|缺少location.latitude字段")
     private double latitude;
 
-    @NotNull(message = "104|缺少location.longitude字段")
+    @NotNull(message = "112|缺少location.longitude字段")
     private double longitude;
 
     public String getPlace() {
