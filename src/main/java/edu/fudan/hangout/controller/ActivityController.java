@@ -1,8 +1,7 @@
 package edu.fudan.hangout.controller;
 
 import edu.fudan.hangout.view.request.activity.*;
-import edu.fudan.hangout.view.response.AddActivityResponse;
-import edu.fudan.hangout.view.response.JSONResponse;
+import edu.fudan.hangout.view.response.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,9 +43,11 @@ public class ActivityController extends BaseController {
     @RequestMapping(value = "/post/time_location", method = RequestMethod.POST)
     public
     @ResponseBody
-    JSONResponse addTimeLocation(@RequestBody TimeLocationView timeLocationView) {
-        JSONResponse response = new JSONResponse();
-        if (validate(timeLocationView, response)) {
+    TimeLocationResponse addTimeLocation(@RequestBody TimeLocationView timeLocationView) {
+        TimeLocationResponse response = new TimeLocationResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(timeLocationView, error)) {
             //TODO: tzy 添加时间地点，0|无错误 1|token错误 2|activity_id错误 3|time解析错误 4|没有权限
         }
         return response;
@@ -73,5 +74,82 @@ public class ActivityController extends BaseController {
         }
         return response;
     }
+
+    @RequestMapping(value = "/post/decide", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JSONResponse decide(@RequestBody DecideView decideView) {
+        JSONResponse response = new JSONResponse();
+        if (validate(decideView, response)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/activity", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityResponse getActivity(@RequestBody GetActivityView getActivityView) {
+        ActivityResponse response = new ActivityResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/list/all", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityListResponse getAllActivityList(@RequestBody GetActivityListView getActivityListView) {
+        ActivityListResponse response = new ActivityListResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityListView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/list/ongoing", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityListResponse getOngoingActivityList(@RequestBody GetActivityListView getActivityListView) {
+        ActivityListResponse response = new ActivityListResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityListView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
+
+
+    @RequestMapping(value = "/get/list/finished", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityListResponse getFinishedActivityList(@RequestBody GetActivityListView getActivityListView) {
+        ActivityListResponse response = new ActivityListResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if (validate(getActivityListView, error)) {
+            //TODO: tzy
+        }
+        return response;
+    }
+
+
 
 }

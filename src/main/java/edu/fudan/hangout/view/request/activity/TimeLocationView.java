@@ -14,11 +14,13 @@ public class TimeLocationView {
     @NotNull(message = "101|缺少location字段")
     private LocationView location;
 
-    @NotNull(message = "105|缺少activity_id字段")
+    @NotNull(message = "102|缺少activity_id字段")
     private Integer activity_id;
 
-    @NotNull(message = "100|缺少time字段")
-    private String time;
+    @NotNull(message = "103|缺少time字段")
+    private ActivityTimeView time;
+
+    private Integer time_location_id;
 
     public String getToken() {
         return token;
@@ -32,15 +34,15 @@ public class TimeLocationView {
         return activity_id;
     }
 
-    public void setActivity_id(int activity_id) {
+    public void setActivity_id(Integer activity_id) {
         this.activity_id = activity_id;
     }
 
-    public String getTime() {
+    public ActivityTimeView getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(ActivityTimeView time) {
         this.time = time;
     }
 
@@ -50,5 +52,13 @@ public class TimeLocationView {
 
     public void setLocation(LocationView location) {
         this.location = location;
+    }
+
+    public Integer getTime_location_id() {
+        return time_location_id;
+    }
+
+    public void setTime_location_id(Integer time_location_id) {
+        this.time_location_id = time_location_id;
     }
 }
