@@ -393,7 +393,7 @@ public class ActivityController extends BaseController {
 
 
             /* Action tips got. Keep getting invitations.*/
-            /*TODO*/
+            /*TODO:Done*/
         }
         return response;
     }
