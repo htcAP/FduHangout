@@ -52,7 +52,7 @@ public class FriendController extends BaseController {
             if (userId == -1) {
             /* Token error.*/
                 response.setErrNo(1);
-                response.setMessage("用户Token错误.");
+                response.setMessage("用户Token错误");
                 return response;
             }
             UserBean user = userService.getUserById(userId);
@@ -62,7 +62,7 @@ public class FriendController extends BaseController {
             if (friend == null || friendRequest.getTarget_user() == userId) {
             /* Friend id does not exist or your id duplicates with friend's id.*/
                 response.setErrNo(2);
-                response.setMessage("目标用户不存在或非法.");
+                response.setMessage("目标用户不存在或非法");
                 return response;
             }
 
@@ -70,11 +70,11 @@ public class FriendController extends BaseController {
             boolean succeeded = friendshipService.createFriendRequest(user, friend);
             if (!succeeded) {
                 response.setErrNo(3);
-                response.setMessage("目标用户已经是好友.");
+                response.setMessage("目标用户已经是好友");
                 return response;
             } else {
                 response.setErrNo(0);
-                response.setMessage("添加好友成功.");
+                response.setMessage("发送好友申请成功");
                 return response;
             }
         }
