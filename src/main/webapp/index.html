@@ -141,20 +141,20 @@ test
     //=============vote time location
 
     window.vote = {
-        token: "BHGU7xhq2d",
-        time_location_id: 32
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",
+        time_location_id: 1
     };
     window.voteURL = '/api/activity/post/vote';
-    ajax(voteURL, JSON.stringify(vote), "vote");
+//    ajax(voteURL, JSON.stringify(vote), "vote");
 
     //==============decide activity
 
     window.decide = {
-        token: "Hfyd7Nxcn",//token
-        time_location_id: 213
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",//token
+        time_location_id: 1
     };
     window.decideURL = '/api/activity//post/decide';
-    ajax(decideURL, JSON.stringify(decide), "decide");
+//    ajax(decideURL, JSON.stringify(decide), "decide");
 
     //===============================from activity
 
@@ -187,7 +187,7 @@ test
     //=============from finished activity
 
     window.getFinishedActivity = {
-        token: "Hfyd7Nxcn",
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",
         activity_kind: 2
     };
     window.getFinishedActivityURL = '/api/activity/get/list/finished';
@@ -196,7 +196,7 @@ test
     //=================================from user information
 
     window.getUser = {
-        token: "Hfyd7Nxcn",
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",
         user_id: 1
     };
     window.getUserURL = '/api/user/get/user';
@@ -205,7 +205,7 @@ test
     //=================================from user friend list
 
     window.getFriendList = {
-        token: "Hfyd7Nxcn"
+        token: "98f18b455298667ab4e40af1f49ce444aabde050"
     };
     window.getFriendListURL = '/api/user/get/friend_list';
 //    ajax(getFriendListURL, JSON.stringify(getFriendList), "from user friend list");

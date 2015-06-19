@@ -66,7 +66,7 @@ public class ActivityServiceImpl implements ActivityService {
     public boolean setFinalActivityTip(ActivityBean activityBean, int tipId) {
         activityBean.setFinalTip(tipId);
         activityDao.updateActivity(activityBean);
-        return false;
+        return true;
     }
 
     @Override

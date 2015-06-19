@@ -18,6 +18,11 @@ public class TimeLocationView {
     private Integer activity_id;
 
     @NotNull(message = "103|缺少time字段")
+    public TimeLocationView() {
+        this.location = new LocationView();
+        this.time = new ActivityTimeView();
+
+    }
     private ActivityTimeView time;
 
     private Integer time_location_id;

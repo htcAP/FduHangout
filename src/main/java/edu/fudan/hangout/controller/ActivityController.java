@@ -61,7 +61,7 @@ public class ActivityController extends BaseController {
             ActivityBean activityBean = new ActivityBean();
             activityBean.setTitle(addActivityView.getTitle());
             activityBean.setDetail(addActivityView.getDescription());
-            activityBean.setJoinDeadline(Timestamp.valueOf(addActivityView.getDeadline()));
+            activityBean.setJoinDeadline(new Timestamp(addActivityView.getDeadline()));
             activityBean.setOrganizerId(userId);
 
             int activityId = activityService.createActivity(activityBean);
@@ -155,8 +155,8 @@ public class ActivityController extends BaseController {
             activityTipBean.setLongitude(timeLocationView.getLocation().getLongitude());
             activityTipBean.setLatitude(timeLocationView.getLocation().getLongitude());
             activityTipBean.setLocation(timeLocationView.getLocation().getPlace());
-            activityTipBean.setStartDatetime(Timestamp.valueOf(timeLocationView.getTime().getStart_time()));
-            activityTipBean.setEndDatetime(Timestamp.valueOf(timeLocationView.getTime().getEnd_time()));
+            activityTipBean.setStartDatetime(new Timestamp(timeLocationView.getTime().getStart_time()));
+            activityTipBean.setEndDatetime(new Timestamp(timeLocationView.getTime().getEnd_time()));
             activityTipBean.setUserId(userId);
             activityTipBean.setActivityId(activityId);
 
@@ -358,7 +358,7 @@ public class ActivityController extends BaseController {
             }
 
             response.setActivity_id(activityId);
-            response.setDeadline(activityBean.getJoinDeadline().toString());
+            response.setDeadline(activityBean.getJoinDeadline().getTime());
             response.setDescription(activityBean.getDetail());
             response.setTitle(activityBean.getTitle());
 
@@ -403,8 +403,8 @@ public class ActivityController extends BaseController {
                     timeLocationView.getLocation().setPlace(activityTipBean.getLocation());
                     timeLocationView.getLocation().setLatitude(activityTipBean.getLatitude());
                     timeLocationView.getLocation().setLongitude(activityTipBean.getLongitude());
-                    timeLocationView.getTime().setStart_time(activityTipBean.getStartDatetime().toString());
-                    timeLocationView.getTime().setStart_time(activityTipBean.getEndDatetime().toString());
+                    timeLocationView.getTime().setStart_time(activityTipBean.getStartDatetime().getTime());
+                    timeLocationView.getTime().setEnd_time(activityTipBean.getEndDatetime().getTime());
                     timeLocationView.setActivity_id(activityId);
                     timeLocationView.setVotes(activityTipBean.getVotes());
                     timeLocationView.setTime_location_id(tipId);
@@ -427,8 +427,8 @@ public class ActivityController extends BaseController {
                 timeLocationView.getLocation().setPlace(activityTipBean.getLocation());
                 timeLocationView.getLocation().setLatitude(activityTipBean.getLatitude());
                 timeLocationView.getLocation().setLongitude(activityTipBean.getLongitude());
-                timeLocationView.getTime().setStart_time(activityTipBean.getStartDatetime().toString());
-                timeLocationView.getTime().setStart_time(activityTipBean.getEndDatetime().toString());
+                timeLocationView.getTime().setStart_time(activityTipBean.getStartDatetime().getTime());
+                timeLocationView.getTime().setEnd_time(activityTipBean.getEndDatetime().getTime());
                 timeLocationView.setActivity_id(activityId);
                 timeLocationView.setVotes(activityTipBean.getVotes());
                 timeLocationView.setTime_location_id(tipId);
@@ -517,7 +517,7 @@ public class ActivityController extends BaseController {
             activityIds = activityIdList.toArray(activityIds);
 
             error.setErrNo(0);
-            error.setMessage("获取用户正在进行的活动成功");
+            error.setMessage("获取用户正在组织的活动成功");
             response.setActivity_ids(activityIds);
         }
         return response;

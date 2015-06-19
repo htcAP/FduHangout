@@ -67,8 +67,8 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
     public List<Integer> findUserActivities(int userId) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        SQLQuery sqlQuery = session.createSQLQuery("SELECT activity_id FROM activity_response ar WHERE  ar.user_id=" + userId+" AND ar.status NOT -1");
-        return sqlQuery.addEntity(ActivityResponseBean.class).list();
+        SQLQuery sqlQuery = session.createSQLQuery("SELECT activity_id FROM activity_response ar WHERE  ar.user_id=" + userId + " AND ar.status!=-1");
+        return sqlQuery.list();
     }
 
 
