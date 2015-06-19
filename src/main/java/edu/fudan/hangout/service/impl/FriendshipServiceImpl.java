@@ -4,6 +4,8 @@ import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.dao.impl.FriendshipDaoImpl;
 import edu.fudan.hangout.service.FriendshipService;
 
+import java.util.List;
+
 /**
  * Created by Tong on 06.17.
  */
@@ -77,6 +79,18 @@ public class FriendshipServiceImpl implements FriendshipService {
             /* You two have not been friends.*/
             return false;
         }
+    }
+
+    @Override
+    public boolean isFriend(int userId, int friendId) {
+        boolean userToFriendRelation = friendshipDao.getFriendship(userId, friendId),
+                friendToUserRelation = friendshipDao.getFriendship(friendId, userId);
+        return userToFriendRelation && friendToUserRelation;
+    }
+
+    @Override
+    public List<Integer> getAllFriends(int userId) {
+        return friendshipDao.findAllFriends(userId);
     }
 
     public void setFriendshipDao(FriendshipDaoImpl friendshipDao) {

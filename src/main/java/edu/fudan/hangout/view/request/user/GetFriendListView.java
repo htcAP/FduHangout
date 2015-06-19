@@ -5,6 +5,14 @@ package edu.fudan.hangout.view.request.user;
  */
 public class GetFriendListView {
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     private String token;
 
 }

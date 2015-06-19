@@ -59,6 +59,7 @@
         <property name="username" column="username"/>
         <property name="password" column="password"/>
         <property name="phone" column="phone"/>
+        <property name="signature" column="signature"/>
     </class>
     <class name="edu.fudan.hangout.bean.UserLogBean" table="user_log" schema="" catalog="fdu_hangout">
         <id name="id" column="id">

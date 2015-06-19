@@ -2,6 +2,8 @@ package edu.fudan.hangout.dao;
 
 import edu.fudan.hangout.bean.UserBean;
 
+import java.util.List;
+
 /**
  * Created by Tong on 06.15.
  */
@@ -15,4 +17,6 @@ public interface UserDao {
     UserBean getUser(int id);
 
     UserBean findUser(String key, String value);
+
+    List<Integer> findUsers(String query);
 }

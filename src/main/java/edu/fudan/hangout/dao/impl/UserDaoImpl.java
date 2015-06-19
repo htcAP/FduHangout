@@ -21,8 +21,9 @@ public class UserDaoImpl implements UserDao {
     public int createUser(UserBean user) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Object o  = session.save(user);
+        Object o = session.save(user);
         tx.commit();
+        session.close();
         return (Integer) o;
     }
 
@@ -37,6 +38,7 @@ public class UserDaoImpl implements UserDao {
         Transaction tx = session.beginTransaction();
         session.update(user);
         tx.commit();
+        session.close();
         return true;
     }
 
@@ -44,6 +46,7 @@ public class UserDaoImpl implements UserDao {
     public UserBean getUser(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        session.close();
         return session.get(UserBean.class, id);
     }
 
@@ -52,7 +55,19 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT * FROM user u WHERE  u." + key + "=" + value).addEntity(UserBean.class).list();
+        session.close();
         return (UserBean) QueryListWrapper.from(result);
+    }
+
+    @Override
+    public List<Integer> findUsers(String query) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List result = session.createSQLQuery("SELECT u.id FROM user u WHERE find_in_set('" + query
+                + "',u.phone)>=0 OR  find_in_set('" + query + "',u.username)>=0").list();
+
+        session.close();
+        return result;
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

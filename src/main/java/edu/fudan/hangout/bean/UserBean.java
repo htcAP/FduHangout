@@ -16,6 +16,7 @@ public class UserBean {
     private String username;
     private String password;
     private String phone;
+    private String signature;
 
     @Column(name = "id")
     public int getId() {
@@ -78,5 +79,15 @@ public class UserBean {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "signature")
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }

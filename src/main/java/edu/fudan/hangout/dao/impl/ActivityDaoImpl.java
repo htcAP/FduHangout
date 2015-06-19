@@ -21,6 +21,7 @@ public class ActivityDaoImpl implements ActivityDao {
         Transaction tx = session.beginTransaction();
         Object o = session.save(activityBean);
         tx.commit();
+        session.close();
         return (Integer) o;
     }
 
@@ -35,6 +36,7 @@ public class ActivityDaoImpl implements ActivityDao {
         Transaction tx = session.beginTransaction();
         session.update(activityBean);
         tx.commit();
+        session.close();
         return true;
     }
 
@@ -42,6 +44,7 @@ public class ActivityDaoImpl implements ActivityDao {
     public ActivityBean getActivity(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        session.close();
         return session.get(ActivityBean.class, id);
     }
 
@@ -51,6 +54,7 @@ public class ActivityDaoImpl implements ActivityDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a  JOIN activity_response r  JOIN activity_tip t " +
                 "ON a.final_tip=t.id WHERE t.end_datetime>NOW() AND NOW()>t.start_datetime AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
+        session.close();
         return sqlQuery.list();
     }
 
@@ -60,6 +64,7 @@ public class ActivityDaoImpl implements ActivityDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a  JOIN activity_response r  JOIN activity_tip t " +
                 "ON a.final_tip=t.id WHERE NOW()>t.end_datetime AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
+        session.close();
         return sqlQuery.list();
     }
 
@@ -69,6 +74,7 @@ public class ActivityDaoImpl implements ActivityDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a JOIN activity_response r JOIN activity_tip t " +
                 "ON a.final_tip=t.id WHERE NOW()<t.start_datetime AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
+        session.close();
         return sqlQuery.list();
     }
 
@@ -79,6 +85,7 @@ public class ActivityDaoImpl implements ActivityDao {
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id\n" +
                 "FROM activity a JOIN activity_response r\n" +
                 "WHERE (a.join_deadline > NOW() OR a.final_tip IS NOT NULL) AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
+        session.close();
         return sqlQuery.list();
     }
 

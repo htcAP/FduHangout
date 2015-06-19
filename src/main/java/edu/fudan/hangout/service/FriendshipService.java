@@ -2,6 +2,8 @@ package edu.fudan.hangout.service;
 
 import edu.fudan.hangout.bean.UserBean;
 
+import java.util.List;
+
 /**
  * Created by Tong on 06.17.
  */
@@ -15,4 +17,8 @@ public interface FriendshipService {
     boolean rejectFriendRequest(UserBean user, UserBean friend);
 
     boolean deleteFriendship(UserBean user, UserBean friend);
+
+    boolean isFriend(int userId, int friendId);
+
+    List<Integer> getAllFriends(int userId);
 }
