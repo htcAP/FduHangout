@@ -8,13 +8,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_log", schema = "", catalog = "fdu_hangout")
 public class UserLogBean {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int userId;
     private String token;
 
-    @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

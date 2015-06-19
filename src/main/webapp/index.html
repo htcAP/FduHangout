@@ -40,7 +40,7 @@ test
         password: "bbbbfe321"
     };
     window.loginURL = '/api/user/login/common';
-    ajax(loginURL, JSON.stringify(userLogin), 'login');
+//    ajax(loginURL, JSON.stringify(userLogin), 'login');
 
 
     //===============================register
@@ -77,10 +77,10 @@ test
     //=============add activity
 
     window.add_activity = {
-        token: "Hfyd7Nxcn",//token
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",//token
         title: "My Activity",
         description: "起来嗨!",
-        deadline: "2011-10-05T14:48:00.000Z"//ISOString
+        deadline: "2011-10-05 14:48:00"//ISOString
     };
     window.addActivityURL = '/api/activity/post/new';
 //    ajax(addActivityURL, JSON.stringify(add_activity), 'add activity');
@@ -100,8 +100,8 @@ test
     //=============reply invite
 
     window.replyInvite = {
-        token:"Hfyd7Nxcn",//token
-        activity_id: 123,
+        token:"bf1b7e7e6c2aeaf5acec6d5c7efcfd3aa78fbf80",//token
+        activity_id: 6,
         attend: false
     };
     window.replyInviteURL = '/api/activity/post/reply_invite';
@@ -111,17 +111,17 @@ test
     //=============add time location
 
     window.time_location = {
-        token: "Hfyd7Nxcn",//token
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",//token
         time: {
-            start_time: "2011-10-05T14:48:00.000Z",
-            end_time: "2011-10-05T14:48:00.000Z"
+            start_time: "2011-10-05 14:48:00.000",
+            end_time: "2015-10-05 14:48:00.000"
         },
         location: {
             latitude: 123123.4324,
             longitude: 313213.4324,
             place: "Shanghai"
         },
-        activity_id: 233
+        activity_id: 6
     };
 
     window.timeLocationURL = '/api/activity/post/time_location';
@@ -131,9 +131,9 @@ test
     //=============add activity photo
 
     window.add_activity_photo = {
-        token: "Hfyd7Nxcn",//token
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",//token
         url: 'hahahaha.png',
-        activity_id: 233
+        activity_id: 6
     };
     window.activityPhotoURL = '/api/activity/post/photo';
 //    ajax(activityPhotoURL, JSON.stringify(add_activity_photo), "add activity photo");
@@ -144,8 +144,8 @@ test
 
     //=============from activity
     window.getActivity = {
-        token: "Hfyd7Nxcn",
-        activity_id: 233
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",
+        activity_id: 6
     };
     window.getActivityURL = '/api/activity/get/activity';
 //    ajax(getActivityURL, JSON.stringify(getActivity), "from activity");
@@ -153,7 +153,7 @@ test
     //=============from all activity
 
     window.getAllActivity = {
-        token: "Hfyd7Nxcn",
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",
         activity_kind: 0
     };
     window.getAllActivityURL = '/api/activity/get/list/all';
@@ -162,7 +162,7 @@ test
     //=============from ongoing activity
 
     window.getOngoingActivity = {
-        token: "Hfyd7Nxcn",
+        token: "98f18b455298667ab4e40af1f49ce444aabde050",
         activity_kind: 1
     };
     window.getOngoingActivityURL = '/api/activity/get/list/ongoing';

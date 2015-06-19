@@ -9,16 +9,17 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "activity", schema = "", catalog = "fdu_hangout")
 public class ActivityBean {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
     private String detail;
     private Timestamp joinDeadline;
     private Integer organizerId;
     private Integer finalTip;
 
-    @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

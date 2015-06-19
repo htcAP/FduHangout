@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "activity_tip", schema = "", catalog = "fdu_hangout")
 public class ActivityTipBean {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Timestamp startDatetime;
     private String location;
@@ -19,9 +21,7 @@ public class ActivityTipBean {
     private int userId;
     private int activityId;
 
-    @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

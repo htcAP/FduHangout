@@ -44,6 +44,7 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM activity_response ar WHERE ar.user_id=" + userId + " AND ar.activity_id=" + activityId);
+        sqlQuery.addEntity(ActivityResponseBean.class);
         List list = sqlQuery.list();
         return (ActivityResponseBean) QueryListWrapper.from(list);
     }
@@ -53,6 +54,7 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM activity_response ar WHERE  ar.activity_id=" + activityId);
+        sqlQuery.addEntity(ActivityResponseBean.class);
         return sqlQuery.list();
     }
 
@@ -66,7 +68,7 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT activity_id FROM activity_response ar WHERE  ar.user_id=" + userId+" AND ar.status NOT -1");
-        return sqlQuery.list();
+        return sqlQuery.addEntity(ActivityResponseBean.class).list();
     }
 
 

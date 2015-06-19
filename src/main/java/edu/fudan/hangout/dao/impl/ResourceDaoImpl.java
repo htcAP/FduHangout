@@ -36,7 +36,7 @@ public class ResourceDaoImpl implements ResourceDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM resource r WHERE r.res_id=" + resId + " AND r.res_type=" + resType);
-        return sqlQuery.list();
+        return sqlQuery.addEntity(ResourceBean.class).list();
     }
 
     @Override

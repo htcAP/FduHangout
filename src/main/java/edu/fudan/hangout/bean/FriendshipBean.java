@@ -8,13 +8,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "friendship", schema = "", catalog = "fdu_hangout")
 public class FriendshipBean {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int userId;
     private int friendId;
 
-    @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

@@ -8,12 +8,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "resource", schema = "", catalog = "fdu_hangout")
 public class ResourceBean {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int resType;
     private int resId;
     private String url;
 
-    @Id
     @Column(name = "id")
     public int getId() {
         return id;

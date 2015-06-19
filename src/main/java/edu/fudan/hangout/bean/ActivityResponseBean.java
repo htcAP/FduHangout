@@ -8,15 +8,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "activity_response", schema = "", catalog = "fdu_hangout")
 public class ActivityResponseBean {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int userId;
     private int activityId;
     private int status;
     private int activityTip;
 
-    @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

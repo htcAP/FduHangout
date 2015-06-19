@@ -164,6 +164,7 @@ public class ActivityController extends BaseController {
                 /* Failed.*/
                 error.setErrNo(3);
                 error.setMessage("创建活动建议失败");
+                response.setTime_location_id(tipId);
                 return response;
             } else {
                 /* Succeeded.*/
@@ -359,7 +360,7 @@ public class ActivityController extends BaseController {
             response.setDeadline(activityBean.getJoinDeadline().toString());
             response.setDescription(activityBean.getDetail());
             response.setTitle(activityBean.getTitle());
-            response.setStatus((activityBean.getFinalTip() != 0) ? 1 : 0);
+            response.setStatus((activityBean.getFinalTip() != null) ? 1 : 0);
 
             /* Activity got. Keep getting action tip.*/
             List<Integer> tipIds = activityService.getActivityTipIds(activityId);
