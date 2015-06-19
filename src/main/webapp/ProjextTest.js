@@ -1,39 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <script src="jquery-2.1.3.min.js"></script>
-    <title></title>
-</head>
-<body>
-test
-<!--<div>-->
-<!--url: <input type="text" id="url">-->
-<!--<br/>-->
-<!--data: <input type="text" id="data"> <input type="button" value="POST">-->
-<!--</div>-->
-</body>
-<script>
-    window.ajax = function (url, data, info) {
-        $.ajax({
-            type: 'POST',
-            contentType: 'application/json',
-            url: url,
-            data: data,
-            dataType: 'json',
-            success: function (d) {
-                console.log(info + ": ");
-                console.log(d);
-                console.log(JSON.stringify(d));
-                console.log('');
-            },
-            error: function () {
-                console.log("error")
-            }
-        });
-    };
+/**
+ * Created by lifengshuang on 6/19/15.
+ */
 
-    //===============================login
+window.ajax = function (url, data, info) {
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: url,
+        data: data,
+        dataType: 'json',
+        success: function (d) {
+            console.log(info + ": ");
+            console.log(d);
+            console.log(JSON.stringify(d));
+            console.log('');
+        },
+        error: function () {
+            console.log("error")
+        }
+    });
+};
+
+var model = function () {
+
+//===============================login
 
     window.userLogin = {
         phone: "15012341234",
@@ -43,7 +33,7 @@ test
     ajax(loginURL, JSON.stringify(userLogin), 'login');
 
 
-    //===============================register
+//===============================register
 
     window.userRegister = {
         phone: "15012341234",
@@ -54,7 +44,7 @@ test
     ajax(registerURL, JSON.stringify(userRegister), 'register');
 
 
-    //===============================friend
+//===============================friend
 
     window.friend = {
         token: "fdsf",
@@ -63,7 +53,7 @@ test
     window.addFriendURL = '/api/user/friend/add';
     ajax(addFriendURL, JSON.stringify(friend), 'add friend');
 
-    //===============================image
+//===============================image
 
     window.image = {
         type: "png",
@@ -72,9 +62,9 @@ test
     window.imageURL = 'api/image/upload';
     ajax(imageURL, JSON.stringify(image), 'upload image');
 
-    //===============================activity
+//===============================activity
 
-    //=============add activity
+//=============add activity
 
     window.add_activity = {
         token: "Hfyd7Nxcn",//token
@@ -85,7 +75,7 @@ test
     window.addActivityURL = '/api/activity/post/new';
     ajax(addActivityURL, JSON.stringify(add_activity), 'add activity');
 
-    //=============invite
+//=============invite
 
     var user_ids = [23, 4234, 5342, 52, 234, 3];
 
@@ -97,7 +87,7 @@ test
     window.inviteUserURL = '/api/activity/post/invite';
     ajax(inviteUserURL, JSON.stringify(invite_user), 'invite user');
 
-    //=============reply invite
+//=============reply invite
 
     window.replyInvite = {
         token:"Hfyd7Nxcn",//token
@@ -108,7 +98,7 @@ test
     ajax(replyInviteURL, JSON.stringify(replyInvite), 'reply invite');
 
 
-    //=============add time location
+//=============add time location
 
     window.time_location = {
         token: "Hfyd7Nxcn",//token
@@ -126,9 +116,9 @@ test
 
     window.timeLocationURL = '/api/activity/post/time_location';
     ajax(timeLocationURL, JSON.stringify(time_location), "time location");
-    //    window
+//    window
 
-    //=============add activity photo
+//=============add activity photo
 
     window.add_activity_photo = {
         token: "Hfyd7Nxcn",//token
@@ -138,16 +128,7 @@ test
     window.activityPhotoURL = '/api/activity/post/photo';
     ajax(activityPhotoURL, JSON.stringify(add_activity_photo), "add activity photo");
 
-    //=============vote time location
-
-    window.vote = {
-        token: "BHGU7xhq2d",
-        time_location_id: 32
-    };
-    window.voteURL = '/api/activity/post/vote';
-    ajax(voteURL, JSON.stringify(vote), "vote");
-
-    //==============decide activity
+//==============decide activity
 
     window.decide = {
         token: "Hfyd7Nxcn",//token
@@ -156,9 +137,9 @@ test
     window.decideURL = '/api/activity//post/decide';
     ajax(decideURL, JSON.stringify(decide), "decide");
 
-    //===============================get activity
+//===============================get activity
 
-    //=============get activity
+//=============get activity
     window.getActivity = {
         token: "Hfyd7Nxcn",
         activity_id: 233
@@ -166,7 +147,7 @@ test
     window.getActivityURL = '/api/activity/get/activity';
     ajax(getActivityURL, JSON.stringify(getActivity), "get activity");
 
-    //=============get all activity
+//=============get all activity
 
     window.getAllActivity = {
         token: "Hfyd7Nxcn",
@@ -175,7 +156,7 @@ test
     window.getAllActivityURL = '/api/activity/get/list/all';
     ajax(getAllActivityURL, JSON.stringify(getAllActivity), "get all activity");
 
-    //=============get ongoing activity
+//=============get ongoing activity
 
     window.getOngoingActivity = {
         token: "Hfyd7Nxcn",
@@ -184,7 +165,7 @@ test
     window.getOngoingActivityURL = '/api/activity/get/list/ongoing';
     ajax(getOngoingActivityURL, JSON.stringify(getOngoingActivity), "get Ongoing activity");
 
-    //=============get finished activity
+//=============get finished activity
 
     window.getFinishedActivity = {
         token: "Hfyd7Nxcn",
@@ -193,7 +174,7 @@ test
     window.getFinishedActivityURL = '/api/activity/get/list/finished';
     ajax(getFinishedActivityURL, JSON.stringify(getFinishedActivity), "get Finished activity");
 
-    //=================================get user information
+//=================================get user information
 
     window.getUser = {
         token: "Hfyd7Nxcn",
@@ -202,7 +183,7 @@ test
     window.getUserURL = '/api/user/get/user';
     ajax(getUserURL, JSON.stringify(getUser), "get user information");
 
-    //=================================get user friend list
+//=================================get user friend list
 
     window.getFriendList = {
         token: "Hfyd7Nxcn"
@@ -210,7 +191,7 @@ test
     window.getFriendListURL = '/api/user/get/friend_list';
     ajax(getFriendListURL, JSON.stringify(getFriendList), "get user friend list");
 
-    //=================================get user signature
+//=================================get user signature
 
     window.signature = {
         token: "Hfyd7Nxcn",
@@ -219,7 +200,7 @@ test
     window.signaturetURL = '/api/user/signature';
     ajax(signaturetURL, JSON.stringify(signature), "set signature");
 
-    //=================================search user
+//=================================search user
 
     window.search = {
         token: "Hfyd7Nxcn",
@@ -229,7 +210,7 @@ test
     ajax(searchURL, JSON.stringify(search), "search");
 
 
-    //=================================search contact
+//=================================search contact
 
     window.search_contact = {
         token: "Hfyd7Nxcn",
@@ -238,5 +219,4 @@ test
     window.search_contactURL = '/api/user/search_contact';
     ajax(search_contactURL, JSON.stringify(search_contact), "search contact");
 
-</script>
-</html>
+};
