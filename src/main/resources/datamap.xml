@@ -9,7 +9,8 @@
         <property name="title" column="title"/>
         <property name="detail" column="detail"/>
         <property name="joinDeadline" column="join_deadline"/>
-        <property name="organizer" column="organizer_id"/>
+        <property name="organizerId" column="organizer_id"/>
+        <property name="finalTip" column="final_tip"/>
     </class>
     <class name="edu.fudan.hangout.bean.ActivityResponseBean" table="activity_response" schema=""
            catalog="fdu_hangout">
@@ -21,9 +22,14 @@
     </class>
     <class name="edu.fudan.hangout.bean.ActivityTipBean" table="activity_tip" schema="" catalog="fdu_hangout">
         <id name="id" column="id"/>
-        <property name="datetime" column="start_datetime"/>
-        <property name="latitude" column="location"/>
+        <property name="startDatetime" column="start_datetime"/>
+        <property name="endDatetime" column="end_datetime"/>
+        <property name="latitude" column="latitude"/>
         <property name="longitude" column="longitude"/>
+        <property name="location" column="location"/>
+        <property name="votes" column="votes"/>
+        <property name="userId" column="user_id"/>
+        <property name="activityId" column="activity_id"/>
     </class>
     <class name="edu.fudan.hangout.bean.FriendshipBean" table="friendship" schema="" catalog="fdu_hangout">
         <id name="id" column="id"/>
