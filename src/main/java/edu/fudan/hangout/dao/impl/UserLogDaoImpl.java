@@ -3,7 +3,7 @@ package edu.fudan.hangout.dao.impl;
 import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.bean.UserLogBean;
 import edu.fudan.hangout.dao.UserLogDao;
-import edu.fudan.hangout.util.DaoResultWrapper;
+import edu.fudan.hangout.util.QueryListWrapper;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -58,7 +58,7 @@ public class UserLogDaoImpl implements UserLogDao {
         session.beginTransaction();
         SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.user_id=" + id).addEntity(UserLogBean.class);
         List result = query.list();
-        return (UserLogBean) DaoResultWrapper.get(result);
+        return (UserLogBean) QueryListWrapper.from(result);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class UserLogDaoImpl implements UserLogDao {
         session.beginTransaction();
         SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.token=\'" + token+"\'").addEntity(UserLogBean.class);
         List result = query.list();
-        return (UserLogBean) DaoResultWrapper.get(result);
+        return (UserLogBean) QueryListWrapper.from(result);
     }
 
 

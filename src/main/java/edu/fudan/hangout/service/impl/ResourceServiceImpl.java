@@ -16,12 +16,12 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public int createResource(ResourceBean resourceBean) {
-        return 0;
+        return resourceDao.createResource(resourceBean);
     }
 
     @Override
     public List<ResourceBean> getResourcesByUsage(int resType, int resID) {
-        return null;
+        return resourceDao.findResourceUsage(resType, resID);
     }
 
     public void setResourceDao(ResourceDaoImpl resourceDao) {

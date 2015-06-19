@@ -105,7 +105,7 @@ public class ActivityController extends BaseController {
             boolean hasFailure = false;
             for (int id : inviteUserView.getInvites()) {
                 UserBean userBean = userService.getUserById(id);
-                if (userBean == null || !activityService.inviteFriend(id)) {
+                if (userBean == null || !activityService.inviteFriend(activityId, id)) {
                     hasFailure = true;
                 }
             }
@@ -430,7 +430,7 @@ public class ActivityController extends BaseController {
                 return response;
             }
 
-            List<Integer> activityIdList = activityService.getAllActivities(userId);
+            List<Integer> activityIdList = activityService.getAllActivityIds(userId);
             Integer[] activityIds = new Integer[0];
             activityIds = activityIdList.toArray(activityIds);
 
@@ -459,7 +459,7 @@ public class ActivityController extends BaseController {
                 return response;
             }
 
-            List<Integer> activityIdList = activityService.getOngoingActivities(userId);
+            List<Integer> activityIdList = activityService.getOrganizingActivityIds(userId);
             Integer[] activityIds = new Integer[0];
             activityIds = activityIdList.toArray(activityIds);
 
@@ -488,7 +488,7 @@ public class ActivityController extends BaseController {
                 return response;
             }
 
-            List<Integer> activityIdList = activityService.getAllActivities(userId);
+            List<Integer> activityIdList = activityService.getFinishedActivityIds(userId);
             Integer[] activityIds = new Integer[0];
             activityIds = activityIdList.toArray(activityIds);
 

@@ -14,7 +14,7 @@ public interface ActivityService {
 
     public ActivityBean getActivity(int id);
 
-    public boolean inviteFriend(int userId);
+    public boolean inviteFriend(int activityId, int userId);
 
     public int createActivityTip(ActivityTipBean activityTipBean);
 
@@ -32,9 +32,12 @@ public interface ActivityService {
 
     public List<ActivityResponseBean> getActivityResponses(int activityId);
 
-    public List<Integer> getAllActivities(int userId);
+    public List<Integer> getAllActivityIds(int userId);
+    public List<Integer> getUnStartedActivityIds(int userId);
+    public List<Integer> getOnGoingActivityIds(int userId);
+    public List<Integer> getFinishedActivityIds(int userId);
+    public List<Integer> getOrganizingActivityIds(int userId);
 
-    public List<Integer> getOngoingActivities(int userId);
 
-    public List<Integer> getFinishedActivities(int userId);
+
 }

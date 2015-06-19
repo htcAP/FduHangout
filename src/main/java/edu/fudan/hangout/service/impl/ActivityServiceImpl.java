@@ -21,77 +21,92 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public int createActivity(ActivityBean activityBean) {
-        return 0;
+        return activityDao.createActivity(activityBean);
     }
 
     @Override
     public ActivityBean getActivity(int id) {
-        return null;
+        return activityDao.getActivity(id);
     }
 
     @Override
-    public boolean inviteFriend(int userId) {
-        return false;
+    public boolean inviteFriend(int activityId, int userId) {
+        ActivityResponseBean activityResponseBean = new ActivityResponseBean();
+        activityResponseBean.setUserId(userId);
+        activityResponseBean.setStatus(ActivityServiceImpl.ACTIVITY_PENDING);
+        activityResponseBean.setActivityId(activityId);
+        activityResponseDao.createActivityResponse(activityResponseBean);
+        return true;
     }
 
     @Override
     public int createActivityTip(ActivityTipBean activityTipBean) {
-        return 0;
+        return activityTipDao.createActivityTip(activityTipBean);
     }
 
     @Override
     public ActivityTipBean getActivityTip(int id) {
-        return null;
+        return activityTipDao.getActivityTip(id);
     }
 
     @Override
     public boolean voteForActivityTip(ActivityTipBean activityTipBean) {
+        activityTipBean.setVotes(activityTipBean.getVotes() + 1);
+        activityTipDao.updateActivityTip(activityTipBean);
         return false;
     }
 
     @Override
     public boolean setFinalActivityTip(ActivityBean activityBean, int tipId) {
+        activityBean.setFinalTip(tipId);
+        activityDao.updateActivity(activityBean);
         return false;
     }
 
     @Override
     public ActivityResponseBean getActivityResponse(int userId, int activityId) {
-        return null;
+        return activityResponseDao.findActivityResponse(userId, activityId);
     }
 
     @Override
     public boolean updateActivityResponse(ActivityResponseBean activityResponseBean) {
+        activityResponseDao.updateActivityResponse(activityResponseBean);
         return false;
     }
 
     @Override
     public List<Integer> getActivityTipIds(int activityId) {
-        return null;
+        return activityTipDao.findActivityTipIds(activityId);
     }
 
     @Override
     public List<ActivityResponseBean> getActivityResponses(int activityId) {
-        return null;
+        return activityResponseDao.findActivityResponses(activityId);
     }
 
     @Override
-    public List<Integer> getAllActivities(int userId) {
-        return null;
+    public List<Integer> getAllActivityIds(int userId) {
+        return activityResponseDao.findUserActivities(userId);
     }
 
     @Override
-    public List<Integer> getOngoingActivities(int userId) {
-        return null;
+    public List<Integer> getUnStartedActivityIds(int userId) {
+        return activityDao.findUnStartedActivityStatus(userId);
     }
 
     @Override
-    public List<Integer> getFinishedActivities(int userId) {
-        return null;
+    public List<Integer> getOnGoingActivityIds(int userId) {
+        return activityDao.findOnGoingActivityStatus(userId);
     }
 
-    ActivityBean getActivityById(int id) {
+    @Override
+    public List<Integer> getFinishedActivityIds(int userId) {
+        return activityDao.findFinishedActivityStatus(userId);
+    }
 
-        return null;
+    @Override
+    public List<Integer> getOrganizingActivityIds(int userId) {
+        return activityDao.findOrganizingActivityStatus(userId);
     }
 
     public void setActivityDao(ActivityDaoImpl activityDao) {

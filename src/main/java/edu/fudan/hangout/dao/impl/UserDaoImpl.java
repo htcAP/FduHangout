@@ -2,7 +2,7 @@ package edu.fudan.hangout.dao.impl;
 
 import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.dao.UserDao;
-import edu.fudan.hangout.util.DaoResultWrapper;
+import edu.fudan.hangout.util.QueryListWrapper;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT * FROM user u WHERE  u." + key + "=" + value).addEntity(UserBean.class).list();
-        return (UserBean) DaoResultWrapper.get(result);
+        return (UserBean) QueryListWrapper.from(result);
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

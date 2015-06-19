@@ -2,6 +2,8 @@ package edu.fudan.hangout.dao;
 
 import edu.fudan.hangout.bean.ActivityResponseBean;
 
+import java.util.List;
+
 /**
  * Created by Tong on 06.18.
  */
@@ -12,5 +14,12 @@ public interface ActivityResponseDao {
 
     boolean updateActivityResponse(ActivityResponseBean activityResponseBean);
 
-    ActivityResponseBean getActivityResponse(int userId, int activityId);
+    ActivityResponseBean findActivityResponse(int userId, int activityId);
+
+    List<ActivityResponseBean> findActivityResponses(int activityId);
+
+    ActivityResponseBean getActivityResponse(int id);
+
+    List<Integer> findUserActivities(int userId);
+
 }
