@@ -18,7 +18,7 @@ public class AddActivityView {
     private String description;
 
     @NotNull(message = "103|缺少deadline字段")
-    private String deadline;
+    private Long deadline;
 
     public String getToken() {
         return token;
@@ -44,11 +44,11 @@ public class AddActivityView {
         this.description = description;
     }
 
-    public String getDeadline() {
+    public Long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(Long deadline) {
         this.deadline = deadline;
     }
 }

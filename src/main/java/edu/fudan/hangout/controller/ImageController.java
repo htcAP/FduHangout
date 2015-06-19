@@ -24,8 +24,7 @@ public class ImageController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(imageView, error)) {
-            //TODO: tzy 上传照片，0|无错误（返回url）1|服务器错误
-            //see ImageResponse class
+
         }
         return response;
     }

@@ -26,4 +26,14 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <servlet>
+        <servlet-name>ImageUpload</servlet-name>
+        <servlet-class>edu.fudan.hangout.servlet.ImageUploadServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ImageUpload</servlet-name>
+        <url-pattern>/file/image</url-pattern>
+    </servlet-mapping>
+
 </web-app>
