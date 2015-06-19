@@ -11,7 +11,7 @@ public class ActivityResponse {
 
     private String description;
 
-    private String deadline;
+    private Long deadline;
 
     private JSONResponse error;
 
@@ -89,11 +89,11 @@ public class ActivityResponse {
         this.photo_urls = photo_urls;
     }
 
-    public String getDeadline() {
+    public Long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(Long deadline) {
         this.deadline = deadline;
     }
 }
