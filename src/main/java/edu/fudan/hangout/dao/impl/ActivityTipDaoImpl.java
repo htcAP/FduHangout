@@ -1,7 +1,7 @@
 package edu.fudan.hangout.dao.impl;
 
 import edu.fudan.hangout.bean.ActivityTipBean;
-import edu.fudan.hangout.dao.ActiviyTipDao;
+import edu.fudan.hangout.dao.ActivityTipDao;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Tong on 06.18.
  */
-public class ActivityTipDaoImpl implements ActiviyTipDao {
+public class ActivityTipDaoImpl implements ActivityTipDao {
     private SessionFactory sessionFactory;
 
     @Override
@@ -51,6 +51,15 @@ public class ActivityTipDaoImpl implements ActiviyTipDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity_tip a WHERE a.activity_id=" + activityId);
         return sqlQuery.addEntity(ActivityTipBean.class).list();
+    }
+
+    @Override
+    public int getHighestVotedTip(int activityId) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity_tip a WHERE a.activity_id=" + activityId + " ORDER BY a.votes DESC LIMIT 1");
+        List list = sqlQuery.list();
+        return (list.isEmpty()) ? -1 : (Integer) list.get(0);
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

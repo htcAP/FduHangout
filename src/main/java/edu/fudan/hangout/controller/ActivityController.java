@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -360,13 +361,67 @@ public class ActivityController extends BaseController {
             response.setDeadline(activityBean.getJoinDeadline().toString());
             response.setDescription(activityBean.getDetail());
             response.setTitle(activityBean.getTitle());
-            response.setStatus((activityBean.getFinalTip() != null) ? 1 : 0);
 
-            /* Activity got. Keep getting action tip.*/
-            List<Integer> tipIds = activityService.getActivityTipIds(activityId);
-            List<TimeLocationView> timeLocationViewList = new LinkedList<>();
-            for (int tipId : tipIds) {
+            /* Set status. */
+            ActivityTipBean finalTip = null;
+            Integer finalTipId = activityBean.getFinalTip();
+            if (finalTipId != null) {
+                finalTip = activityService.getActivityTip(finalTipId);
+            }
+
+            Date current = new Date(System.currentTimeMillis());
+            if (finalTip == null && activityBean.getJoinDeadline().compareTo(current) > 0) {
+                /* Still organizing*/
+                response.setStatus(0);
+            } else if (finalTip == null && activityBean.getJoinDeadline().compareTo(current) < 0) {
+                /* Join deadline passed. Auto assign a tip.*/
+                int tipId = activityService.getHighestVotedTipId(activityId);
+                activityBean.setFinalTip(tipId);
+                activityService.updateActivity(activityBean);
+            }
+            if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
+                /* Finished organizing.*/
+                response.setStatus(1);
+            } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
+                /* Ongoing.*/
+                response.setStatus(2);
+            } else {
+                /* Finished.*/
+                response.setStatus(3);
+            }
+
+
+            if (response.getStatus() == 0) {
+                /* Organizing*/
+                /* Activity got. Keep getting action tip.*/
+                List<Integer> tipIds = activityService.getActivityTipIds(activityId);
+                List<TimeLocationView> timeLocationViewList = new LinkedList<>();
+                for (int tipId : tipIds) {
+                    ActivityTipBean activityTipBean = activityService.getActivityTip(tipId);
+                    TimeLocationView timeLocationView = new TimeLocationView();
+                    timeLocationView.setActivity_id(activityId);
+                    timeLocationView.getLocation().setPlace(activityTipBean.getLocation());
+                    timeLocationView.getLocation().setLatitude(activityTipBean.getLatitude());
+                    timeLocationView.getLocation().setLongitude(activityTipBean.getLongitude());
+                    timeLocationView.getTime().setStart_time(activityTipBean.getStartDatetime().toString());
+                    timeLocationView.getTime().setStart_time(activityTipBean.getEndDatetime().toString());
+                    timeLocationView.setActivity_id(activityId);
+                    timeLocationView.setVotes(activityTipBean.getVotes());
+                    timeLocationView.setTime_location_id(tipId);
+                    timeLocationViewList.add(timeLocationView);
+                }
+                TimeLocationView[] timeLocationViews = new TimeLocationView[0];
+                timeLocationViews = timeLocationViewList.toArray(timeLocationViews);
+                response.setTimeLocations(timeLocationViews);
+            } else if (response.getStatus() >= 1) {
+                /* Set confirmed tip. */
+                int tipId = activityBean.getFinalTip();
                 ActivityTipBean activityTipBean = activityService.getActivityTip(tipId);
+                if (activityTipBean == null) {
+                    error.setErrNo(3);
+                    error.setMessage("获取活动时间地点失败");
+                    return response;
+                }
                 TimeLocationView timeLocationView = new TimeLocationView();
                 timeLocationView.setActivity_id(activityId);
                 timeLocationView.getLocation().setPlace(activityTipBean.getLocation());
@@ -377,11 +432,8 @@ public class ActivityController extends BaseController {
                 timeLocationView.setActivity_id(activityId);
                 timeLocationView.setVotes(activityTipBean.getVotes());
                 timeLocationView.setTime_location_id(tipId);
-                timeLocationViewList.add(timeLocationView);
+                response.setTimeLocations(new TimeLocationView[]{timeLocationView});
             }
-            TimeLocationView[] timeLocationViews = new TimeLocationView[0];
-            timeLocationViews = timeLocationViewList.toArray(timeLocationViews);
-            response.setTimeLocations(timeLocationViews);
 
             /* Action tips got. Keep getting resources.*/
             List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);

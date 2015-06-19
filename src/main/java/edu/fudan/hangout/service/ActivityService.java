@@ -12,6 +12,8 @@ import java.util.List;
 public interface ActivityService {
     public int createActivity(ActivityBean activityBean);
 
+    public boolean updateActivity(ActivityBean activityBean);
+
     public ActivityBean getActivity(int id);
 
     public boolean inviteFriend(int activityId, int userId);
@@ -38,6 +40,6 @@ public interface ActivityService {
     public List<Integer> getFinishedActivityIds(int userId);
     public List<Integer> getOrganizingActivityIds(int userId);
 
-
+    public int getHighestVotedTipId(int activityId);
 
 }

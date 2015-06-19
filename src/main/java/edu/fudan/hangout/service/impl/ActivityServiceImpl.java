@@ -25,6 +25,12 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public boolean updateActivity(ActivityBean activityBean) {
+        activityDao.updateActivity(activityBean);
+        return true;
+    }
+
+    @Override
     public ActivityBean getActivity(int id) {
         return activityDao.getActivity(id);
     }
@@ -71,7 +77,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public boolean updateActivityResponse(ActivityResponseBean activityResponseBean) {
         activityResponseDao.updateActivityResponse(activityResponseBean);
-        return false;
+        return true;
     }
 
     @Override
@@ -107,6 +113,11 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Integer> getOrganizingActivityIds(int userId) {
         return activityDao.findOrganizingActivityStatus(userId);
+    }
+
+    @Override
+    public int getHighestVotedTipId(int activityId) {
+        return activityTipDao.getHighestVotedTip(activityId);
     }
 
     public void setActivityDao(ActivityDaoImpl activityDao) {

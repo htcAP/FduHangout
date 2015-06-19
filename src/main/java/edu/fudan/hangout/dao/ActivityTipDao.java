@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Tong on 06.18.
  */
-public interface ActiviyTipDao {
+public interface ActivityTipDao {
     int createActivityTip(ActivityTipBean activityTipBean);
 
     boolean deleteActivityTip(int id);
@@ -17,4 +17,6 @@ public interface ActiviyTipDao {
     ActivityTipBean getActivityTip(int id);
 
     List<Integer> findActivityTipIds(int activityId);
+
+    int getHighestVotedTip(int activityId);
 }
