@@ -2,7 +2,61 @@
  * Created by lifengshuang on 6/20/15.
  */
 
+var signature = function () {
 
+    ajax(signaturetURL,
+        {
+            token: tokenList[10],
+            signature: "我是童仲毅！！！"
+        }, 'signature');
+    request(function () {
+        ajax(signaturetURL,
+            {
+                token: tokenList[17],
+                signature: "测测测，不测不是人"
+            }, 'signature');
+    })
+};
+
+var getUser = function () {
+    ajax(getUserURL,
+        {
+            token: tokenList[10],
+            user_id: userIDList[3]
+        }, 'u');
+    request(function () {
+        ajax(getUserURL,
+            {
+                token: tokenList[17],
+                user_id: userIDList[7]
+            }, 'u');
+    })
+};
+
+var search = function () {
+
+    request(function () {
+        ajax(searchURL,
+            {
+                token: tokenList[0],
+                search_text: '105'
+            }, 'search 105');
+        request(function () {
+            ajax(searchURL,
+                {
+                    token: tokenList[1],
+                    search_text: '101'
+                }, 'search 101');
+            request(function () {
+                ajax(search_contactURL,
+                    {
+                        token: tokenList[0],
+                        phones: ["15012341234", "15026849970", "15221920690", "3u7wu7dry3", '10000000145', "10000000194"]
+                    }, 'search contact')
+            })
+        })
+    })
+};
 
 var Friend = function () {
     window.request = function (func) {

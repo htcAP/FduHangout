@@ -13,6 +13,7 @@ import java.util.UUID;
  * Created by lifengshuang on 6/19/15.
  */
 
+@WebServlet(value = "/ffrfe/fwfefe")
 public class ImageUploadServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
