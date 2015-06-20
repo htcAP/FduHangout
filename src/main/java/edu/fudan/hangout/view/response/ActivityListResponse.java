@@ -5,16 +5,16 @@ package edu.fudan.hangout.view.response;
  */
 public class ActivityListResponse {
 
-    private Integer[] activity_ids;
+    private ActivityInfoResponse[] activities;
 
     private JSONResponse error;
 
-    public Integer[] getActivity_ids() {
-        return activity_ids;
+    public ActivityInfoResponse[] getActivities() {
+        return activities;
     }
 
-    public void setActivity_ids(Integer[] activity_ids) {
-        this.activity_ids = activity_ids;
+    public void setActivities(ActivityInfoResponse[] activities) {
+        this.activities = activities;
     }
 
     public JSONResponse getError() {
