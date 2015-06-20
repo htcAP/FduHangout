@@ -85,6 +85,7 @@ public class UserController extends BaseController {
 
             error.setErrNo(0);
             error.setMessage("获取好友成功");
+            //TODO
         }
         return response;
     }
@@ -143,6 +144,7 @@ public class UserController extends BaseController {
             error.setErrNo(0);
             error.setMessage("获取好友列表成功");
         }
+        //TODO
         return response;
     }
 
@@ -236,6 +238,7 @@ public class UserController extends BaseController {
             error.setErrNo(0);
             error.setMessage("搜索好友成功");
         }
+        //TODO
         return response;
     }
 
@@ -292,6 +295,18 @@ public class UserController extends BaseController {
 
             error.setErrNo(0);
             error.setMessage("获取通讯录好友列表成功");
+        }
+        //TODO
+        return response;
+    }
+
+    @RequestMapping(value = "/user/profile_photo", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JSONResponse profilePhoto(@RequestBody ProfilePhotoView profilePhotoView) {
+        JSONResponse response = new JSONResponse();
+        if (validate(profilePhotoView, response)) {
+            //TODO:
         }
         return response;
     }

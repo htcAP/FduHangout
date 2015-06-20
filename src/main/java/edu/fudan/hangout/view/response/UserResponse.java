@@ -17,6 +17,8 @@ public class UserResponse {
 
     private JSONResponse error;
 
+    private String photo;
+
     public Integer getUser_id() {
         return user_id;
     }
@@ -63,5 +65,13 @@ public class UserResponse {
 
     public void setError(JSONResponse error) {
         this.error = error;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

@@ -3,15 +3,15 @@ package edu.fudan.hangout.view.request.user;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by lifengshuang on 6/18/15.
+ * Created by lifengshuang on 6/20/15.
  */
-public class SearchContactView {
+public class ProfilePhotoView {
 
     @NotNull(message = "100|缺少token字段")
     private String token;
 
-    @NotNull(message = "101|缺少phones字段")
-    private String[] phones;
+    @NotNull(message = "101|缺少url字段")
+    private String url;
 
     public String getToken() {
         return token;
@@ -21,11 +21,11 @@ public class SearchContactView {
         this.token = token;
     }
 
-    public String[] getPhones() {
-        return phones;
+    public String getUrl() {
+        return url;
     }
 
-    public void setPhones(String[] phones) {
-        this.phones = phones;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

@@ -1,14 +1,19 @@
 package edu.fudan.hangout.view.request.activity;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by lifengshuang on 6/18/15.
  */
 public class ReplyInviteView {
 
+    @NotNull(message = "100|缺少token字段")
     private String token;
 
+    @NotNull(message = "101|缺少attend字段")
     private boolean attend;
 
+    @NotNull(message = "102|缺少activity_id字段")
     private Integer activity_id;
 
     public String getToken() {
