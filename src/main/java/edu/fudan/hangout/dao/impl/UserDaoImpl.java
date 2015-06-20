@@ -62,20 +62,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<Integer> findUsers(String query) {
+    public List<Integer> findUsers(int userId, String query) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-        List result = session.createSQLQuery("SELECT u.id FROM user u WHERE find_in_set('" + query
-                + "',u.phone)>=0 OR  find_in_set('" + query + "',u.username)>=0").list();
+        List result = session.createSQLQuery("SELECT u.id FROM user u WHERE (u.phone LIKE '%"
+                +query+"%' OR u.username LIKE '%"+query+"%') AND u.id!="+userId).list();
 
         return result;
     }
 
     @Override
-    public List<Integer> findUsersByPhone(String query) {
+    public List<Integer> findUsersByPhone(int userId, String query) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-        List result = session.createSQLQuery("SELECT id FROM user WHERE phone in " + query).list();
+        List result = session.createSQLQuery("SELECT id FROM user WHERE phone in " + query+" AND id!="+userId).list();
         return result;
     }
 

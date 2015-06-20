@@ -70,7 +70,7 @@ public class FriendController extends BaseController {
             boolean succeeded = friendshipService.createFriendRequest(user, friend);
             if (!succeeded) {
                 response.setErrNo(3);
-                response.setMessage("目标用户已经是好友");
+                response.setMessage("发送好友申请失败");
                 return response;
             } else {
                 response.setErrNo(0);

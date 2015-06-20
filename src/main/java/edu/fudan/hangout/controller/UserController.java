@@ -206,7 +206,7 @@ public class UserController extends BaseController {
             }
 
             /* Do search.*/
-            List<Integer> resultIds = userService.searchUsers(searchUserView.getSearch_text());
+            List<Integer> resultIds = userService.searchUsers(userId, searchUserView.getSearch_text());
 
 
             List<UserResponse> userResponseList = new LinkedList<>();
@@ -230,8 +230,7 @@ public class UserController extends BaseController {
                 userResponseList.add(userResponse);
             }
 
-            UserResponse[] userResponses = new UserResponse[0];
-            userResponses = userResponseList.toArray(userResponses);
+            UserResponse[] userResponses = userResponseList.toArray(new UserResponse[userResponseList.size()]);
             response.setUsers(userResponses);
 
             error.setErrNo(0);
@@ -265,7 +264,7 @@ public class UserController extends BaseController {
             }
 
             /* Do search.*/
-            List<Integer> userIds = userService.searchUsersByContacts(searchContactView.getPhones());
+            List<Integer> userIds = userService.searchUsersByContacts(userId, searchContactView.getPhones());
 
             List<UserResponse> userResponseList = new LinkedList<>();
             for (int friendId : userIds) {
@@ -288,8 +287,7 @@ public class UserController extends BaseController {
                 userResponseList.add(userResponse);
             }
 
-            UserResponse[] userResponses = new UserResponse[0];
-            userResponses = userResponseList.toArray(userResponses);
+            UserResponse[] userResponses = userResponseList.toArray(new UserResponse[userResponseList.size()]);
             response.setUsers(userResponses);
 
             error.setErrNo(0);

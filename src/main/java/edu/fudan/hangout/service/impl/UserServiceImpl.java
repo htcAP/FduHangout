@@ -29,19 +29,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Integer> searchUsers(String query) {
-        return userDao.findUsers(query);
+    public List<Integer> searchUsers(int userId, String query) {
+        return userDao.findUsers(userId, query);
     }
 
     @Override
-    public List<Integer> searchUsersByContacts(String[] phones) {
+    public List<Integer> searchUsersByContacts(int userId, String[] phones) {
         /* Parse phone string.*/
         String phoneString = "(";
         for (String phone : phones) {
-            phoneString += phone + ",";
+            phoneString += "'"+phone + "',";
         }
-        phoneString = phoneString.substring(0, phoneString.length() - 2) + ")";
-        return userDao.findUsersByPhone(phoneString);
+        phoneString = phoneString.substring(0, phoneString.length() - 1) + ")";
+        return userDao.findUsersByPhone(userId, phoneString);
     }
 
     public void setUserDao(UserDaoImpl userDao) {

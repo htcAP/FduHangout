@@ -18,7 +18,7 @@ public interface UserDao {
 
     UserBean findUser(String key, String value);
 
-    List<Integer> findUsers(String query);
+    List<Integer> findUsers(int userId, String query);
 
-    List<Integer> findUsersByPhone(String query);
+    List<Integer> findUsersByPhone(int userId, String query);
 }
