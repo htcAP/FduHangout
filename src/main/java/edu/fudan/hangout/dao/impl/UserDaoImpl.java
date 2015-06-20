@@ -1,5 +1,6 @@
 package edu.fudan.hangout.dao.impl;
 
+import edu.fudan.hangout.SessionManager;
 import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.dao.UserDao;
 import edu.fudan.hangout.util.QueryListWrapper;
@@ -16,14 +17,15 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private SessionFactory sessionFactory;
+    private SessionManager sessionManager;
 
     @Override
     public int createUser(UserBean user) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         Transaction tx = session.beginTransaction();
         Object o = session.save(user);
         tx.commit();
-        session.close();
+
         return (Integer) o;
     }
 
@@ -34,39 +36,46 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean updateUser(UserBean user) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         Transaction tx = session.beginTransaction();
         session.update(user);
         tx.commit();
-        session.close();
+
         return true;
     }
 
     @Override
     public UserBean getUser(int id) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         session.beginTransaction();
-        session.close();
+
         return session.get(UserBean.class, id);
     }
 
     @Override
     public UserBean findUser(String key, String value) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT * FROM user u WHERE  u." + key + "=" + value).addEntity(UserBean.class).list();
-        session.close();
+
         return (UserBean) QueryListWrapper.from(result);
     }
 
     @Override
     public List<Integer> findUsers(String query) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT u.id FROM user u WHERE find_in_set('" + query
                 + "',u.phone)>=0 OR  find_in_set('" + query + "',u.username)>=0").list();
 
-        session.close();
+        return result;
+    }
+
+    @Override
+    public List<Integer> findUsersByPhone(String query) {
+        Session session = sessionManager.getSession();
+        session.beginTransaction();
+        List result = session.createSQLQuery("SELECT id FROM user WHERE phone in " + query).list();
         return result;
     }
 
@@ -74,4 +83,7 @@ public class UserDaoImpl implements UserDao {
         this.sessionFactory = sessionFactory;
     }
 
+    public void setSessionManager(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
 }

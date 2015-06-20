@@ -33,6 +33,17 @@ public class UserServiceImpl implements UserService {
         return userDao.findUsers(query);
     }
 
+    @Override
+    public List<Integer> searchUsersByContacts(String[] phones) {
+        /* Parse phone string.*/
+        String phoneString = "(";
+        for (String phone : phones) {
+            phoneString += phone + ",";
+        }
+        phoneString = phoneString.substring(0, phoneString.length() - 2) + ")";
+        return userDao.findUsersByPhone(phoneString);
+    }
+
     public void setUserDao(UserDaoImpl userDao) {
         this.userDao = userDao;
     }

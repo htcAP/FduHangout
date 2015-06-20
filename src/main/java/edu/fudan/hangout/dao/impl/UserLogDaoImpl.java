@@ -1,5 +1,6 @@
 package edu.fudan.hangout.dao.impl;
 
+import edu.fudan.hangout.SessionManager;
 import edu.fudan.hangout.bean.UserBean;
 import edu.fudan.hangout.bean.UserLogBean;
 import edu.fudan.hangout.dao.UserLogDao;
@@ -17,6 +18,8 @@ import java.util.List;
 
 
 public class UserLogDaoImpl implements UserLogDao {
+    private SessionManager sessionManager;
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -30,7 +33,7 @@ public class UserLogDaoImpl implements UserLogDao {
 
     @Override
     public boolean createUserLog(UserLogBean userLogBean) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         Transaction tx = session.beginTransaction();
         session.save(userLogBean);
         tx.commit();
@@ -44,7 +47,7 @@ public class UserLogDaoImpl implements UserLogDao {
 
     @Override
     public boolean updateUserLog(UserLogBean userBean) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         Transaction tx = session.beginTransaction();
         session.update(userBean);
         tx.commit();
@@ -54,7 +57,7 @@ public class UserLogDaoImpl implements UserLogDao {
 
     @Override
     public UserLogBean getUserLog(int id) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         session.beginTransaction();
         SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.user_id=" + id).addEntity(UserLogBean.class);
         List result = query.list();
@@ -63,7 +66,7 @@ public class UserLogDaoImpl implements UserLogDao {
 
     @Override
     public UserLogBean findUserLogByToken(String token) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         session.beginTransaction();
         SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.token=\'" + token+"\'").addEntity(UserLogBean.class);
         List result = query.list();
@@ -71,4 +74,7 @@ public class UserLogDaoImpl implements UserLogDao {
     }
 
 
+    public void setSessionManager(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
 }

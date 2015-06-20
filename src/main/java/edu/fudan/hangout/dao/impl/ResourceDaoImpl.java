@@ -1,5 +1,6 @@
 package edu.fudan.hangout.dao.impl;
 
+import edu.fudan.hangout.SessionManager;
 import edu.fudan.hangout.bean.ResourceBean;
 import edu.fudan.hangout.dao.ResourceDao;
 import org.hibernate.SQLQuery;
@@ -14,10 +15,11 @@ import java.util.List;
  */
 public class ResourceDaoImpl implements ResourceDao {
     private SessionFactory sessionFactory;
+    private SessionManager sessionManager;
 
     @Override
     public int createResource(ResourceBean resourceBean) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         Transaction tx = session.beginTransaction();
         Object o = session.save(resourceBean);
         tx.commit();
@@ -26,17 +28,19 @@ public class ResourceDaoImpl implements ResourceDao {
 
     @Override
     public ResourceBean getResource(int id) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         session.beginTransaction();
         return session.get(ResourceBean.class, id);
     }
 
     @Override
     public List<ResourceBean> findResourceUsage(int resType, int resId) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionManager.getSession();
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM resource r WHERE r.res_id=" + resId + " AND r.res_type=" + resType);
-        return sqlQuery.addEntity(ResourceBean.class).list();
+        List list = sqlQuery.addEntity(ResourceBean.class).list();
+
+        return list;
     }
 
     @Override
@@ -51,5 +55,9 @@ public class ResourceDaoImpl implements ResourceDao {
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public void setSessionManager(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
     }
 }

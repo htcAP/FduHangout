@@ -15,4 +15,6 @@ public interface UserService {
     boolean updateUser(UserBean userBean);
 
     List<Integer> searchUsers(String query);
+
+    List<Integer> searchUsersByContacts(String[] phones);
 }

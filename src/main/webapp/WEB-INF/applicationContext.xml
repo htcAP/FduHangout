@@ -15,26 +15,31 @@
 
     <!--daos-->
     <bean id="userDao" class="edu.fudan.hangout.dao.impl.UserDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="userLogDao" class="edu.fudan.hangout.dao.impl.UserLogDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="friendshipDao" class="edu.fudan.hangout.dao.impl.FriendshipDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="activityDao" class="edu.fudan.hangout.dao.impl.ActivityDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="activityTipDao" class="edu.fudan.hangout.dao.impl.ActivityTipDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="activityResponseDao" class="edu.fudan.hangout.dao.impl.ActivityResponseDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="resourceDao" class="edu.fudan.hangout.dao.impl.ResourceDaoImpl">
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <bean id="sessionManager" class="edu.fudan.hangout.SessionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
 
     <!--services-->
     <bean id="loginService" class="edu.fudan.hangout.service.impl.LoginServiceImpl">

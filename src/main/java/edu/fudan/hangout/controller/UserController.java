@@ -62,7 +62,8 @@ public class UserController extends BaseController {
             UserBean user = userService.getUserById(userId);
 
             /* User token checked. Check target user.*/
-            int targetId = userView.getUser_id();
+            /* If target user == -1, get my info.*/
+            int targetId = (userView.getUser_id() == -1) ? userId : userView.getUser_id();
             UserBean userBean = userService.getUserById(targetId);
             if (userBean == null) {
                 /* User does not exist.*/
@@ -71,8 +72,9 @@ public class UserController extends BaseController {
                 return response;
             }
 
+
             /* Check friendship*/
-            boolean isMyFriend = friendshipService.isFriend(userId, targetId);
+            boolean isMyFriend = (userView.getUser_id() == -1) || friendshipService.isFriend(userId, targetId);
 
             /* Set information.*/
             response.setPhone(userBean.getPhone());
@@ -246,7 +248,52 @@ public class UserController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(searchContactView, error)) {
-            //TODO: tzy
+            /* Check user token.*/
+            int userId = tokenService.getUserId(searchContactView.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return response;
+            }
+            UserBean user = userService.getUserById(userId);
+
+            if (user == null) {
+                error.setErrNo(2);
+                error.setMessage("用户不存在");
+                return response;
+            }
+
+            /* Do search.*/
+            List<Integer> userIds = userService.searchUsersByContacts(searchContactView.getPhones());
+
+            List<UserResponse> userResponseList = new LinkedList<>();
+            for (int friendId : userIds) {
+                /* User token checked. Check target user.*/
+                UserBean userBean = userService.getUserById(friendId);
+                if (userBean == null) {
+                    /* User does not exist.*/
+                    error.setErrNo(3);
+                    error.setMessage("好友Id不存在");
+                    continue;
+                }
+
+                /* Set information.*/
+                UserResponse userResponse = new UserResponse();
+                userResponse.setPhone(userBean.getPhone());
+                userResponse.setSignature(userBean.getSignature());
+                userResponse.setUser_id(friendId);
+                userResponse.setUsername(userBean.getUsername());
+                userResponse.setIs_my_friend(true);
+                userResponseList.add(userResponse);
+            }
+
+            UserResponse[] userResponses = new UserResponse[0];
+            userResponses = userResponseList.toArray(userResponses);
+            response.setUsers(userResponses);
+
+            error.setErrNo(0);
+            error.setMessage("获取通讯录好友列表成功");
         }
         return response;
     }
