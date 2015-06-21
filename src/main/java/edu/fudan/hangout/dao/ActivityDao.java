@@ -17,8 +17,8 @@ public interface ActivityDao {
     ActivityBean getActivity(int id);
 
     List<Integer> findOnGoingActivityStatus(int id);
-    List<Integer> findFinishedActivityStatus(int id);
+    List<Integer> findUserFriendsActivityIds(int id);
     List<Integer> findUnStartedActivityStatus(int id);
-    List<Integer> findOrganizingActivityStatus(int id);
+    List<Integer> findUserActivityStatus(int id);
 
 }

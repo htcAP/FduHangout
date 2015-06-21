@@ -26,6 +26,7 @@ public class UserDaoImpl implements UserDao {
         Object o = session.save(user);
         tx.commit();
 
+        sessionManager.close(session);
         return (Integer) o;
     }
 
@@ -41,6 +42,7 @@ public class UserDaoImpl implements UserDao {
         session.update(user);
         tx.commit();
 
+        sessionManager.close(session);
         return true;
     }
 
@@ -49,7 +51,9 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionManager.getSession();
         session.beginTransaction();
 
-        return session.get(UserBean.class, id);
+        UserBean userBean =session.get(UserBean.class, id);
+        sessionManager.close(session);
+        return userBean;
     }
 
     @Override
@@ -58,6 +62,7 @@ public class UserDaoImpl implements UserDao {
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT * FROM user u WHERE  u." + key + "=" + value).addEntity(UserBean.class).list();
 
+        sessionManager.close(session);
         return (UserBean) QueryListWrapper.from(result);
     }
 
@@ -68,6 +73,7 @@ public class UserDaoImpl implements UserDao {
         List result = session.createSQLQuery("SELECT u.id FROM user u WHERE (u.phone LIKE '%"
                 +query+"%' OR u.username LIKE '%"+query+"%') AND u.id!="+userId).list();
 
+        sessionManager.close(session);
         return result;
     }
 
@@ -76,6 +82,7 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionManager.getSession();
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT id FROM user WHERE phone in " + query+" AND id!="+userId).list();
+        sessionManager.close(session);
         return result;
     }
 

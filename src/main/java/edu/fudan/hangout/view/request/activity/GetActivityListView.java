@@ -1,7 +1,5 @@
 package edu.fudan.hangout.view.request.activity;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -9,7 +7,7 @@ import javax.validation.constraints.NotNull;
  */
 public class GetActivityListView {
 
-    @NotNull(message = "100|缺少token字段")
+    @NotNull(message = "100|缺少user_id字段")
     private Integer user_id;
 
 //    @NotNull(message = "101|缺少activity_kind字段")

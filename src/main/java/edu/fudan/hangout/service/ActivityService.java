@@ -37,8 +37,8 @@ public interface ActivityService {
     public List<Integer> getAllActivityIds();
     public List<Integer> getUnStartedActivityIds(int userId);
     public List<Integer> getOnGoingActivityIds(int userId);
-    public List<Integer> getFinishedActivityIds(int userId);
-    public List<Integer> getOrganizingActivityIds(int userId);
+    public List<Integer> getUserFriendsActivityIds(int userId);
+    public List<Integer> getUserActivityIds(int userId);
 
     public int getHighestVotedTipId(int activityId);
 

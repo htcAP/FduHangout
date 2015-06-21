@@ -27,7 +27,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
         Transaction tx = session.beginTransaction();
         session.save(friendshipBean);
         tx.commit();
-
+        sessionManager.close(session);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
         Transaction tx = session.beginTransaction();
         session.createSQLQuery("DELETE FROM friendship WHERE user_id=" + id + " AND friend_id=" + friendId).executeUpdate();
         tx.commit();
-
+        sessionManager.close(session);
     }
 
     @Override
@@ -50,6 +50,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
         session.beginTransaction();
         List result = session.createSQLQuery("SELECT * FROM friendship f WHERE f.user_id=" + id
                 + " AND f.friend_id=" + friendId).addEntity(FriendshipBean.class).list();
+        sessionManager.close(session);
 
         return !result.isEmpty();
     }
@@ -62,6 +63,7 @@ public class FriendshipDaoImpl implements FriendshipDao {
                 + " AND exists(SELECT * FROM friendship b WHERE b.user_id=a.friend_id AND b.friend_id=" + id + ")");
         List list = sqlQuery.list();
 
+        sessionManager.close(session);
         return list;
     }
 

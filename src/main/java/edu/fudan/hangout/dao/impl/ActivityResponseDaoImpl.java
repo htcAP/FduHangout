@@ -24,6 +24,7 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         Transaction tx = session.beginTransaction();
         Object o = session.save(activityResponseBean);
         tx.commit();
+        sessionManager.close(session);
 
         return (Integer) o;
     }
@@ -39,6 +40,7 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         Transaction tx = session.beginTransaction();
         session.update(activityResponseBean);
         tx.commit();
+        sessionManager.close(session);
 
         return true;
     }
@@ -50,6 +52,7 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM activity_response ar WHERE ar.user_id=" + userId + " AND ar.activity_id=" + activityId);
         sqlQuery.addEntity(ActivityResponseBean.class);
         List list = sqlQuery.list();
+        sessionManager.close(session);
 
         return (ActivityResponseBean) QueryListWrapper.from(list);
     }
@@ -61,7 +64,9 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM activity_response ar WHERE  ar.activity_id=" + activityId);
         sqlQuery.addEntity(ActivityResponseBean.class);
 
-        return sqlQuery.list();
+        List list= sqlQuery.list();
+        sessionManager.close(session);
+        return list;
     }
 
     @Override
@@ -75,7 +80,9 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a");
 
-        return sqlQuery.list();
+        List list =  sqlQuery.list();
+        sessionManager.close(session);
+        return list;
     }
 
 

@@ -24,6 +24,7 @@ public class ActivityTipDaoImpl implements ActivityTipDao {
         Object o = session.save(activityTipBean);
         tx.commit();
 
+        sessionManager.close(session);
         return (Integer) o;
     }
 
@@ -39,6 +40,7 @@ public class ActivityTipDaoImpl implements ActivityTipDao {
         session.update(activityTipBean);
         tx.commit();
 
+        sessionManager.close(session);
         return true;
     }
 
@@ -46,8 +48,9 @@ public class ActivityTipDaoImpl implements ActivityTipDao {
     public ActivityTipBean getActivityTip(int id) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-
-        return session.get(ActivityTipBean.class, id);
+        ActivityTipBean activityTipBean = session.get(ActivityTipBean.class, id);
+        sessionManager.close(session);
+        return activityTipBean;
     }
 
     @Override
@@ -56,7 +59,9 @@ public class ActivityTipDaoImpl implements ActivityTipDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity_tip a WHERE a.activity_id=" + activityId);
 
-        return sqlQuery.addEntity(ActivityTipBean.class).list();
+        List list = sqlQuery.addEntity(ActivityTipBean.class).list();
+        sessionManager.close(session);
+        return list;
     }
 
     @Override
@@ -65,7 +70,7 @@ public class ActivityTipDaoImpl implements ActivityTipDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity_tip a WHERE a.activity_id=" + activityId + " ORDER BY a.votes DESC LIMIT 1");
         List list = sqlQuery.list();
-
+        sessionManager.close(session);
         return (list.isEmpty()) ? -1 : (Integer) list.get(0);
     }
 

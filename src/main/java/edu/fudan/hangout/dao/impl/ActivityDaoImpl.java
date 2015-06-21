@@ -24,6 +24,7 @@ public class ActivityDaoImpl implements ActivityDao {
         Object o = session.save(activityBean);
         tx.commit();
 
+        sessionManager.close(session);
         return (Integer) o;
     }
 
@@ -39,6 +40,7 @@ public class ActivityDaoImpl implements ActivityDao {
         session.update(activityBean);
         tx.commit();
 
+        sessionManager.close(session);
         return true;
     }
 
@@ -47,7 +49,9 @@ public class ActivityDaoImpl implements ActivityDao {
         Session session = sessionManager.getSession();
         session.beginTransaction();
 
-        return session.get(ActivityBean.class, id);
+        ActivityBean activityBean = session.get(ActivityBean.class, id);
+        sessionManager.close(session);
+        return activityBean;
     }
 
     @Override
@@ -56,18 +60,20 @@ public class ActivityDaoImpl implements ActivityDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a  JOIN activity_response r  JOIN activity_tip t " +
                 "ON a.final_tip=t.id WHERE t.end_datetime>NOW() AND NOW()>t.start_datetime AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
-
-        return sqlQuery.list();
+        List list = sqlQuery.list();
+        sessionManager.close(session);
+        return list;
     }
 
     @Override
-    public List<Integer> findFinishedActivityStatus(int userId) {
+    public List<Integer> findUserFriendsActivityIds(int userId) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-        SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a  JOIN activity_response r  JOIN activity_tip t " +
-                "ON a.final_tip=t.id WHERE NOW()>t.end_datetime AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
-
-        return sqlQuery.list();
+        SQLQuery sqlQuery = session.createSQLQuery("SELECT DISTINCT ar.activity_id FROM  activity_response ar  JOIN activity_tip t JOIN friendship a \n" +
+                "WHERE ar.status = 1 AND a.user_id=" + userId + " AND exists(SELECT * FROM friendship b WHERE b.user_id=ar.user_id AND b.friend_id=" + userId + ")\n");
+        List list = sqlQuery.list();
+        sessionManager.close(session);
+        return list;
     }
 
     @Override
@@ -77,18 +83,21 @@ public class ActivityDaoImpl implements ActivityDao {
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a JOIN activity_response r JOIN activity_tip t " +
                 "ON a.final_tip=t.id WHERE NOW()<t.start_datetime AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
 
-        return sqlQuery.list();
+        List list = sqlQuery.list();
+        sessionManager.close(session);
+        return list;
     }
 
     @Override
-    public List<Integer> findOrganizingActivityStatus(int userId) {
+    public List<Integer> findUserActivityStatus(int userId) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id\n" +
                 "FROM activity a JOIN activity_response r\n" +
-                "WHERE (a.join_deadline > NOW() OR a.final_tip IS NULL) AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
-
-        return sqlQuery.list();
+                "WHERE  r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
+        List list = sqlQuery.list();
+        sessionManager.close(session);
+        return list;
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

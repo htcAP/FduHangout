@@ -4,6 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
         <property name="connection.url">jdbc:mysql://172.17.0.1:3306/fdu_hangout</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.current_session_context_class">thread</property>
@@ -20,3 +21,4 @@
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>
 </hibernate-configuration>
+

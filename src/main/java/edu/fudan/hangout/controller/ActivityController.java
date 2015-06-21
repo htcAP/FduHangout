@@ -371,24 +371,28 @@ public class ActivityController extends BaseController {
             }
 
             Date current = new Date(System.currentTimeMillis());
-            if (finalTip == null && activityBean.getJoinDeadline().compareTo(current) > 0) {
-                /* Still organizing*/
-                response.setStatus(0);
-            } else if (finalTip == null && activityBean.getJoinDeadline().compareTo(current) < 0) {
-                /* Join deadline passed. Auto assign a tip.*/
-                int tipId = activityService.getHighestVotedTipId(activityId);
-                activityBean.setFinalTip(tipId);
-                activityService.updateActivity(activityBean);
+            if (finalTip == null) {
+                if (activityBean.getJoinDeadline().after(current)) {
+                    /* Still organizing*/
+                    response.setStatus(0);
+                } else if (activityBean.getJoinDeadline().before(current)) {
+                    /* Join deadline passed. Auto assign a tip.*/
+                    int tipId = activityService.getHighestVotedTipId(activityId);
+                    activityBean.setFinalTip(tipId);
+                    activityService.updateActivity(activityBean);
+                }
             }
-            if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
-                /* Finished organizing.*/
-                response.setStatus(1);
-            } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
-                /* Ongoing.*/
-                response.setStatus(2);
-            } else {
-                /* Finished.*/
-                response.setStatus(3);
+            if (finalTip != null) {
+                if (finalTip.getStartDatetime().compareTo(current) > 0) {
+                    /* Finished organizing.*/
+                    response.setStatus(1);
+                } else if (finalTip.getEndDatetime().compareTo(current) > 0) {
+                    /* Ongoing.*/
+                    response.setStatus(2);
+                } else {
+                    /* Finished.*/
+                    response.setStatus(3);
+                }
             }
 
 
@@ -475,8 +479,6 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
-
-
             List<Integer> activityIdList = activityService.getAllActivityIds();
             List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
             for (int activityId : activityIdList) {
@@ -495,24 +497,28 @@ public class ActivityController extends BaseController {
                 }
 
                 Date current = new Date(System.currentTimeMillis());
-                if (finalTip == null && activityBean.getJoinDeadline().after(current)) {
+                if (finalTip == null) {
+                    if (activityBean.getJoinDeadline().after(current)) {
                     /* Still organizing*/
-                    activityInfoResponse.setStatus(0);
-                } else if (finalTip == null && activityBean.getJoinDeadline().before(current)) {
+                        activityInfoResponse.setStatus(0);
+                    } else if (activityBean.getJoinDeadline().before(current)) {
                     /* Join deadline passed. Auto assign a tip.*/
-                    int tipId = activityService.getHighestVotedTipId(activityId);
-                    activityBean.setFinalTip(tipId);
-                    activityService.updateActivity(activityBean);
+                        int tipId = activityService.getHighestVotedTipId(activityId);
+                        activityBean.setFinalTip(tipId);
+                        activityService.updateActivity(activityBean);
+                    }
                 }
-                if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
+                if (finalTip != null) {
+                    if (finalTip.getStartDatetime().compareTo(current) > 0) {
                     /* Finished organizing.*/
-                    activityInfoResponse.setStatus(1);
-                } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
+                        activityInfoResponse.setStatus(1);
+                    } else if (finalTip.getEndDatetime().compareTo(current) > 0) {
                     /* Ongoing.*/
-                    activityInfoResponse.setStatus(2);
-                } else {
+                        activityInfoResponse.setStatus(2);
+                    } else {
                     /* Finished.*/
-                    activityInfoResponse.setStatus(3);
+                        activityInfoResponse.setStatus(3);
+                    }
                 }
 
                 /* Set remaining. */
@@ -520,6 +526,12 @@ public class ActivityController extends BaseController {
                     activityInfoResponse.setLocation(finalTip.getLocation());
                     activityInfoResponse.setStartTime(finalTip.getStartDatetime().getTime());
                 }
+                /* Action tips got. Keep getting resources.*/
+                List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
+                List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
+                String[] photoUrls = new String[0];
+                photoUrls = photoUrlList.toArray(photoUrls);
+                activityInfoResponse.setImage_url(photoUrls);
 
                 activityInfoResponseList.add(activityInfoResponse);
             }
@@ -534,17 +546,17 @@ public class ActivityController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/get/list/ongoing", method = RequestMethod.POST)
+    @RequestMapping(value = "/get/list/mine", method = RequestMethod.POST)
     public
     @ResponseBody
-    ActivityListResponse getOngoingActivityList(@RequestBody GetActivityListView getActivityListView) {
+    ActivityListResponse getMyActivityList(@RequestBody GetActivityListView getActivityListView) {
         ActivityListResponse response = new ActivityListResponse();
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
             int userId = getActivityListView.getUser_id();
 
-            List<Integer> activityIdList = activityService.getOrganizingActivityIds(userId);
+            List<Integer> activityIdList = activityService.getUserActivityIds(userId);
             List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
             for (int activityId : activityIdList) {
                 ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
@@ -562,24 +574,28 @@ public class ActivityController extends BaseController {
                 }
 
                 Date current = new Date(System.currentTimeMillis());
-                if (finalTip == null && activityBean.getJoinDeadline().after(current)) {
+                if (finalTip == null) {
+                    if (activityBean.getJoinDeadline().after(current)) {
                     /* Still organizing*/
-                    activityInfoResponse.setStatus(0);
-                } else if (finalTip == null && activityBean.getJoinDeadline().before(current)) {
+                        activityInfoResponse.setStatus(0);
+                    } else if (activityBean.getJoinDeadline().before(current)) {
                     /* Join deadline passed. Auto assign a tip.*/
-                    int tipId = activityService.getHighestVotedTipId(activityId);
-                    activityBean.setFinalTip(tipId);
-                    activityService.updateActivity(activityBean);
+                        int tipId = activityService.getHighestVotedTipId(activityId);
+                        activityBean.setFinalTip(tipId);
+                        activityService.updateActivity(activityBean);
+                    }
                 }
-                if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
+                if (finalTip != null) {
+                    if (finalTip.getStartDatetime().compareTo(current) > 0) {
                     /* Finished organizing.*/
-                    activityInfoResponse.setStatus(1);
-                } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
+                        activityInfoResponse.setStatus(1);
+                    } else if (finalTip.getEndDatetime().compareTo(current) > 0) {
                     /* Ongoing.*/
-                    activityInfoResponse.setStatus(2);
-                } else {
+                        activityInfoResponse.setStatus(2);
+                    } else {
                     /* Finished.*/
-                    activityInfoResponse.setStatus(3);
+                        activityInfoResponse.setStatus(3);
+                    }
                 }
 
 
@@ -589,30 +605,38 @@ public class ActivityController extends BaseController {
                     activityInfoResponse.setStartTime(finalTip.getStartDatetime().getTime());
                 }
 
+                /* Action tips got. Keep getting resources.*/
+                List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
+                List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
+                String[] photoUrls = new String[0];
+                photoUrls = photoUrlList.toArray(photoUrls);
+                activityInfoResponse.setImage_url(photoUrls);
+
+
                 activityInfoResponseList.add(activityInfoResponse);
             }
 
             ActivityInfoResponse[] activityInfoResponses = activityInfoResponseList.toArray(new ActivityInfoResponse[activityInfoResponseList.size()]);
 
             error.setErrNo(0);
-            error.setMessage("获取用户正在组织的活动成功");
+            error.setMessage("获取用户活动成功");
             response.setActivities(activityInfoResponses);
         }
         return response;
     }
 
 
-    @RequestMapping(value = "/get/list/finished", method = RequestMethod.POST)
+    @RequestMapping(value = "/get/list/friend", method = RequestMethod.POST)
     public
     @ResponseBody
-    ActivityListResponse getFinishedActivityList(@RequestBody GetActivityListView getActivityListView) {
+    ActivityListResponse getFriendActivityList(@RequestBody GetActivityListView getActivityListView) {
         ActivityListResponse response = new ActivityListResponse();
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
             int userId = getActivityListView.getUser_id();
 
-            List<Integer> activityIdList = activityService.getFinishedActivityIds(userId);
+            List<Integer> activityIdList = activityService.getUserFriendsActivityIds(userId);
             List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
             for (int activityId : activityIdList) {
                 ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
@@ -630,24 +654,28 @@ public class ActivityController extends BaseController {
                 }
 
                 Date current = new Date(System.currentTimeMillis());
-                if (finalTip == null && activityBean.getJoinDeadline().after(current)) {
+                if (finalTip == null) {
+                    if (activityBean.getJoinDeadline().after(current)) {
                     /* Still organizing*/
-                    activityInfoResponse.setStatus(0);
-                } else if (finalTip == null && activityBean.getJoinDeadline().before(current)) {
+                        activityInfoResponse.setStatus(0);
+                    } else if (activityBean.getJoinDeadline().before(current)) {
                     /* Join deadline passed. Auto assign a tip.*/
-                    int tipId = activityService.getHighestVotedTipId(activityId);
-                    activityBean.setFinalTip(tipId);
-                    activityService.updateActivity(activityBean);
+                        int tipId = activityService.getHighestVotedTipId(activityId);
+                        activityBean.setFinalTip(tipId);
+                        activityService.updateActivity(activityBean);
+                    }
                 }
-                if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
+                if (finalTip != null) {
+                    if (finalTip.getStartDatetime().compareTo(current) > 0) {
                     /* Finished organizing.*/
-                    activityInfoResponse.setStatus(1);
-                } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
+                        activityInfoResponse.setStatus(1);
+                    } else if (finalTip.getEndDatetime().compareTo(current) > 0) {
                     /* Ongoing.*/
-                    activityInfoResponse.setStatus(2);
-                } else {
+                        activityInfoResponse.setStatus(2);
+                    } else {
                     /* Finished.*/
-                    activityInfoResponse.setStatus(3);
+                        activityInfoResponse.setStatus(3);
+                    }
                 }
 
 
@@ -656,6 +684,12 @@ public class ActivityController extends BaseController {
                     activityInfoResponse.setLocation(finalTip.getLocation());
                     activityInfoResponse.setStartTime(finalTip.getStartDatetime().getTime());
                 }
+                /* Action tips got. Keep getting resources.*/
+                List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
+                List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
+                String[] photoUrls = new String[0];
+                photoUrls = photoUrlList.toArray(photoUrls);
+                activityInfoResponse.setImage_url(photoUrls);
 
                 activityInfoResponseList.add(activityInfoResponse);
             }
@@ -663,7 +697,7 @@ public class ActivityController extends BaseController {
             ActivityInfoResponse[] activityInfoResponses = activityInfoResponseList.toArray(new ActivityInfoResponse[activityInfoResponseList.size()]);
 
             error.setErrNo(0);
-            error.setMessage("获取用户已结束的活动成功");
+            error.setMessage("获取用户活动成功");
             response.setActivities(activityInfoResponses);
         }
         return response;

@@ -23,6 +23,7 @@ public class ResourceDaoImpl implements ResourceDao {
         Transaction tx = session.beginTransaction();
         Object o = session.save(resourceBean);
         tx.commit();
+        sessionManager.close(session);
         return (Integer) o;
     }
 
@@ -30,7 +31,9 @@ public class ResourceDaoImpl implements ResourceDao {
     public ResourceBean getResource(int id) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-        return session.get(ResourceBean.class, id);
+        ResourceBean resourceBean= session.get(ResourceBean.class, id);
+        sessionManager.close(session);
+        return resourceBean;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class ResourceDaoImpl implements ResourceDao {
         SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM resource r WHERE r.res_id=" + resId + " AND r.res_type=" + resType);
         List list = sqlQuery.addEntity(ResourceBean.class).list();
 
+        sessionManager.close(session);
         return list;
     }
 

@@ -37,6 +37,12 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public boolean inviteFriend(int activityId, int userId) {
+        ActivityResponseBean hasExisted = activityResponseDao.findActivityResponse(userId, activityId);
+        if (hasExisted == null) {
+            /* Already invited*/
+            return false;
+        }
+
         ActivityResponseBean activityResponseBean = new ActivityResponseBean();
         activityResponseBean.setUserId(userId);
         activityResponseBean.setStatus(ActivityServiceImpl.ACTIVITY_PENDING);
@@ -106,13 +112,13 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<Integer> getFinishedActivityIds(int userId) {
-        return activityDao.findFinishedActivityStatus(userId);
+    public List<Integer> getUserFriendsActivityIds(int userId) {
+        return activityDao.findUserFriendsActivityIds(userId);
     }
 
     @Override
-    public List<Integer> getOrganizingActivityIds(int userId) {
-        return activityDao.findOrganizingActivityStatus(userId);
+    public List<Integer> getUserActivityIds(int userId) {
+        return activityDao.findUserActivityStatus(userId);
     }
 
     @Override

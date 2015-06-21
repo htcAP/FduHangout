@@ -37,6 +37,7 @@ public class UserLogDaoImpl implements UserLogDao {
         Transaction tx = session.beginTransaction();
         session.save(userLogBean);
         tx.commit();
+        sessionManager.close(session);
         return true;
     }
 
@@ -51,6 +52,7 @@ public class UserLogDaoImpl implements UserLogDao {
         Transaction tx = session.beginTransaction();
         session.update(userBean);
         tx.commit();
+        sessionManager.close(session);
         return true;
     }
 
@@ -61,6 +63,7 @@ public class UserLogDaoImpl implements UserLogDao {
         session.beginTransaction();
         SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.user_id=" + id).addEntity(UserLogBean.class);
         List result = query.list();
+        sessionManager.close(session);
         return (UserLogBean) QueryListWrapper.from(result);
     }
 
@@ -68,8 +71,9 @@ public class UserLogDaoImpl implements UserLogDao {
     public UserLogBean findUserLogByToken(String token) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-        SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.token=\'" + token+"\'").addEntity(UserLogBean.class);
+        SQLQuery query = session.createSQLQuery("SELECT * FROM user_log l WHERE l.token=\'" + token + "\'").addEntity(UserLogBean.class);
         List result = query.list();
+        sessionManager.close(session);
         return (UserLogBean) QueryListWrapper.from(result);
     }
 

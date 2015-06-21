@@ -83,6 +83,7 @@ var WRONG = function () {
         }, 'vote');
 
     //3.invite should not invite attended users
+    /*TODO 搞定了*/
     var invite_user = {
         token: tokenList[1],//token
         activity_id: 7,
@@ -276,11 +277,11 @@ var model = function () {
 //=============get all activity
 
     window.getAllActivity = {
-        token: "Hfyd7Nxcn",
+        token: "290c54c8ee7b4a62eb4ecdb65edafe758983065d",
         activity_kind: 0
     };
-    window.getAllActivityURL = '/api/activity/get/list/all';
-    ajax(getAllActivityURL, JSON.stringify(getAllActivity), "get all activity");
+    window.getAllActivityURL = '/fduhangout/api/activity/get/list/all';
+    ajax(getAllActivityURL, getAllActivity, "get all activity");
 
 //=============get ongoing activity
 
@@ -312,7 +313,7 @@ var model = function () {
 //=================================get user friend list
 
     window.getFriendList = {
-        token: "Hfyd7Nxcn"
+        token: "ceb01870508a32352f0a3bbe775580bebbe095b0"
     };
     window.getFriendListURL = '/api/user/get/friend_list';
     ajax(getFriendListURL, JSON.stringify(getFriendList), "get user friend list");
