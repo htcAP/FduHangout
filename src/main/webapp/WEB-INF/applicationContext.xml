@@ -35,6 +35,9 @@
     <bean id="resourceDao" class="edu.fudan.hangout.dao.impl.ResourceDaoImpl">
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
+    <bean id="userLocationDao" class="edu.fudan.hangout.dao.impl.UserLocationDaoImpl">
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
 
     <bean id="sessionManager" class="edu.fudan.hangout.SessionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
@@ -65,6 +68,9 @@
     </bean>
     <bean id="resourceService" class="edu.fudan.hangout.service.impl.ResourceServiceImpl">
         <property name="resourceDao" ref="resourceDao"/>
+    </bean>
+    <bean id="userLocationService" class="edu.fudan.hangout.service.impl.UserLocationServiceImpl">
+        <property name="userLocationDao" ref="userLocationDao"/>
     </bean>
 
     <!--data source-->

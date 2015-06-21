@@ -17,7 +17,7 @@ public class PostPositionView {
     private Double longitude;
 
     @NotNull(message = "103|缺少time字段")
-    private Integer time;
+    private long time;
 
     public String getToken() {
         return token;
@@ -43,11 +43,11 @@ public class PostPositionView {
         this.longitude = longitude;
     }
 
-    public Integer getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(long time) {
         this.time = time;
     }
 }

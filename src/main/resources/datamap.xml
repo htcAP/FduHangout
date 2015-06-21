@@ -68,4 +68,13 @@
         <property name="userId" column="user_id"/>
         <property name="token" column="token"/>
     </class>
+    <class name="edu.fudan.hangout.bean.UserLocationBean" table="user_location" schema="" catalog="fdu_hangout">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="userId" column="user_id"/>
+        <property name="longitude" column="longitude"/>
+        <property name="latitude" column="latitude"/>
+        <property name="timestamp" column="timestamp"/>
+    </class>
 </hibernate-mapping>

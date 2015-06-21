@@ -17,6 +17,7 @@
         <mapping class="edu.fudan.hangout.bean.UserBean"/>
         <mapping class="edu.fudan.hangout.bean.UserLogBean"/>
         <mapping resource="datamap.xml"/>
+        <mapping class="edu.fudan.hangout.bean.UserLocationBean"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>
