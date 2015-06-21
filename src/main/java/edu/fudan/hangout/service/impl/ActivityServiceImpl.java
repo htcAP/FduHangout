@@ -91,8 +91,8 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<Integer> getAllActivityIds(int userId) {
-        return activityResponseDao.findUserActivities(userId);
+    public List<Integer> getAllActivityIds() {
+        return activityResponseDao.findUserActivities();
     }
 
     @Override

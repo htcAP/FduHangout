@@ -20,6 +20,6 @@ public interface ActivityResponseDao {
 
     ActivityResponseBean getActivityResponse(int id);
 
-    List<Integer> findUserActivities(int userId);
+    List<Integer> findUserActivities();
 
 }

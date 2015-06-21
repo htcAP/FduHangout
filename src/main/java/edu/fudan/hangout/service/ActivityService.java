@@ -34,7 +34,7 @@ public interface ActivityService {
 
     public List<ActivityResponseBean> getActivityResponses(int activityId);
 
-    public List<Integer> getAllActivityIds(int userId);
+    public List<Integer> getAllActivityIds();
     public List<Integer> getUnStartedActivityIds(int userId);
     public List<Integer> getOnGoingActivityIds(int userId);
     public List<Integer> getFinishedActivityIds(int userId);

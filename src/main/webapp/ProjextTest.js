@@ -58,6 +58,7 @@ window.userIDList = [31, 29, 33, 32, 30, 28, 36, 34, 37, 35];
 var WRONG = function () {
     //TODO: tomcat, Application Context -> /fduhangout
     //1. return null id and null votes in database
+    /* TODO 他喵的改好了*/
     var time_location = {
         token: "562b55366596bbb90eb51730f913e187a43b59ce",//token
         time: {
@@ -74,6 +75,7 @@ var WRONG = function () {
     ajax(timeLocationURL, time_location, '');
 
     //2.NullPointer
+    /* TODO 改好了*/
     ajax(voteURL,
         {
             token: tokenList[0],
@@ -114,6 +116,7 @@ var WRONG = function () {
     // /api/activity/get/list/all: 所有的所有的活动，忽视user_id
     // /api/activity/get/list/ongoing: 用户的，正在组织的活动
     // /api/activity/get/list/finished 用户的，已经结束的活动
+    /* TODO 搞定了 你再测一遍*/
     var getAllActivity = {
         user_id: 31
     };

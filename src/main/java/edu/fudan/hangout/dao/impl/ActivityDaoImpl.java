@@ -86,7 +86,7 @@ public class ActivityDaoImpl implements ActivityDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id\n" +
                 "FROM activity a JOIN activity_response r\n" +
-                "WHERE (a.join_deadline > NOW() OR a.final_tip IS NOT NULL) AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
+                "WHERE (a.join_deadline > NOW() OR a.final_tip IS NULL) AND r.user_id = " + userId + " AND r.status = 1 AND r.activity_id = a.id");
 
         return sqlQuery.list();
     }

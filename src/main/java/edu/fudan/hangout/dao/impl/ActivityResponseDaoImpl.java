@@ -70,10 +70,10 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
     }
 
     @Override
-    public List<Integer> findUserActivities(int userId) {
+    public List<Integer> findUserActivities() {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-        SQLQuery sqlQuery = session.createSQLQuery("SELECT activity_id FROM activity_response ar WHERE  ar.user_id=" + userId + " AND ar.status!=-1");
+        SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a");
 
         return sqlQuery.list();
     }

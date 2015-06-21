@@ -4,6 +4,7 @@ package edu.fudan.hangout.view.response;
  * Created by lifengshuang on 6/18/15.
  */
 public class UserResponse {
+    private int IS_FRIEND = 0, SENT_REQUEST = 1, WAIT_REPLY = 2, NOT_FRIEND = 3, MYSELF = 4;
 
     private Integer user_id;
 
@@ -13,7 +14,15 @@ public class UserResponse {
 
     private String signature;
 
-    private Boolean is_my_friend;
+    public Integer getIs_my_friend() {
+        return is_my_friend;
+    }
+
+    public void setIs_my_friend(Integer is_my_friend) {
+        this.is_my_friend = is_my_friend;
+    }
+
+    private Integer is_my_friend;
 
     private JSONResponse error;
 
@@ -51,13 +60,6 @@ public class UserResponse {
         this.signature = signature;
     }
 
-    public Boolean getIs_my_friend() {
-        return is_my_friend;
-    }
-
-    public void setIs_my_friend(Boolean is_my_friend) {
-        this.is_my_friend = is_my_friend;
-    }
 
     public JSONResponse getError() {
         return error;

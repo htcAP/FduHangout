@@ -74,8 +74,7 @@ public class UserController extends BaseController {
 
 
             /* Check friendship*/
-            boolean isMyFriend = (userView.getUser_id() == -1) || friendshipService.isFriend(userId, targetId);
-
+            int isMyFriend = friendshipService.isFriend(userId, targetId);
             /* Set information.*/
             response.setPhone(userBean.getPhone());
             response.setSignature(userBean.getSignature());
@@ -133,7 +132,7 @@ public class UserController extends BaseController {
                 userResponse.setSignature(userBean.getSignature());
                 userResponse.setUser_id(friendId);
                 userResponse.setUsername(userBean.getUsername());
-                userResponse.setIs_my_friend(true);
+                userResponse.setIs_my_friend(0);
                 userResponseList.add(userResponse);
             }
 
@@ -212,9 +211,9 @@ public class UserController extends BaseController {
 
 
             List<UserResponse> userResponseList = new LinkedList<>();
-            for (int friendId : resultIds) {
+            for (int targetId : resultIds) {
                 /* User token checked. Check target user.*/
-                UserBean userBean = userService.getUserById(friendId);
+                UserBean userBean = userService.getUserById(targetId);
                 if (userBean == null) {
                     /* User does not exist.*/
                     error.setErrNo(3);
@@ -223,12 +222,13 @@ public class UserController extends BaseController {
                 }
 
                 /* Set information.*/
+                int isMyFriend = friendshipService.isFriend(userId, targetId);
                 UserResponse userResponse = new UserResponse();
                 userResponse.setPhone(userBean.getPhone());
                 userResponse.setSignature(userBean.getSignature());
-                userResponse.setUser_id(friendId);
+                userResponse.setUser_id(targetId);
                 userResponse.setUsername(userBean.getUsername());
-                userResponse.setIs_my_friend(true);
+                userResponse.setIs_my_friend(isMyFriend);
                 userResponseList.add(userResponse);
             }
 
@@ -281,12 +281,14 @@ public class UserController extends BaseController {
                 }
 
                 /* Set information.*/
+                int isMyFriend = friendshipService.isFriend(userId,friendId);
                 UserResponse userResponse = new UserResponse();
                 userResponse.setPhone(userBean.getPhone());
                 userResponse.setSignature(userBean.getSignature());
                 userResponse.setUser_id(friendId);
                 userResponse.setUsername(userBean.getUsername());
-                userResponse.setIs_my_friend(true);
+                userResponse.setIs_my_friend(isMyFriend);
+
                 userResponseList.add(userResponse);
             }
 

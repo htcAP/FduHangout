@@ -159,18 +159,19 @@ public class ActivityController extends BaseController {
             activityTipBean.setEndDatetime(new Timestamp(timeLocationView.getTime().getEnd_time()));
             activityTipBean.setUserId(userId);
             activityTipBean.setActivityId(activityId);
+            activityTipBean.setVotes(0);
 
             int tipId = activityService.createActivityTip(activityTipBean);
             if (tipId == -1) {
                 /* Failed.*/
                 error.setErrNo(3);
                 error.setMessage("创建活动建议失败");
-                response.setTime_location_id(tipId);
                 return response;
             } else {
                 /* Succeeded.*/
                 error.setErrNo(0);
                 error.setMessage("创建活动建议成功");
+                response.setTime_location_id(tipId);
             }
         }
         return response;
@@ -365,7 +366,7 @@ public class ActivityController extends BaseController {
             /* Set status. */
             ActivityTipBean finalTip = null;
             Integer finalTipId = activityBean.getFinalTip();
-            if (finalTipId != null) {
+            if (!(finalTipId == null || finalTipId == -1)) {
                 finalTip = activityService.getActivityTip(finalTipId);
             }
 
@@ -474,22 +475,60 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
-            /* Check user token.*/
-            int userId = tokenService.getUserId(getActivityListView.getToken());
-            if (userId == -1) {
-                /* Token error.*/
-                error.setErrNo(1);
-                error.setMessage("用户Token错误");
-                return response;
+
+
+            List<Integer> activityIdList = activityService.getAllActivityIds();
+            List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
+            for (int activityId : activityIdList) {
+                ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
+                ActivityBean activityBean = activityService.getActivity(activityId);
+
+                activityInfoResponse.setActivity_id(activityId);
+                activityInfoResponse.setTitle(activityBean.getTitle());
+                activityInfoResponse.setDescription(activityBean.getDetail());
+
+                /* Set status. */
+                ActivityTipBean finalTip = null;
+                Integer finalTipId = activityBean.getFinalTip();
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    finalTip = activityService.getActivityTip(finalTipId);
+                }
+
+                Date current = new Date(System.currentTimeMillis());
+                if (finalTip == null && activityBean.getJoinDeadline().after(current)) {
+                    /* Still organizing*/
+                    activityInfoResponse.setStatus(0);
+                } else if (finalTip == null && activityBean.getJoinDeadline().before(current)) {
+                    /* Join deadline passed. Auto assign a tip.*/
+                    int tipId = activityService.getHighestVotedTipId(activityId);
+                    activityBean.setFinalTip(tipId);
+                    activityService.updateActivity(activityBean);
+                }
+                if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
+                    /* Finished organizing.*/
+                    activityInfoResponse.setStatus(1);
+                } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
+                    /* Ongoing.*/
+                    activityInfoResponse.setStatus(2);
+                } else {
+                    /* Finished.*/
+                    activityInfoResponse.setStatus(3);
+                }
+
+                /* Set remaining. */
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    activityInfoResponse.setLocation(finalTip.getLocation());
+                    activityInfoResponse.setStartTime(finalTip.getStartDatetime().getTime());
+                }
+
+                activityInfoResponseList.add(activityInfoResponse);
             }
 
-            List<Integer> activityIdList = activityService.getAllActivityIds(userId);
-            Integer[] activityIds = new Integer[0];
-            activityIds = activityIdList.toArray(activityIds);
+            ActivityInfoResponse[] activityInfoResponses = activityInfoResponseList.toArray(new ActivityInfoResponse[activityInfoResponseList.size()]);
 
             error.setErrNo(0);
-            error.setMessage("获取用户所有活动成功");
-            response.setActivity_ids(activityIds);
+            error.setMessage("获取世界上所有活动成功");
+            response.setActivities(activityInfoResponses);
         }
         return response;
     }
@@ -503,22 +542,61 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
-            /* Check user token.*/
-            int userId = tokenService.getUserId(getActivityListView.getToken());
-            if (userId == -1) {
-                /* Token error.*/
-                error.setErrNo(1);
-                error.setMessage("用户Token错误");
-                return response;
-            }
+            int userId = getActivityListView.getUser_id();
 
             List<Integer> activityIdList = activityService.getOrganizingActivityIds(userId);
-            Integer[] activityIds = new Integer[0];
-            activityIds = activityIdList.toArray(activityIds);
+            List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
+            for (int activityId : activityIdList) {
+                ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
+                ActivityBean activityBean = activityService.getActivity(activityId);
+
+                activityInfoResponse.setActivity_id(activityId);
+                activityInfoResponse.setTitle(activityBean.getTitle());
+                activityInfoResponse.setDescription(activityBean.getDetail());
+
+                /* Set status. */
+                ActivityTipBean finalTip = null;
+                Integer finalTipId = activityBean.getFinalTip();
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    finalTip = activityService.getActivityTip(finalTipId);
+                }
+
+                Date current = new Date(System.currentTimeMillis());
+                if (finalTip == null && activityBean.getJoinDeadline().after(current)) {
+                    /* Still organizing*/
+                    activityInfoResponse.setStatus(0);
+                } else if (finalTip == null && activityBean.getJoinDeadline().before(current)) {
+                    /* Join deadline passed. Auto assign a tip.*/
+                    int tipId = activityService.getHighestVotedTipId(activityId);
+                    activityBean.setFinalTip(tipId);
+                    activityService.updateActivity(activityBean);
+                }
+                if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
+                    /* Finished organizing.*/
+                    activityInfoResponse.setStatus(1);
+                } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
+                    /* Ongoing.*/
+                    activityInfoResponse.setStatus(2);
+                } else {
+                    /* Finished.*/
+                    activityInfoResponse.setStatus(3);
+                }
+
+
+                /* Set remaining. */
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    activityInfoResponse.setLocation(finalTip.getLocation());
+                    activityInfoResponse.setStartTime(finalTip.getStartDatetime().getTime());
+                }
+
+                activityInfoResponseList.add(activityInfoResponse);
+            }
+
+            ActivityInfoResponse[] activityInfoResponses = activityInfoResponseList.toArray(new ActivityInfoResponse[activityInfoResponseList.size()]);
 
             error.setErrNo(0);
             error.setMessage("获取用户正在组织的活动成功");
-            response.setActivity_ids(activityIds);
+            response.setActivities(activityInfoResponses);
         }
         return response;
     }
@@ -532,22 +610,61 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if (validate(getActivityListView, error)) {
-           /* Check user token.*/
-            int userId = tokenService.getUserId(getActivityListView.getToken());
-            if (userId == -1) {
-                /* Token error.*/
-                error.setErrNo(1);
-                error.setMessage("用户Token错误");
-                return response;
-            }
+            int userId = getActivityListView.getUser_id();
 
             List<Integer> activityIdList = activityService.getFinishedActivityIds(userId);
-            Integer[] activityIds = new Integer[0];
-            activityIds = activityIdList.toArray(activityIds);
+            List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
+            for (int activityId : activityIdList) {
+                ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
+                ActivityBean activityBean = activityService.getActivity(activityId);
+
+                activityInfoResponse.setActivity_id(activityId);
+                activityInfoResponse.setTitle(activityBean.getTitle());
+                activityInfoResponse.setDescription(activityBean.getDetail());
+
+                /* Set status. */
+                ActivityTipBean finalTip = null;
+                Integer finalTipId = activityBean.getFinalTip();
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    finalTip = activityService.getActivityTip(finalTipId);
+                }
+
+                Date current = new Date(System.currentTimeMillis());
+                if (finalTip == null && activityBean.getJoinDeadline().after(current)) {
+                    /* Still organizing*/
+                    activityInfoResponse.setStatus(0);
+                } else if (finalTip == null && activityBean.getJoinDeadline().before(current)) {
+                    /* Join deadline passed. Auto assign a tip.*/
+                    int tipId = activityService.getHighestVotedTipId(activityId);
+                    activityBean.setFinalTip(tipId);
+                    activityService.updateActivity(activityBean);
+                }
+                if (finalTip != null && finalTip.getStartDatetime().compareTo(current) > 0) {
+                    /* Finished organizing.*/
+                    activityInfoResponse.setStatus(1);
+                } else if (finalTip != null && finalTip.getEndDatetime().compareTo(current) > 0) {
+                    /* Ongoing.*/
+                    activityInfoResponse.setStatus(2);
+                } else {
+                    /* Finished.*/
+                    activityInfoResponse.setStatus(3);
+                }
+
+
+                /* Set remaining. */
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    activityInfoResponse.setLocation(finalTip.getLocation());
+                    activityInfoResponse.setStartTime(finalTip.getStartDatetime().getTime());
+                }
+
+                activityInfoResponseList.add(activityInfoResponse);
+            }
+
+            ActivityInfoResponse[] activityInfoResponses = activityInfoResponseList.toArray(new ActivityInfoResponse[activityInfoResponseList.size()]);
 
             error.setErrNo(0);
             error.setMessage("获取用户已结束的活动成功");
-            response.setActivity_ids(activityIds);
+            response.setActivities(activityInfoResponses);
         }
         return response;
     }

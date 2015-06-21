@@ -1,7 +1,5 @@
 package edu.fudan.hangout.view.response;
 
-import edu.fudan.hangout.view.request.activity.TimeLocationView;
-
 /**
  * Created by lifengshuang on 6/20/15.
  */
@@ -11,7 +9,7 @@ public class ActivityInfoResponse {
 
     private String description;
 
-    private Integer startTime;
+    private long startTime;
 
     private String location;
 
@@ -61,11 +59,11 @@ public class ActivityInfoResponse {
         this.status = status;
     }
 
-    public Integer getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Integer startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 }

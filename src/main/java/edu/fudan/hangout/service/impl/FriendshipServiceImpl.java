@@ -82,10 +82,25 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public boolean isFriend(int userId, int friendId) {
+    public int isFriend(int userId, int friendId) {
+        if (userId == friendId) {
+            return 4;
+        }
         boolean userToFriendRelation = friendshipDao.getFriendship(userId, friendId),
                 friendToUserRelation = friendshipDao.getFriendship(friendId, userId);
-        return userToFriendRelation && friendToUserRelation;
+        if (userToFriendRelation) {
+            if (friendToUserRelation) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } else {
+            if (friendToUserRelation) {
+                return 2;
+            } else {
+                return 3;
+            }
+        }
     }
 
     @Override

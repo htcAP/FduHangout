@@ -18,7 +18,7 @@ public interface FriendshipService {
 
     boolean deleteFriendship(UserBean user, UserBean friend);
 
-    boolean isFriend(int userId, int friendId);
+    int isFriend(int userId, int friendId);
 
     List<Integer> getAllFriends(int userId);
 }
