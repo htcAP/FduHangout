@@ -92,6 +92,33 @@ var 添加时间地点 = function () {
     window.timeLocationURL = '/api/activity/post/time_location';
     ajax(timeLocationURL, time_location, "time location");
 };
+
+var 好友请求= function () {
+    window.getUser = {
+        token: "0ecf3c2ded647004508721b487d3b42256dbae1e"
+    };
+    window.getUserURL = '/api/user/get/list/friend_request';
+    ajax(getUserURL, getUser, "get user information");
+};
+
+var 活动请求= function () {
+    window.getUser = {
+        token: "26162dda97fba5d113e64b9027c8b4d8013fd923"
+    };
+    window.getUserURL = '/api/get/list/activity_request';
+    ajax(getUserURL, getUser, "get user information");
+};
+
+var 回复活动邀请= function () {
+    var reply_invite1 = {
+        token: "26162dda97fba5d113e64b9027c8b4d8013fd923",
+        activity_id: 12,
+        attend: true
+    };
+
+    ajax(replyInviteURL, reply_invite1, 'r1');
+};
+
 /*TODO: fix bugs*/
 var WRONG = function () {
     //TODO: tomcat, Application Context -> /fduhangout
