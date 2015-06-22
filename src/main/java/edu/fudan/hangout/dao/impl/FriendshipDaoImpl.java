@@ -67,6 +67,18 @@ public class FriendshipDaoImpl implements FriendshipDao {
         return list;
     }
 
+    @Override
+    public List<Integer> findFriendRequests(int id) {
+        Session session = sessionManager.getSession();
+        session.beginTransaction();
+        SQLQuery sqlQuery = session.createSQLQuery("SELECT a.user_id FROM friendship a WHERE a.friend_id=" + id
+                + " AND exists(SELECT * FROM friendship b WHERE b.user_id=" + id + " AND b.friend_id!=a.user_id)");
+        List list = sqlQuery.list();
+
+        sessionManager.close(session);
+        return list;
+    }
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
