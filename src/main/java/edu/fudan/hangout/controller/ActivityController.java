@@ -63,6 +63,7 @@ public class ActivityController extends BaseController {
             activityBean.setDetail(addActivityView.getDescription());
             activityBean.setJoinDeadline(new Timestamp(addActivityView.getDeadline()));
             activityBean.setOrganizerId(userId);
+            activityBean.setFinalTip(-1);
 
             int activityId = activityService.createActivity(activityBean);
             if (activityId == -1) {
@@ -415,8 +416,7 @@ public class ActivityController extends BaseController {
                     timeLocationView.setTime_location_id(tipId);
                     timeLocationViewList.add(timeLocationView);
                 }
-                TimeLocationView[] timeLocationViews = new TimeLocationView[0];
-                timeLocationViews = timeLocationViewList.toArray(timeLocationViews);
+                TimeLocationView[] timeLocationViews  = timeLocationViewList.toArray(new TimeLocationView[timeLocationViewList.size()]);
                 response.setTimeLocations(timeLocationViews);
             } else if (response.getStatus() >= 1) {
                 /* Set confirmed tip. */
@@ -443,8 +443,7 @@ public class ActivityController extends BaseController {
             /* Action tips got. Keep getting resources.*/
             List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
             List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
-            String[] photoUrls = new String[0];
-            photoUrls = photoUrlList.toArray(photoUrls);
+            String[] photoUrls = photoUrlList.toArray(new String[photoUrlList.size()]);
             response.setPhoto_urls(photoUrls);
 
 
@@ -458,8 +457,7 @@ public class ActivityController extends BaseController {
                 inviteResponseList.add(inviteResponse);
             }
 
-            InviteResponse[] inviteResponses = new InviteResponse[0];
-            inviteResponses = inviteResponseList.toArray(inviteResponses);
+            InviteResponse[] inviteResponses = inviteResponseList.toArray(new InviteResponse[inviteResponseList.size()]);
             response.setInvites(inviteResponses);
 
             /* Invitations got.*/
@@ -529,8 +527,7 @@ public class ActivityController extends BaseController {
                 /* Action tips got. Keep getting resources.*/
                 List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
                 List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
-                String[] photoUrls = new String[0];
-                photoUrls = photoUrlList.toArray(photoUrls);
+                String[] photoUrls = photoUrlList.toArray(new String [photoUrlList.size()]);
                 activityInfoResponse.setImage_url(photoUrls);
 
                 activityInfoResponseList.add(activityInfoResponse);
@@ -608,8 +605,7 @@ public class ActivityController extends BaseController {
                 /* Action tips got. Keep getting resources.*/
                 List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
                 List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
-                String[] photoUrls = new String[0];
-                photoUrls = photoUrlList.toArray(photoUrls);
+                String[] photoUrls= photoUrlList.toArray(new String [photoUrlList.size()]);
                 activityInfoResponse.setImage_url(photoUrls);
 
 
@@ -687,8 +683,7 @@ public class ActivityController extends BaseController {
                 /* Action tips got. Keep getting resources.*/
                 List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
                 List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
-                String[] photoUrls = new String[0];
-                photoUrls = photoUrlList.toArray(photoUrls);
+                String[] photoUrls =  photoUrlList.toArray(new String [photoUrlList.size()]);
                 activityInfoResponse.setImage_url(photoUrls);
 
                 activityInfoResponseList.add(activityInfoResponse);

@@ -268,11 +268,11 @@ var model = function () {
 
 //=============get activity
     window.getActivity = {
-        token: "Hfyd7Nxcn",
-        activity_id: 233
+        token: "1be8c3ff3bc66f10c9526ba761b793d95d85d165",
+        activity_id: 9
     };
     window.getActivityURL = '/api/activity/get/activity';
-    ajax(getActivityURL, JSON.stringify(getActivity), "get activity");
+    ajax(getActivityURL, getActivity, "get activity");
 
 //=============get all activity
 

@@ -136,8 +136,7 @@ public class UserController extends BaseController {
                 userResponseList.add(userResponse);
             }
 
-            UserResponse[] userResponses = new UserResponse[0];
-            userResponses = userResponseList.toArray(userResponses);
+            UserResponse[] userResponses = userResponseList.toArray(new UserResponse[userResponseList.size()]);
             response.setFriend_list(userResponses);
 
             error.setErrNo(0);
