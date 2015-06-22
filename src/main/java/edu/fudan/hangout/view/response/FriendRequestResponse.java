@@ -7,7 +7,7 @@ public class FriendRequestResponse {
 
     private JSONResponse error;
 
-    private UserResponse users;
+    private UserResponse[] users;
 
     public JSONResponse getError() {
         return error;
@@ -17,11 +17,11 @@ public class FriendRequestResponse {
         this.error = error;
     }
 
-    public UserResponse getUsers() {
+    public UserResponse[] getUsers() {
         return users;
     }
 
-    public void setUsers(UserResponse users) {
+    public void setUsers(UserResponse[] users) {
         this.users = users;
     }
 }

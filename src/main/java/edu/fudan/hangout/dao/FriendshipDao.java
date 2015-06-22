@@ -15,4 +15,6 @@ public interface FriendshipDao {
     boolean getFriendship(int id, int friendId);
 
     List<Integer> findAllFriends(int id);
+
+    List<Integer> findFriendRequests(int id);
 }

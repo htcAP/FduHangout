@@ -21,4 +21,6 @@ public interface FriendshipService {
     int isFriend(int userId, int friendId);
 
     List<Integer> getAllFriends(int userId);
+
+    List<Integer> getFriendRequests(int userId);
 }

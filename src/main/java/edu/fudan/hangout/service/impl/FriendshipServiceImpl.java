@@ -108,6 +108,11 @@ public class FriendshipServiceImpl implements FriendshipService {
         return friendshipDao.findAllFriends(userId);
     }
 
+    @Override
+    public List<Integer> getFriendRequests(int userId) {
+        return friendshipDao.findFriendRequests(userId);
+    }
+
     public void setFriendshipDao(FriendshipDaoImpl friendshipDao) {
         this.friendshipDao = friendshipDao;
     }

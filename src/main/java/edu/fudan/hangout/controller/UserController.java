@@ -297,7 +297,6 @@ public class UserController extends BaseController {
             error.setErrNo(0);
             error.setMessage("获取通讯录好友列表成功");
         }
-        //TODO
         return response;
     }
 
@@ -308,6 +307,63 @@ public class UserController extends BaseController {
         JSONResponse response = new JSONResponse();
         if (validate(profilePhotoView, response)) {
             //TODO:
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/user/get/list/friend_request", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    FriendRequestResponse friendRequest(@RequestBody TokenRequest request) {
+        FriendRequestResponse response = new FriendRequestResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if(validate(request, error)) {
+            /* Check user token.*/
+            int userId = tokenService.getUserId(request.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return response;
+            }
+            UserBean user = userService.getUserById(userId);
+
+            if (user == null) {
+                error.setErrNo(2);
+                error.setMessage("用户不存在");
+                return response;
+            }
+
+            List<Integer> friendRequestList = friendshipService.getFriendRequests(userId);
+            List<UserResponse> userResponseList = new LinkedList<>();
+            for (int friendId : friendRequestList) {
+                /* User token checked. Check target user.*/
+                UserBean userBean = userService.getUserById(friendId);
+                if (userBean == null) {
+                    /* User does not exist.*/
+                    error.setErrNo(3);
+                    error.setMessage("好友Id不存在");
+                    continue;
+                }
+
+                /* Set information.*/
+                int isMyFriend = friendshipService.isFriend(userId,friendId);
+                UserResponse userResponse = new UserResponse();
+                userResponse.setPhone(userBean.getPhone());
+                userResponse.setSignature(userBean.getSignature());
+                userResponse.setUser_id(friendId);
+                userResponse.setUsername(userBean.getUsername());
+                userResponse.setIs_my_friend(isMyFriend);
+
+                userResponseList.add(userResponse);
+            }
+
+            UserResponse[] userResponses = userResponseList.toArray(new UserResponse[userResponseList.size()]);
+            response.setUsers(userResponses);
+
+            error.setErrNo(0);
+            error.setMessage("获取好友请求成功");
         }
         return response;
     }

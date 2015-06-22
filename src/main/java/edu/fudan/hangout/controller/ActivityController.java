@@ -700,19 +700,6 @@ public class ActivityController extends BaseController {
         return response;
     }
 
-    @RequestMapping(value = "/get/list/friend_request", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    FriendRequestResponse friendRequest(@RequestBody TokenRequest request) {
-        FriendRequestResponse response = new FriendRequestResponse();
-        JSONResponse error = new JSONResponse();
-        response.setError(error);
-        if(validate(request, error)) {
-
-        }
-        return response;
-    }
-
     @RequestMapping(value = "/get/list/activity_request", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -790,7 +777,7 @@ public class ActivityController extends BaseController {
             ActivityInfoResponse[] activityInfoResponses = activityInfoResponseList.toArray(new ActivityInfoResponse[activityInfoResponseList.size()]);
 
             error.setErrNo(0);
-            error.setMessage("获取用户活动成功");
+            error.setMessage("获取用户活动请求成功");
             response.setActivities(activityInfoResponses);
         }
         return response;
