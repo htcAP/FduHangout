@@ -22,7 +22,6 @@
         <property name="userId" column="user_id"/>
         <property name="activityId" column="activity_id"/>
         <property name="status" column="status"/>
-        <property name="activityTip" column="activity_tip"/>
     </class>
     <class name="edu.fudan.hangout.bean.ActivityTipBean" table="activity_tip" schema="" catalog="fdu_hangout">
         <id name="id" column="id">

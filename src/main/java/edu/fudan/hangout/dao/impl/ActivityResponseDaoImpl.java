@@ -61,10 +61,9 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
     public List<ActivityResponseBean> findActivityResponses(int activityId) {
         Session session = sessionManager.getSession();
         session.beginTransaction();
-        SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM activity_response ar WHERE  ar.activity_id=" + activityId);
-        sqlQuery.addEntity(ActivityResponseBean.class);
+        SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM activity_response ar WHERE ar.activity_id=" + activityId).addEntity(ActivityResponseBean.class);
 
-        List list= sqlQuery.list();
+        List list = sqlQuery.list();
         sessionManager.close(session);
         return list;
     }
@@ -80,7 +79,18 @@ public class ActivityResponseDaoImpl implements ActivityResponseDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity a");
 
-        List list =  sqlQuery.list();
+        List list = sqlQuery.list();
+        sessionManager.close(session);
+        return list;
+    }
+
+    @Override
+    public List<Integer> findUserActivityRequests(int userId) {
+        Session session = sessionManager.getSession();
+        session.beginTransaction();
+        SQLQuery sqlQuery = session.createSQLQuery("SELECT a.activity_id FROM activity_response a WHERE a.user_id=" + userId + " AND a.status=0");
+
+        List list = sqlQuery.list();
         sessionManager.close(session);
         return list;
     }

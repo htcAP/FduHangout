@@ -108,7 +108,8 @@ public class ActivityController extends BaseController {
             boolean hasFailure = false;
             for (int id : inviteUserView.getInvites()) {
                 UserBean userBean = userService.getUserById(id);
-                if (userBean == null || !activityService.inviteFriend(activityId, id)) {
+                int status = (userId == id) ? 1 : 0;
+                if (userBean == null || !activityService.inviteFriend(activityId, id, status)) {
                     hasFailure = true;
                 }
             }
@@ -417,7 +418,7 @@ public class ActivityController extends BaseController {
                     timeLocationView.setTime_location_id(tipId);
                     timeLocationViewList.add(timeLocationView);
                 }
-                TimeLocationView[] timeLocationViews  = timeLocationViewList.toArray(new TimeLocationView[timeLocationViewList.size()]);
+                TimeLocationView[] timeLocationViews = timeLocationViewList.toArray(new TimeLocationView[timeLocationViewList.size()]);
                 response.setTimeLocations(timeLocationViews);
             } else if (response.getStatus() >= 1) {
                 /* Set confirmed tip. */
@@ -528,7 +529,7 @@ public class ActivityController extends BaseController {
                 /* Action tips got. Keep getting resources.*/
                 List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
                 List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
-                String[] photoUrls = photoUrlList.toArray(new String [photoUrlList.size()]);
+                String[] photoUrls = photoUrlList.toArray(new String[photoUrlList.size()]);
                 activityInfoResponse.setImage_url(photoUrls);
 
                 activityInfoResponseList.add(activityInfoResponse);
@@ -606,7 +607,7 @@ public class ActivityController extends BaseController {
                 /* Action tips got. Keep getting resources.*/
                 List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
                 List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
-                String[] photoUrls= photoUrlList.toArray(new String [photoUrlList.size()]);
+                String[] photoUrls = photoUrlList.toArray(new String[photoUrlList.size()]);
                 activityInfoResponse.setImage_url(photoUrls);
 
 
@@ -684,7 +685,7 @@ public class ActivityController extends BaseController {
                 /* Action tips got. Keep getting resources.*/
                 List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
                 List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
-                String[] photoUrls =  photoUrlList.toArray(new String [photoUrlList.size()]);
+                String[] photoUrls = photoUrlList.toArray(new String[photoUrlList.size()]);
                 activityInfoResponse.setImage_url(photoUrls);
 
                 activityInfoResponseList.add(activityInfoResponse);
@@ -707,7 +708,7 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if(validate(request, error)) {
-            //todo
+
         }
         return response;
     }
@@ -720,7 +721,77 @@ public class ActivityController extends BaseController {
         JSONResponse error = new JSONResponse();
         response.setError(error);
         if(validate(request, error)) {
-            //todo
+            /* Check user token.*/
+            int userId = tokenService.getUserId(request.getToken());
+            if (userId == -1) {
+                /* Token error.*/
+                error.setErrNo(1);
+                error.setMessage("用户Token错误");
+                return response;
+            }
+
+            List<Integer> activityRequestList = activityService.getUserActivityRequests(userId);
+            List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
+            for (int activityId : activityIdList) {
+                ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
+                ActivityBean activityBean = activityService.getActivity(activityId);
+
+                activityInfoResponse.setActivity_id(activityId);
+                activityInfoResponse.setTitle(activityBean.getTitle());
+                activityInfoResponse.setDescription(activityBean.getDetail());
+
+                /* Set status. */
+                ActivityTipBean finalTip = null;
+                Integer finalTipId = activityBean.getFinalTip();
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    finalTip = activityService.getActivityTip(finalTipId);
+                }
+
+                Date current = new Date(System.currentTimeMillis());
+                if (finalTip == null) {
+                    if (activityBean.getJoinDeadline().after(current)) {
+                    /* Still organizing*/
+                        activityInfoResponse.setStatus(0);
+                    } else if (activityBean.getJoinDeadline().before(current)) {
+                    /* Join deadline passed. Auto assign a tip.*/
+                        int tipId = activityService.getHighestVotedTipId(activityId);
+                        activityBean.setFinalTip(tipId);
+                        activityService.updateActivity(activityBean);
+                    }
+                }
+                if (finalTip != null) {
+                    if (finalTip.getStartDatetime().compareTo(current) > 0) {
+                    /* Finished organizing.*/
+                        activityInfoResponse.setStatus(1);
+                    } else if (finalTip.getEndDatetime().compareTo(current) > 0) {
+                    /* Ongoing.*/
+                        activityInfoResponse.setStatus(2);
+                    } else {
+                    /* Finished.*/
+                        activityInfoResponse.setStatus(3);
+                    }
+                }
+
+
+                /* Set remaining. */
+                if (!(finalTipId == null || finalTipId == -1)) {
+                    activityInfoResponse.setLocation(finalTip.getLocation());
+                    activityInfoResponse.setStartTime(finalTip.getStartDatetime().getTime());
+                }
+                /* Action tips got. Keep getting resources.*/
+                List<ResourceBean> resourceBeanList = resourceService.getResourcesByUsage(ResourceService.ACTIVITY_IMAGE, activityId);
+                List<String> photoUrlList = resourceBeanList.stream().map(ResourceBean::getUrl).collect(Collectors.toCollection(LinkedList::new));
+                String[] photoUrls = photoUrlList.toArray(new String[photoUrlList.size()]);
+                activityInfoResponse.setImage_url(photoUrls);
+
+                activityInfoResponseList.add(activityInfoResponse);
+            }
+
+            ActivityInfoResponse[] activityInfoResponses = activityInfoResponseList.toArray(new ActivityInfoResponse[activityInfoResponseList.size()]);
+
+            error.setErrNo(0);
+            error.setMessage("获取用户活动成功");
+            response.setActivities(activityInfoResponses);
         }
         return response;
     }

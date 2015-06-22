@@ -36,16 +36,16 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public boolean inviteFriend(int activityId, int userId) {
+    public boolean inviteFriend(int activityId, int userId, int status) {
         ActivityResponseBean hasExisted = activityResponseDao.findActivityResponse(userId, activityId);
-        if (hasExisted == null) {
+        if (hasExisted != null) {
             /* Already invited*/
             return false;
         }
 
         ActivityResponseBean activityResponseBean = new ActivityResponseBean();
         activityResponseBean.setUserId(userId);
-        activityResponseBean.setStatus(ActivityServiceImpl.ACTIVITY_PENDING);
+        activityResponseBean.setStatus(status);
         activityResponseBean.setActivityId(activityId);
         activityResponseDao.createActivityResponse(activityResponseBean);
         return true;
@@ -124,6 +124,11 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public int getHighestVotedTipId(int activityId) {
         return activityTipDao.getHighestVotedTip(activityId);
+    }
+
+    @Override
+    public List<Integer> getUserActivityRequests(int userId) {
+        return activityResponseDao.findUserActivityRequests(userId);
     }
 
     public void setActivityDao(ActivityDaoImpl activityDao) {

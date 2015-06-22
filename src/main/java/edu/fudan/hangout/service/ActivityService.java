@@ -16,7 +16,7 @@ public interface ActivityService {
 
     public ActivityBean getActivity(int id);
 
-    public boolean inviteFriend(int activityId, int userId);
+    public boolean inviteFriend(int activityId, int userId, int status);
 
     public int createActivityTip(ActivityTipBean activityTipBean);
 
@@ -41,5 +41,7 @@ public interface ActivityService {
     public List<Integer> getUserActivityIds(int userId);
 
     public int getHighestVotedTipId(int activityId);
+
+    public List<Integer> getUserActivityRequests(int userId);
 
 }

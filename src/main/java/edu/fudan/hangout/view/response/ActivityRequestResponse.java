@@ -7,7 +7,7 @@ public class ActivityRequestResponse {
 
     private JSONResponse error;
 
-    private ActivityInfoResponse activities;
+    private ActivityInfoResponse[] activities;
 
     public JSONResponse getError() {
         return error;
@@ -17,11 +17,11 @@ public class ActivityRequestResponse {
         this.error = error;
     }
 
-    public ActivityInfoResponse getActivities() {
+    public ActivityInfoResponse[] getActivities() {
         return activities;
     }
 
-    public void setActivities(ActivityInfoResponse activities) {
+    public void setActivities(ActivityInfoResponse[] activities) {
         this.activities = activities;
     }
 }

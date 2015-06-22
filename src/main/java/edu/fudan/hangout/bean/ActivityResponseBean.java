@@ -14,7 +14,7 @@ public class ActivityResponseBean {
     private int userId;
     private int activityId;
     private int status;
-    private int activityTip;
+
 
     @Column(name = "id")
     public int getId() {
@@ -55,16 +55,6 @@ public class ActivityResponseBean {
         this.status = status;
     }
 
-    @Basic
-    @Column(name = "activity_tip")
-    public int getActivityTip() {
-        return activityTip;
-    }
-
-    public void setActivityTip(int activityTip) {
-        this.activityTip = activityTip;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,7 +63,6 @@ public class ActivityResponseBean {
         ActivityResponseBean that = (ActivityResponseBean) o;
 
         if (activityId != that.activityId) return false;
-        if (activityTip != that.activityTip) return false;
         if (id != that.id) return false;
         if (status != that.status) return false;
         if (userId != that.userId) return false;
@@ -87,7 +76,6 @@ public class ActivityResponseBean {
         result = 31 * result + userId;
         result = 31 * result + activityId;
         result = 31 * result + status;
-        result = 31 * result + activityTip;
         return result;
     }
 }

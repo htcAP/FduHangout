@@ -54,6 +54,44 @@ window.userList = JSON.parse('[{"phone":"10000000100","password":"123456"},{"pho
 window.tokenList = JSON.parse('["562b55366596bbb90eb51730f913e187a43b59ce","14ebc7c52e1fd08168b99661cd9814b9fb38ee8c","9c2de57c7b0800b120b04e31066f96aafbf06276","36eea34f80289e2bc5f6f7f4344fe315af5ee879","9dbbfbb7367f82d286757b7302c34e8ebe62d38a","a30c4d6a65b229517675f95b8cec421c98ea78fa","784fe141875a78d760861e0b6c8ab8114b2ee0be","1cfda9ce3cbbc3ec6d2156723055abfadab42277","068299e56193e862099773012da5f5efcde83e91","4662baf5982db1018923f85a9ce8dbf23c7ce993","63138dd4ca42f91b049bfd64ffa5bdf7e4aaa451","c81136972947533f51628c525f664b59a65c6eb3","96b82a850399a7bccafc458bc1664173576337ff","547f473f8be031e1b7711a20e47241050de2e0a9","1df568955977a05cf2d222640b7b0c84377e3daf","089354df49d7db827cd3e74e3cebf7985137ea43","98746c764ea4ef0116f0bb41454bf47ed3a77bc2","912d63e65fc44a0c22e1587a46db2c7a6f629217","f2bab2e196e6b6447376dda8fe44a4bd08b75924","77c3c35902e9a8c48e7e00ff340312bd47552269","6d3b3f83918cea731c28fb049cea3bc094ecfa6e","0af756f552b4784d281f40d43a50c52a1b754a10","76dc0cdd02f398f00a022e28fccdaa87cea034df","19cc767f31a8d5d40bef3dfacbc961039e37f8dc","e2908fbb0beea3c9e965269fb68bab826def152e","7a1e83955336b40051fe28b41158799d17fd30d4","fbf66d28629c5eaf20ee6e9f37377ca901fe8e65","2d5f8879703588d058c15c6644fc4f6b3169ba66","39768fc1d4f001c79825fd48673d310d6bf1c955","37a93d893e6848ea96504e4744985481103b8fa3","bbb2ddc4bdacdd8e4e5915efd3b78e0d2bb6e3ea","421dbdf7fc0d3c1d42df584858e0cde4d86b66f5","3849345f84cc2c4e41411ee97dfa09b1b58851e6","4b8e8f19cbccfabc8443a5bee30ba57642744a50","c2b593b39ac3c28124cc07231c1e7409fc3b88c6","de6b64d10f279b765c73d63d00d92fda36d4f9e3","8ddf3d64112d92ec3c18f0fcec473336fb127a47","e7846a59253c5f87f4a0673a970d550b285e763c","ddae2c7c863f02e5af81388dc88d084149c7b130","d44cfca5ecf2554eff066c7db1c88887b66a7b31","28637013bfaa2ca29c263ec5e0b7c8c381b2b055","07d667d912930cf49edbb164e54e91c5fe91954d","cad4fc5e4e119f907dafa15c1ea4400af5d944c1","2938dd8fb0d270a1aa024609014e8182c098cca9","00fa2d1d13972f67ec83b9927fac1817520bd2f6","ba9742eb3f7edb8b914b7ea01cef2bb345ddecf5","2009a579ac4cdbd5f50a4e99e655bb1fb2660368","68bf39435424d0e070ee2019f88585c401085159","c2e022466bb7442eb5f419f6b385c3bbd48a307f","92f182b5d5d18eb6c145e21b5a5fe87ac4350897"]');
 window.userIDList = [31, 29, 33, 32, 30, 28, 36, 34, 37, 35];
 
+var 添加活动 = function () {
+    ajax(addActivityURL,
+        {
+            token: "1f98c70a4e2d425362920f9312ceebde74c104d5",
+            title: "活动测试",
+            description: "喵喵喵喵喵？喵？汪！",
+            deadline: (new Date()).getTime() + 3248607
+        }, 'add activity');
+};
+
+//添加活动();
+var 邀请用户 = function () {
+    var invite_user = {
+        token: "1f98c70a4e2d425362920f9312ceebde74c104d5",//token
+        activity_id: 12,
+        invites: [20, 22, 81]//list of user_id
+    };
+    ajax(inviteUserURL, invite_user, "invite");
+};
+
+var 添加时间地点 = function () {
+    window.time_location = {
+        token: "1f98c70a4e2d425362920f9312ceebde74c104d5",//token
+        time: {
+            start_time: "1434952173698",
+            end_time: "1434955173698"
+        },
+        location: {
+            latitude: 123123.4324,
+            longitude: 313213.4324,
+            place: "Shanghai"
+        },
+        activity_id: 233
+    };
+
+    window.timeLocationURL = '/api/activity/post/time_location';
+    ajax(timeLocationURL, time_location, "time location");
+};
 /*TODO: fix bugs*/
 var WRONG = function () {
     //TODO: tomcat, Application Context -> /fduhangout

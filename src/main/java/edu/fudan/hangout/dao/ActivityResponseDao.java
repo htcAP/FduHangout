@@ -22,4 +22,6 @@ public interface ActivityResponseDao {
 
     List<Integer> findUserActivities();
 
+    List<Integer> findUserActivityRequests(int userId);
+
 }
