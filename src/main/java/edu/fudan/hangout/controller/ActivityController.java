@@ -7,6 +7,7 @@ import edu.fudan.hangout.service.impl.ResourceServiceImpl;
 import edu.fudan.hangout.service.impl.TokenServiceImpl;
 import edu.fudan.hangout.service.impl.UserServiceImpl;
 import edu.fudan.hangout.view.request.activity.*;
+import edu.fudan.hangout.view.request.user.TokenRequest;
 import edu.fudan.hangout.view.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -694,6 +695,32 @@ public class ActivityController extends BaseController {
             error.setErrNo(0);
             error.setMessage("获取用户活动成功");
             response.setActivities(activityInfoResponses);
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/get/list/friend_request", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    FriendRequestResponse friendRequest(@RequestBody TokenRequest request) {
+        FriendRequestResponse response = new FriendRequestResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if(validate(request, error)) {
+            //todo
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/get/list/activity_request", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ActivityRequestResponse activityRequest(@RequestBody TokenRequest request) {
+        ActivityRequestResponse response = new ActivityRequestResponse();
+        JSONResponse error = new JSONResponse();
+        response.setError(error);
+        if(validate(request, error)) {
+            //todo
         }
         return response;
     }
