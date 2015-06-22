@@ -732,7 +732,7 @@ public class ActivityController extends BaseController {
 
             List<Integer> activityRequestList = activityService.getUserActivityRequests(userId);
             List<ActivityInfoResponse> activityInfoResponseList = new LinkedList<>();
-            for (int activityId : activityIdList) {
+            for (int activityId : activityRequestList) {
                 ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
                 ActivityBean activityBean = activityService.getActivity(activityId);
 
