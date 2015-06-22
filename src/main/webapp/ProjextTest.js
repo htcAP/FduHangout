@@ -103,7 +103,7 @@ var 好友请求= function () {
 
 var 活动请求= function () {
     window.getUser = {
-        token: "26162dda97fba5d113e64b9027c8b4d8013fd923"
+        token: "f9e87e7d24f144cb0866adc5f412493751595f4a"
     };
     window.getUserURL = '/api/get/list/activity_request';
     ajax(getUserURL, getUser, "get user information");
@@ -333,8 +333,8 @@ var model = function () {
 
 //=============get activity
     window.getActivity = {
-        token: "1be8c3ff3bc66f10c9526ba761b793d95d85d165",
-        activity_id: 9
+        token: "09bb284a688ff00b84579410024868f7150af181",
+        activity_id: 15
     };
     window.getActivityURL = '/api/activity/get/activity';
     ajax(getActivityURL, getActivity, "get activity");

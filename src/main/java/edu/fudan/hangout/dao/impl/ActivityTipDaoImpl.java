@@ -59,7 +59,7 @@ public class ActivityTipDaoImpl implements ActivityTipDao {
         session.beginTransaction();
         SQLQuery sqlQuery = session.createSQLQuery("SELECT a.id FROM activity_tip a WHERE a.activity_id=" + activityId);
 
-        List list = sqlQuery.addEntity(ActivityTipBean.class).list();
+        List list = sqlQuery.list();
         sessionManager.close(session);
         return list;
     }

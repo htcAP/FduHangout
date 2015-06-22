@@ -365,6 +365,7 @@ public class ActivityController extends BaseController {
             response.setDeadline(activityBean.getJoinDeadline().getTime());
             response.setDescription(activityBean.getDetail());
             response.setTitle(activityBean.getTitle());
+            response.setOrganizer_id(activityBean.getOrganizerId());
 
             /* Set status. */
             ActivityTipBean finalTip = null;
@@ -484,6 +485,9 @@ public class ActivityController extends BaseController {
             for (int activityId : activityIdList) {
                 ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
                 ActivityBean activityBean = activityService.getActivity(activityId);
+                if (activityBean == null) {
+                    continue;
+                }
 
                 activityInfoResponse.setActivity_id(activityId);
                 activityInfoResponse.setTitle(activityBean.getTitle());
@@ -560,6 +564,9 @@ public class ActivityController extends BaseController {
             for (int activityId : activityIdList) {
                 ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
                 ActivityBean activityBean = activityService.getActivity(activityId);
+                if (activityBean == null) {
+                    continue;
+                }
 
                 activityInfoResponse.setActivity_id(activityId);
                 activityInfoResponse.setTitle(activityBean.getTitle());
@@ -639,6 +646,9 @@ public class ActivityController extends BaseController {
             for (int activityId : activityIdList) {
                 ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
                 ActivityBean activityBean = activityService.getActivity(activityId);
+                if (activityBean == null) {
+                    continue;
+                }
 
                 activityInfoResponse.setActivity_id(activityId);
                 activityInfoResponse.setTitle(activityBean.getTitle());
@@ -707,7 +717,7 @@ public class ActivityController extends BaseController {
         ActivityRequestResponse response = new ActivityRequestResponse();
         JSONResponse error = new JSONResponse();
         response.setError(error);
-        if(validate(request, error)) {
+        if (validate(request, error)) {
             /* Check user token.*/
             int userId = tokenService.getUserId(request.getToken());
             if (userId == -1) {
@@ -722,6 +732,9 @@ public class ActivityController extends BaseController {
             for (int activityId : activityRequestList) {
                 ActivityInfoResponse activityInfoResponse = new ActivityInfoResponse();
                 ActivityBean activityBean = activityService.getActivity(activityId);
+                if (activityBean == null) {
+                    continue;
+                }
 
                 activityInfoResponse.setActivity_id(activityId);
                 activityInfoResponse.setTitle(activityBean.getTitle());
