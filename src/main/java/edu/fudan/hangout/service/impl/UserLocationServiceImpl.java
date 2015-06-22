@@ -15,8 +15,13 @@ public class UserLocationServiceImpl implements UserLocationService {
     }
 
     @Override
-    public boolean createOrUpdateUserLocationEntry(UserLocationBean userLocationBean) {
-        return userLocationDao.saveOrUpdateUserLocation(userLocationBean);
+    public boolean createUserLocationEntry(UserLocationBean userLocationBean) {
+        return userLocationDao.saveUserLocation(userLocationBean);
+    }
+
+    @Override
+    public boolean updateUserLocationEntry(double lat, double lon, int userId) {
+        return userLocationDao.updateUserLocation(lat, lon, userId);
     }
 
     @Override

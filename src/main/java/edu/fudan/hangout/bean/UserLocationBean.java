@@ -9,13 +9,15 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "user_location", schema = "", catalog = "fdu_hangout")
 public class UserLocationBean {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private double latitude;
     private double longitude;
     private Timestamp timestamp;
     private int userId;
 
-    @Id
     @Column(name = "id")
     public int getId() {
         return id;

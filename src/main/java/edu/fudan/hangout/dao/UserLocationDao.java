@@ -7,7 +7,8 @@ import edu.fudan.hangout.bean.UserLocationBean;
  */
 public interface UserLocationDao {
 
-    boolean saveOrUpdateUserLocation(UserLocationBean userLocationBean);
+    boolean saveUserLocation(UserLocationBean userLocationBean);
+    boolean updateUserLocation(double lat, double lon, int userId);
 
     UserLocationBean findUserLocation(int userId);
 }

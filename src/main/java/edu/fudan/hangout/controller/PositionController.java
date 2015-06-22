@@ -14,6 +14,7 @@ import edu.fudan.hangout.view.response.JSONResponse;
 import edu.fudan.hangout.view.response.PositionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,7 +61,7 @@ public class PositionController extends BaseController {
     @RequestMapping(value = "/position/post", method = RequestMethod.POST)
     public
     @ResponseBody
-    JSONResponse postPosition(PostPositionView postPositionView) {
+    JSONResponse postPosition(@RequestBody PostPositionView postPositionView) {
         JSONResponse error = new JSONResponse();
         if (validate(postPositionView, error)) {
             /* Check user token.*/
@@ -80,12 +81,19 @@ public class PositionController extends BaseController {
                 return error;
             }
 
-            UserLocationBean userLocationBean = new UserLocationBean();
-            userLocationBean.setId(userId);
-            userLocationBean.setLatitude(postPositionView.getLatitude());
-            userLocationBean.setLongitude(postPositionView.getLongitude());
-            userLocationBean.setTimestamp(new Timestamp(postPositionView.getTime()));
-            boolean succeeded = userLocationService.createOrUpdateUserLocationEntry(userLocationBean);
+
+            UserLocationBean userLocationBean = userLocationService.findUserLocationEntry(userId);
+            boolean succeeded;
+            if (userLocationBean == null) {
+                userLocationBean = new UserLocationBean();
+                userLocationBean.setUserId(userId);
+                userLocationBean.setLatitude(postPositionView.getLatitude());
+                userLocationBean.setLongitude(postPositionView.getLongitude());
+                userLocationBean.setTimestamp(new Timestamp(postPositionView.getTime()));
+                succeeded = userLocationService.createUserLocationEntry(userLocationBean);
+            } else {
+                succeeded = userLocationService.updateUserLocationEntry(postPositionView.getLatitude(), postPositionView.getLongitude(), userId);
+            }
 
             if (!succeeded) {
                 /* Failed*/
@@ -102,7 +110,7 @@ public class PositionController extends BaseController {
     @RequestMapping(value = "/position/get", method = RequestMethod.POST)
     public
     @ResponseBody
-    GetPositionResponse getPosition(GetPositionView getPositionView) {
+    GetPositionResponse getPosition(@RequestBody GetPositionView getPositionView) {
         GetPositionResponse response = new GetPositionResponse();
         JSONResponse error = new JSONResponse();
         response.setError(error);
@@ -118,7 +126,7 @@ public class PositionController extends BaseController {
 
             List<ActivityResponseBean> activityResponseBeanList = activityService.getActivityResponses(getPositionView.getActivity_id());
             List<PositionResponse> positionResponseList = new LinkedList<>();
-            boolean hasFailure=false;
+            boolean hasFailure = false;
             for (ActivityResponseBean activityResponseBean : activityResponseBeanList) {
                 if (activityResponseBean.getStatus() == 1) {
                     PositionResponse positionResponse = new PositionResponse();
