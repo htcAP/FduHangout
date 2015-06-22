@@ -156,7 +156,7 @@ public class ActivityController extends BaseController {
             /* Activity checked. Do create action tip.*/
             ActivityTipBean activityTipBean = new ActivityTipBean();
             activityTipBean.setLongitude(timeLocationView.getLocation().getLongitude());
-            activityTipBean.setLatitude(timeLocationView.getLocation().getLongitude());
+            activityTipBean.setLatitude(timeLocationView.getLocation().getLatitude());
             activityTipBean.setLocation(timeLocationView.getLocation().getPlace());
             activityTipBean.setStartDatetime(new Timestamp(timeLocationView.getTime().getStart_time()));
             activityTipBean.setEndDatetime(new Timestamp(timeLocationView.getTime().getEnd_time()));
